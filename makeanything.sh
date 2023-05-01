@@ -324,7 +324,7 @@ cp /usr/lib/ISOLINUX/isolinux.bin "build/staging/isolinux/" || error
 cp /usr/lib/syslinux/modules/bios/* "build/staging/isolinux/" || error
 
 message "copy grub-efi"
-cp -r /usr/lib/grub/x86_64-efi/* "build/staging/boot/grub/x86_64-efi/"
+cp -r /usr/lib/grub/x86_64-efi/* "build/staging/boot/grub/x86_64-efi/" || error
 
 message "make efi images"
 grub-mkstandalone -O i386-efi \
@@ -333,7 +333,7 @@ grub-mkstandalone -O i386-efi \
     --themes="" \
     --fonts="" \
     --output="build/staging/EFI/BOOT/BOOTIA32.EFI" \
-    "boot/grub/grub.cfg=build/tmp/grub-embed.cfg"
+    "boot/grub/grub.cfg=build/tmp/grub-embed.cfg" || error
 
 grub-mkstandalone -O x86_64-efi \
     --modules="part_gpt part_msdos fat iso9660" \
@@ -341,18 +341,18 @@ grub-mkstandalone -O x86_64-efi \
     --themes="" \
     --fonts="" \
     --output="build/staging/EFI/BOOT/BOOTx64.EFI" \
-    "boot/grub/grub.cfg=build/tmp/grub-embed.cfg"
+    "boot/grub/grub.cfg=build/tmp/grub-embed.cfg" || error
 
 (cd build/staging && \
     dd if=/dev/zero of=efiboot.img bs=1M count=20 && \
     mkfs.vfat efiboot.img && \
     mmd -i efiboot.img ::/EFI ::/EFI/BOOT && \
     mcopy -vi efiboot.img \
-        build/staging/EFI/BOOT/BOOTIA32.EFI \
-        build/staging/EFI/BOOT/BOOTx64.EFI \
-        build/staging/boot/grub/grub.cfg \
+        ../../build/staging/EFI/BOOT/BOOTIA32.EFI \
+        ../../build/staging/EFI/BOOT/BOOTx64.EFI \
+        ../../build/staging/boot/grub/grub.cfg \
         ::/EFI/BOOT/
-)
+) || error
 
 message "generate .iso"
 xorriso \
