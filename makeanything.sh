@@ -97,7 +97,7 @@ KERNEL_VER="$($CHROOTCMD /usr/bin/dpkg -l "linux-image-*" |
             grep "^ii"| 
             awk '{print $2}' | 
             grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9]).*-amd64$')"
-message "using Kernel $KERNEL_VER"
+message "using Kernel ${YELLOW}${KERNEL_VER}${ENDCOLOR}"
 sudo sed "s/%KERNEL_VER%/${KERNEL_VER}/g" templates/nanodesk-installer.tpl.sh > build/tmp/nanodesk-installer.sh
 sudo cp build/tmp/nanodesk-installer.sh build/chroot/root/nanodesk-installer.sh
 sudo chmod +x build/chroot/root/nanodesk-installer.sh

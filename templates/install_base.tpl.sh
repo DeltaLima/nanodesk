@@ -131,7 +131,7 @@ KERNEL_VER="$(dpkg -l "linux-image-*" |
             grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9]).*-amd64$')"
             
 test -n "$KERNEL_VER" || error
-message "KERNEL_VER=$KERNEL_VER"
+message "KERNEL_VER=${YELLOW}${KERNEL_VER}${ENDCOLOR}"
 
 ### but fetch packages for grub and kernel, so we do not need to download them
 ### in case nanodesk get installed to diska
