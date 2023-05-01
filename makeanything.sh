@@ -6,7 +6,7 @@
 ### 2023
 
 CHROOTCMD="sudo chroot build/chroot/"
-VERSION="$(git describe --tags)-$(git rev-parse --short HEAD)"
+VERSION="$(git describe --tags)" #-$(git rev-parse --short HEAD)"
 
 MIRROR=$1
 if [ -z "$MIRROR" ]
