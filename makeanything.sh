@@ -31,7 +31,8 @@ sudo apt install \
   grub-efi-amd64-bin \
   grub-efi-ia32-bin \
   mtools \
-  dosfstools chroot
+  dosfstools \
+  coreutils
 
 ### stuff begins here
 message "Checking build directory"
