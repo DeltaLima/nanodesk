@@ -53,6 +53,7 @@ then
   error
 fi
 
+message "              ----==== nanodesk Installer ====----"
 message "Make sure you have a linux compatible filesystem at $target"
 message "!! The installer immediately begins to write things to disk !!"
 message "!! The installer only works reliable with legacy BIOS boot  !!"
@@ -85,8 +86,7 @@ message "create tmp script for reinstalling grub and kernel"
 echo "DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 /usr/bin/apt --yes purge 'linux-image-*' 'grub-*'
-#/usr/bin/apt --yes install 'linux-image-amd64' 'grub-pc'
-/usr/bin/dpkg -i /root/kernel_deb/*.deb" > /mnt/tmp/reinstall_kernel.sh
+#/usr/bin/apt --yes install linux-image-amd64 linux-image-$(uname -r) grub-pc grub-pc-bin" > /mnt/tmp/reinstall_kernel.sh
 
 message "install kernel and grub"
 $CHROOTCMD /bin/bash /tmp/reinstall_kernel.sh || error
