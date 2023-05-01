@@ -84,6 +84,7 @@ apt install -y --no-install-recommends \\
 	transmission-gtk \\
 	lxterminal \\
 	arandr \\
+	zenity \\
 	/tmp/xdgmenumaker*.deb
 
 echo -e "debian\ndebian" | (passwd root)
@@ -145,13 +146,13 @@ MENU COLOR msg07        37;40   #90ffffff #a0000000 std
 MENU COLOR tabmsg       31;40   #30ffffff #00000000 std
 
 LABEL linux
-  MENU LABEL Debian Live [BIOS/ISOLINUX]
+  MENU LABEL nanodesk Live [BIOS/ISOLINUX]
   MENU DEFAULT
   KERNEL /live/vmlinuz
   APPEND initrd=/live/initrd boot=live
 
 LABEL linux
-  MENU LABEL Debian Live [BIOS/ISOLINUX] (nomodeset)
+  MENU LABEL nanodesk Live [BIOS/ISOLINUX] (nomodeset)
   MENU DEFAULT
   KERNEL /live/vmlinuz
   APPEND initrd=/live/initrd boot=live nomodeset
@@ -171,13 +172,13 @@ set timeout=30
 
 # If X has issues finding screens, experiment with/without nomodeset.
 
-menuentry "Debian Live [EFI/GRUB]" {
+menuentry "nanodesk Live [EFI/GRUB]" {
     search --no-floppy --set=root --label NANODESK
     linux ($root)/live/vmlinuz boot=live
     initrd ($root)/live/initrd
 }
 
-menuentry "Debian Live [EFI/GRUB] (nomodeset)" {
+menuentry "nanodesk Live [EFI/GRUB] (nomodeset)" {
     search --no-floppy --set=root --label NANODESK
     linux ($root)/live/vmlinuz boot=live nomodeset
     initrd ($root)/live/initrd
