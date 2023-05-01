@@ -86,7 +86,7 @@ cat <<EOF > build/chroot/tmp/install_base.sh
 #!/bin/bash
 
 message () {
-  echo "== install_base: " "$1"
+  echo "== install_base: $@"
 }
 
 error () 
@@ -175,12 +175,13 @@ echo "Europe/Berlin" > /etc/timezone && \\
 message "apt clean"
 apt clean
 
+KERNEL_VER="$(/usr/bin/dpkg -l "linux-image-*" | grep -E '^ii'| awk '{print $2}' | grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9])-amd64$')"
 ### but fetch packages for grub and kernel, so we do not need to download them
 ### in case nanodesk get installed to diska
 message "apt --download linux-image and grub packages to have them in cache for installation by user"
 apt -d --reinstall install \\
 	linux-image-amd64 \\
-	linux-image-5.10.0-22-amd64 \\
+	$KERNEL_VER \\
 	grub-pc grub-pc-bin \\
 	grub-common \\
 	grub2-common \\
