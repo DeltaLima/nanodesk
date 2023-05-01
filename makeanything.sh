@@ -110,6 +110,7 @@ apt install -y \\
 	zenity \\
 	ncdu \\
 	gparted \\
+	git \\
 	/tmp/xdgmenumaker*.deb || error
 
 message "set hostname in hosts"
