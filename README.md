@@ -133,7 +133,7 @@ root@nanodesk:~# ./install_nanodesk.sh /dev/sda1
 
 Yeah, you can download the .iso file. 
 
-[Download .iso at retro.la10cy.net](http://retro.la10cy.net/nanodesk/)
+Download: [http://retro.la10cy.net/nanodesk/](http://retro.la10cy.net/nanodesk/)
 
 ## Resources
 
