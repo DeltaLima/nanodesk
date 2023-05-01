@@ -53,7 +53,7 @@ Before doing so, you have to create, if not already existing, a partition with a
 nanodesk comes with fdisk, so you can create it very quick and format the partition afterwards. When you decide to create a swap-partiotion, do not forget to run mkswap.
 Then the installer will detect it automatically (I hope so!) and use it.
 
-This is an example, how to do the partitionoing and formatting.
+This is an example, how to do the partitioning and formatting.
 
 ```bash
 debian@nanodesk:~$ sudo su -
@@ -118,7 +118,7 @@ root@nanodesk:~# mkswap /dev/sda2
 Setting up swapspace version 1, size = 491 MiB (514846720 bytes)
 no label, UUID=700c237a-d6ff-45d5-9cd9-8d623e851e06
 
-root@nanodesk:~#./install_nanodesk.sh /dev/sda1
+root@nanodesk:~# ./install_nanodesk.sh /dev/sda1
 ```
 
 ## Download
