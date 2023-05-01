@@ -22,7 +22,7 @@ Partiotioning on an empty drive is simple, you need two partitions
 
 You can use `gparted` or `fdisk` for this. Please read their manuals.
 
-This done, just run `sudo /root/install_nanodesk.sh /dev/sdXY` from the terminal
+This done, just run `sudo /root/nanodesk-installer.sh /dev/sdXY` from the terminal
 and the installation will start. (change /dev/sdXY to your drive)
 
 ## installing software
