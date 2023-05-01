@@ -10,12 +10,41 @@
 
 CHROOTCMD="chroot /mnt/"
 
-message () {
-  echo "== " $1
+##message () {
+##  echo "== " $1
+##}
+
+# colors for colored output 8)
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+ENDCOLOR="\e[0m"
+
+function message() {
+     case $1 in
+     warn)
+       MESSAGE_TYPE="${YELLOW}WARN${ENDCOLOR}"
+     ;;
+     error)
+       MESSAGE_TYPE="${RED}ERROR${ENDCOLOR}"
+     ;;
+     info|*)
+       MESSAGE_TYPE="${GREEN}INFO${ENDCOLOR}"
+     ;;
+     esac
+
+     if [ "$1" == "info" ] || [ "$1" == "error" ]
+     then
+       MESSAGE=$2
+     else
+       MESSAGE=$1
+     fi
+
+     echo -e "[${MESSAGE_TYPE}] $MESSAGE"
 }
 
 error () {
-  message "ERROR!"
+  message error "ERROR!"
   exit 1
 }
 
