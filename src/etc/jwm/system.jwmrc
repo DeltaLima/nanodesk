@@ -47,9 +47,9 @@
     <!-- Tray at the bottom. -->
     <Tray x="0" y="0" height="25" autohide="off">
 
-        <TrayButton icon="/usr/share/jwm/linux_button.svg">root:1</TrayButton>
+	<TrayButton icon="/usr/share/nanodesk/images/linux_button.svg">root:1</TrayButton>
         <Spacer width="2"/>
-        <TrayButton label="_">showdesktop</TrayButton>
+        <TrayButton label="_" popup="Show desktop">showdesktop</TrayButton>
         <Spacer width="2"/>
 
 	<!-- custom TrayButton -->
