@@ -14,13 +14,42 @@ then
   MIRROR="http://ftp.gwdg.de/debian/"
 fi
 
-message () {
-  echo "== " $1
+##message () {
+##  echo "== " $1
+##}
+
+# colors for colored output 8)
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+ENDCOLOR="\e[0m"
+
+function message() {
+     case $1 in
+     warn)
+       MESSAGE_TYPE="${YELLOW}WARN${ENDCOLOR}"
+     ;;
+     error)
+       MESSAGE_TYPE="${RED}ERROR${ENDCOLOR}"
+     ;;
+     info|*)
+       MESSAGE_TYPE="${GREEN}INFO${ENDCOLOR}"
+     ;;
+     esac
+
+     if [ "$1" == "info" ] || [ "$1" == "error" ]
+     then
+       MESSAGE=$2
+     else
+       MESSAGE=$1
+     fi
+
+     echo -e "[${MESSAGE_TYPE}] $MESSAGE"
 }
 
 error () 
 {
-  message "ERROR!!"
+  message error "ERROR!!"
   exit 1
 }
 
@@ -40,7 +69,7 @@ sudo apt install \
   mtools \
   dosfstools \
   coreutils \
-  markdown
+  markdown || error
 
 ### stuff begins here
 message "Checking build directory"
@@ -51,7 +80,7 @@ message "running debootstrap with mirror $MIRROR"
 sudo debootstrap bullseye build/chroot/ $MIRROR || sudo debootstrap bullseye build/chroot/ $MIRROR 
 
 message "copy xdgmenumaker deb file into chroot"
-sudo cp deb/xdgmenumaker* build/chroot/tmp
+sudo cp deb/xdgmenumaker* build/chroot/tmp || error
 message "deploying install_base"
 cat <<EOF > build/chroot/tmp/install_base.sh
 #!/bin/bash
