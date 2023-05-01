@@ -59,7 +59,7 @@ sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 ### packages
-apt install -y 
+apt install -y \\
 	live-boot \\
 	linux-image-amd64 \\
 	grub-pc \\
