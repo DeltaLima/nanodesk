@@ -50,9 +50,15 @@ sudo cp deb/xdgmenumaker* build/chroot/tmp
 message "deploying install_base"
 cat <<EOF > build/chroot/tmp/install_base.sh
 #!/bin/bash
+
+### hostname setting
 echo nanodesk > /etc/hostname
+sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
+
+### noninteractive
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
+### packages
 apt install -y --no-install-recommends \\
 	live-boot \\
 	linux-image-amd64 \\
@@ -87,9 +93,11 @@ apt install -y --no-install-recommends \\
 	arandr \\
 	zenity \\
 	/tmp/xdgmenumaker*.deb
-
+### set root password
 echo -e "debian\ndebian" | (passwd root)
+### add debian user
 useradd -m -U -s /bin/bash debian
+### set password
 echo -e "debian\ndebian" | (passwd debian)
 ### Configure timezone and locale
 #dpkg-reconfigure locales
@@ -123,15 +131,18 @@ do
 done
 #mkdir -p build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live},tmp}
 
+message "make squashfs"
 test -f build/staging/live/filesystem.squashfs && sudo rm build/staging/live/filesystem.squashfs
 sudo mksquashfs \
     build/chroot \
     build/staging/live/filesystem.squashfs \
     -e boot || error
 
+message "copy kernel and init images"
 cp build/chroot/boot/vmlinuz-* build/staging/live/vmlinuz || error
 cp build/chroot/boot/initrd.img-* build/staging/live/initrd || error
 
+message "isolinux.cfg"
 cat <<'EOF' >build/staging/isolinux/isolinux.cfg
 UI vesamenu.c32
 
@@ -202,11 +213,14 @@ fi
 configfile "${cmdpath}/grub.cfg"
 EOF
 
+message "copy isolinux"
 cp /usr/lib/ISOLINUX/isolinux.bin "build/staging/isolinux/" || error
 cp /usr/lib/syslinux/modules/bios/* "build/staging/isolinux/" || error
 
+message "copy grub-efi"
 cp -r /usr/lib/grub/x86_64-efi/* "build/staging/boot/grub/x86_64-efi/"
 
+message "make efi images"
 grub-mkstandalone -O i386-efi \
     --modules="part_gpt part_msdos fat iso9660" \
     --locales="" \
@@ -234,6 +248,7 @@ grub-mkstandalone -O x86_64-efi \
         ::/EFI/BOOT/
 )
 
+message "generate .iso"
 xorriso \
     -as mkisofs \
     -iso-level 3 \
