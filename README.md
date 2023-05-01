@@ -48,9 +48,38 @@ You can give the script a custom debian-mirror, if your prefer e.g. `./makeanyth
 
 ## customize nanodesk
 
-Of course you can customize nanodesk to fit your needs! Just have a look into `makeanything.sh` and add your favorite packages to it.
+Of course you can customize nanodesk to fit your needs! 
+
+The simplest way is to add your favorite packages to the nanodesk live-image. Just add them to
+the file `templates/install_base.custompkg.tpl.sh`
+
+For example, let's add Abiword and Pidgin to nanodesk, the file would look like
+
+```bash
+apt install -y \
+audacious \
+abiword \
+pidgin
+```
+
+Now run `makeanything.sh` and you will have both programs on your live-linux.
+
+Just have a look into `makeanything.sh` and add your favorite packages to it.
 
 You can also jump into the chroot with `chroot build/chroot/ /bin/bash` and do customisations by hand. Just run `makeanything.sh` afterwards to recreate the .iso
+
+Keep in mind that the chroot does not get recreated everytime you run `makeanything.sh`. 
+While experimenting around it could be helpful to delete your complete `build/` directory
+
+```bash
+sudo rm -Rf build
+```
+
+keeping a fresh copy of `build/chroot/` after the first debootstrap is also a good idea to save bandwidth :)
+
+```bash
+sudo cp -a build/chroot build/chroot.bak
+```
 
 ## install nanodesk on harddrive
 
