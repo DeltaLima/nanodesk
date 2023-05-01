@@ -1,4 +1,6 @@
-# nanodesk
+# nanodesk - leightweight linux (live) desktop
+
+Origin: https://git.la10cy.net/DeltaLima/nanodesk
 
 nanodesk is a less resources consuming debian linux "distribution" using the
 jwm window manager, which I made for fun and learning.
