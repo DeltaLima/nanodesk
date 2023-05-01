@@ -133,7 +133,7 @@ sudo mksquashfs \
     build/staging/live/filesystem.squashfs \
     -e boot || error
 
-message "copy kernel and init images"
+message "copy kernel and initrd images"
 cp build/chroot/boot/vmlinuz-* build/staging/live/vmlinuz || error
 cp build/chroot/boot/initrd.img-* build/staging/live/initrd || error
 
