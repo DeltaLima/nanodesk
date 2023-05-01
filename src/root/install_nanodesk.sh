@@ -8,6 +8,7 @@
 
 
 CHROOTCMD="chroot /mnt/"
+target="$1"
 
 message () {
   echo "== " $1
@@ -45,8 +46,6 @@ Options:
   exit 1
 fi
 
-target="$1"
-
 if [ ! -b "$target" ]
 then
   message "$target does not exist or is not a blockdevice."
@@ -68,16 +67,14 @@ test "$DOINSTALL" == "YES" || error
 message "... GOOD LUCK!"
 message "mounting $target to /mnt/"
 mount $target /mnt || error
-message "copy systemfiles"
 
+message "copy systemfiles"
 rsync -aHx / /mnt/ || error
 
 message "bind mount dev proc sys"
-
 for m in dev proc sys
 do
 	mount -o bind /$m /mnt/$m || error
-
 done
 
 message "creating /boot directory"
