@@ -1,0 +1,38 @@
+<h1>Welcome to nanodesk</h1>
+
+<p>nanodesk is a debian base linux "distribution". I put distribution in ""
+becuase it is just a minimal debian debootstrap installation, which you 
+can boot from a DVD or usb-stick and install it to disk, with well picked
+packages I like and a customized jwm config. Taddaa - a new distribution. </p>
+
+<p>Everything done with having the goal to consume as less ram as possible.</p>
+
+<h2>install to disk</h2>
+
+<p>You can install nanodesk to your harddrive. Before doing so,
+you have to get your drive partitioned and formated. </p>
+
+<p>Partiotioning on an empty drive is simple, you need two partitions</p>
+
+<ul>
+<li>partition1: ext4 , mainfilesystem. </li>
+<li>partition2 (optional, but recommended): swap</li>
+</ul>
+
+<p>You can use <code>gparted</code> or <code>fdisk</code> for this. Please read their manuals.</p>
+
+<p>This done, just run <code>sudo /root/install_nanodesk.sh /dev/sdXY</code> from the terminal
+and the installation will start. (change /dev/sdXY to your drive)</p>
+
+<h2>installing software</h2>
+
+<p>There is no GUI tool for installing software. You have to use <code>apt</code> from the
+terminal.</p>
+
+<h2>getting root</h2>
+
+<p>In the LiveCD mode you can just do <code>sudo su -</code> without being asked for a password.
+Depending on your choice by the installation, you will have to enter a password,
+when you created your own using by the installer.</p>
+
+<p>So or so good old <code>su -</code> works fine as well, just type in the root password.</p>

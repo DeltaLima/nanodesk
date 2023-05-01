@@ -124,8 +124,8 @@ DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 #/usr/bin/apt --yes purge 'linux-image-*' 'grub-*'
 /usr/bin/apt --yes --reinstall install \
-	linux-image-amd64 \
-        linux-image-5.10.0-22-amd64 \
+        linux-image-amd64 \
+        %KERNEL_VER% \
         grub-pc grub-pc-bin \
         grub-common \
         grub2-common \

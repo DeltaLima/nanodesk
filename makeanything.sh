@@ -81,167 +81,37 @@ sudo debootstrap bullseye build/chroot/ $MIRROR || sudo debootstrap bullseye bui
 
 message "copy xdgmenumaker deb file into chroot"
 sudo cp deb/xdgmenumaker* build/chroot/tmp || error
-message "deploying install_base"
-cat <<\EOF > build/chroot/tmp/install_base.sh
-#!/bin/bash
 
-RED="\e[31m"
-GREEN="\e[32m"
-YELLOW="\e[33m"
-ENDCOLOR="\e[0m"
+message "copy template/install_base.sh to build/chroot/tmp/install_base.sh"
+cp templates/install_base.tpl.sh build/chroot/tmp/install_base.sh || error
 
-function message() {
-     case $1 in
-     error)
-       MESSAGE_TYPE="${RED}ERROR${ENDCOLOR}"
-     ;;
-     info|*)
-       MESSAGE_TYPE="${GREEN}INFO${ENDCOLOR}"
-     ;;
-     esac
-
-     if [ "$1" == "info" ] || [ "$1" == "error" ]
-     then
-       MESSAGE=$2
-     else
-       MESSAGE=$1
-     fi
-
-     echo -e "[${MESSAGE_TYPE}] ${YELLOW}install_base${ENDCOLOR}: $MESSAGE"
-}
-
-
-error () 
-{
-  message error "ERROR!!"
-  exit 1
-}
-
-### hostname setting
-echo nanodesk > /etc/hostname
-
-### noninteractive
-DEBIAN_FRONTEND=noninteractive
-export DEBIAN_FRONTEND
-
-message "activate contrib and non-free repositories"
-sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list || error
-
-message "activate backports repository"
-sed 's/bullseye/bullseye-backports/g' /etc/apt/sources.list > /etc/apt/sources.list.d/bullseye-backports.list || error
-
-message "apt update"
-apt update || error
-
-### packages
-message "install nanodesk base packages"
-apt install -y \
-	live-boot \
-	grub-pc \
-	ifupdown \
-	net-tools \
-	wireless-tools \
-	wpagui \
-	isc-dhcp-client \
-	man \
-	console-data \
-	locales \
-	sudo \
-	xserver-xorg \
-	jwm \
-	xdm \
-	xterm \
-	xfe \
-	pcmanfm \
-	audacious \
-	htop \
-	host \
-	mc \
-	wget \
-	curl \
-	less \
-	rsync \
-	vim \
-	links2 \
-	firefox-esr \
-	transmission-gtk \
-	lxterminal \
-	arandr \
-	zenity \
-	ncdu \
-	gparted \
-	git \
-	/tmp/xdgmenumaker*.deb || error
-
-message "install linux-kernel from backports"
-apt install -t bullseye-backports -y linux-image-amd64
-
-message "set hostname in hosts"
-sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
-
-### set root password
-message "set root password to 'debian'"
-echo -e "debian\ndebian" | (passwd root)
-
-### add debian user
-message "create user debian"
-useradd -m -U -s /bin/bash debian
-
-### set password
-message "set password for user debian to 'debian'"
-echo -e "debian\ndebian" | (passwd debian)
-
-### Configure timezone and locale
-#dpkg-reconfigure locales
-#dpkg-reconfigure console-data
-#dpkg-reconfigure keyboard-configuration
-###https://serverfault.com/a/689947
-
-message "set locales and tzdata"
-echo "Europe/Berlin" > /etc/timezone && \
-    dpkg-reconfigure -f noninteractive tzdata && \
-    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
-    echo 'LANG="en_US.UTF-8"'>/etc/default/locale && \
-    dpkg-reconfigure --frontend=noninteractive locales && \
-    locale-gen en_US.UTF-8 && \
-    update-locale LANG=en_US.UTF-8
-
-### clean cache
-message "apt clean"
-apt clean
-
-KERNEL_VER="$(dpkg -l "linux-image-*" | grep "^ii"| awk '{print $2}' | grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9]).*-amd64$')"
-test -n "$KERNEL_VER" || error
-message "KERNEL_VER=$KERNEL_VER"
-
-### but fetch packages for grub and kernel, so we do not need to download them
-### in case nanodesk get installed to diska
-message "apt --download linux-image and grub packages to have them in cache for installation by user"
-apt -d --reinstall install \
-	linux-image-amd64 \
-	$(echo $KERNEL_VER) \
-	grub-pc grub-pc-bin \
-	grub-common \
-	grub2-common \
-	os-prober || error
-EOF
-message "run install_base"
+message "run install_base.sh"
 $CHROOTCMD /bin/bash /tmp/install_base.sh || error
 
 message "clear /tmp"
 $CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
 
-### process markdown files in src/ to html
-message "convert .md from src to .html in build/chroot"
-for md in $(find src/ -name "*.md")
+message "writing nanodesk-installer.sh into /root"
+#first get the installed kernel version
+KERNEL_VER="$($CHROOTCMD /usr/bin/dpkg -l "linux-image-*" | 
+            grep "^ii"| 
+            awk '{print $2}' | 
+            grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9]).*-amd64$')"
+message "using Kernel $KERNEL_VER"
+sed "s/%KERNEL_VER%/${KERNEL_VER}/g" templates/nanodesk-installer.tpl.sh > build/chroot/root/nanodesk-installer.sh
+sudo chmod +x build/chroot/root/nanodesk-installer.sh
+
+message "convert rootdir/usr/share/nanodesk/firstlogin/*.md to .html"
+for md in $(find rootdir/ -name "*.md")
   do markdown $md > $(echo $md|sed 's/\.md/\.html/')
 done
 
-echo $VERSION > src/usr/share/nanodesk/version
+message "write nanodesk version $VERSION into rootdir/usr/share/nanodesk/version"
+echo $VERSION > rootdir/usr/share/nanodesk/version
 
 ### copy nanodesk configs to chroot
 message "copy nanodesk config files into chroot"
-sudo cp -r src/* build/chroot/
+sudo cp -r rootdir/* build/chroot/
 
 message "correct file permissions"
 $CHROOTCMD /usr/bin/chmod 440 /etc/sudoers
@@ -266,76 +136,15 @@ message "copy kernel and init images"
 cp build/chroot/boot/vmlinuz-* build/staging/live/vmlinuz || error
 cp build/chroot/boot/initrd.img-* build/staging/live/initrd || error
 
-message "isolinux.cfg"
-cat <<EOF >build/staging/isolinux/isolinux.cfg
-UI vesamenu.c32
+message "generate isolinux.cfg"
+sed "s/%VERSION%/${VERSION}/g" templates/isolinux.tpl.cfg > build/staging/isolinux/isolinux.cfg
 
-MENU TITLE Boot Menu
-DEFAULT linux
-TIMEOUT 600
-MENU RESOLUTION 640 480
-MENU COLOR border       30;44   #40ffffff #a0000000 std
-MENU COLOR title        1;36;44 #9033ccff #a0000000 std
-MENU COLOR sel          7;37;40 #e0ffffff #20ffffff all
-MENU COLOR unsel        37;44   #50ffffff #a0000000 std
-MENU COLOR help         37;40   #c0ffffff #a0000000 std
-MENU COLOR timeout_msg  37;40   #80ffffff #00000000 std
-MENU COLOR timeout      1;37;40 #c0ffffff #00000000 std
-MENU COLOR msg07        37;40   #90ffffff #a0000000 std
-MENU COLOR tabmsg       31;40   #30ffffff #00000000 std
+message "generate grub.cfg"
+sed "s/%VERSION%/${VERSION}/g" templates/grub.tpl.cfg > build/staging/boot/grub/grub.cfg
+sed "s/%VERSION%/${VERSION}/g" templates/grub.tpl.cfg > build/staging/EFI/BOOT/grub.cfg
 
-LABEL linux
-  MENU LABEL nanodesk $VERSION Live [BIOS/ISOLINUX]
-  MENU DEFAULT
-  KERNEL /live/vmlinuz
-  APPEND initrd=/live/initrd boot=live
-
-LABEL linux
-  MENU LABEL nanodesk $VERSION Live [BIOS/ISOLINUX] (nomodeset)
-  MENU DEFAULT
-  KERNEL /live/vmlinuz
-  APPEND initrd=/live/initrd boot=live nomodeset
-EOF
-
-cat <<EOF > build/staging/boot/grub/grub.cfg
-insmod part_gpt
-insmod part_msdos
-insmod fat
-insmod iso9660
-
-insmod all_video
-insmod font
-
-set default="0"
-set timeout=30
-
-# If X has issues finding screens, experiment with/without nomodeset.
-
-menuentry "nanodesk $VERSION Live [EFI/GRUB]" {
-    search --no-floppy --set=root --label NANODESK
-    linux (\$root)/live/vmlinuz boot=live
-    initrd (\$root)/live/initrd
-}
-
-menuentry "nanodesk $VERSION Live [EFI/GRUB] (nomodeset)" {
-    search --no-floppy --set=root --label NANODESK
-    linux (\$root)/live/vmlinuz boot=live nomodeset
-    initrd (\$root)/live/initrd
-}
-EOF
-
-cp build/staging/boot/grub/grub.cfg build/staging/EFI/BOOT/ || error
-
-cat <<'EOF' >build/tmp/grub-embed.cfg
-if ! [ -d "$cmdpath" ]; then
-    # On some firmware, GRUB has a wrong cmdpath when booted from an optical disc.
-    # https://gitlab.archlinux.org/archlinux/archiso/-/issues/183
-    if regexp --set=1:isodevice '^(\([^)]+\))\/?[Ee][Ff][Ii]\/[Bb][Oo][Oo][Tt]\/?$' "$cmdpath"; then
-        cmdpath="${isodevice}/EFI/BOOT"
-    fi
-fi
-configfile "${cmdpath}/grub.cfg"
-EOF
+message "copy grub-embed.cfg"
+cp templates/grub-embed.tpl.cfg build/tmp/grub-embed.cfg
 
 message "copy isolinux"
 cp /usr/lib/ISOLINUX/isolinux.bin "build/staging/isolinux/" || error
