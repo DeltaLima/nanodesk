@@ -85,6 +85,7 @@ apt install -y --no-install-recommends \\
 	lxterminal \\
 	arandr \\
 	/tmp/xdgmenumaker*.deb
+
 echo -e "debian\ndebian" | (passwd root)
 useradd -m -s /bin/bash debian
 echo -e "debian\ndebian" | (passwd debian)
