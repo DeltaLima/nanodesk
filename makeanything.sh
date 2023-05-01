@@ -69,6 +69,8 @@ sudo apt install \
 
 message "start building nanodesk ${YELLOW}${VERSION}${ENDCOLOR}"
 
+read -p "press [enter] to continue"
+
 ### stuff begins here
 message "Checking build directory"
 test -f build/chroot || mkdir -p build/chroot
@@ -126,6 +128,7 @@ message "install nanodesk base packages"
 apt install -y \
 	live-boot \
 	linux-image-amd64 \
+	linux-firmware \
 	grub-pc \
 	ifupdown \
 	net-tools \
