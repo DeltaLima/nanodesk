@@ -1,7 +1,8 @@
 #!/bin/bash
 
 ### installer for nanodesk
-### By: DeltaLima 2023
+### By: DeltaLima
+### 2023
 ### 
 ### this is just a hobby, nothing serious. i know the debian installer and other
 ### exist, but i wanted to try some handcrafted installation.
