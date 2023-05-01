@@ -128,7 +128,7 @@ message "activate contrib and non-free repositories"
 sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list || error
 
 message "activate backports repository"
-sed 's/bullseye/bullseye-backports/g' /etc/apt/sources.list >> /etc/apt/sources.list.d/bullseye-backports.list || error
+sed 's/bullseye/bullseye-backports/g' /etc/apt/sources.list > /etc/apt/sources.list.d/bullseye-backports.list || error
 
 message "apt update"
 apt update || error
