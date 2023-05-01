@@ -67,6 +67,8 @@ sudo apt install \
   coreutils \
   markdown || error
 
+message "start building nanodesk $VERSION"
+
 ### stuff begins here
 message "Checking build directory"
 test -f build/chroot || mkdir -p build/chroot
