@@ -223,8 +223,6 @@ apt -d --reinstall install \
 	grub-pc grub-pc-bin \
 	grub-common \
 	grub2-common \
-	grub-efi-amd64 grub-efi-amd64-bin \
-	grub-efi-ia32 grub-efi-ia32-bin \
 	os-prober || error
 EOF
 message "run install_base"
