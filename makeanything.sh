@@ -130,7 +130,7 @@ message "install nanodesk base packages"
 apt install -y \
 	live-boot \
 	linux-image-amd64 \
-	linux-firmware \
+	firmware-linux \
 	grub-pc \
 	ifupdown \
 	net-tools \
