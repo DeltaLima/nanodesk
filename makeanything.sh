@@ -106,6 +106,7 @@ apt install -y \\
 	lxterminal \\
 	arandr \\
 	zenity \\
+	ncdu \\
 	/tmp/xdgmenumaker*.deb || error
 
 message "set hostname in hosts"
