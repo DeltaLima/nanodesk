@@ -8,7 +8,6 @@
 
 
 CHROOTCMD="chroot /mnt/"
-target="$1"
 
 message () {
   echo "== " $1
@@ -46,6 +45,7 @@ Options:
   exit 1
 fi
 
+target="$1"
 if [ ! -b "$target" ]
 then
   message "$target does not exist or is not a blockdevice."
