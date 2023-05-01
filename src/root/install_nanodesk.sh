@@ -20,12 +20,19 @@ error () {
 }
 
 finish () {
+  message "removing firststart dialoge from jwm config"
+  $CHROOTCMD /usr/bin/sed -i '/firstlogin\/welcome/d' /etc/jwm/system.jwmrc || error
+
   message "removing installer files from target"
   $CHROOTCMD /usr/bin/rm -Rf /root/install_nanodesk.sh /root/kernel_deb || error
+
   message "removing live-packages from target"
   $CHROOTCMD /usr/bin/apt -y purge 'live-boot*' 'live-tools*'
+
   message "autoremove unneeded dependencies"
   $CHROOTCMD /usr/bin/apt -y autoremove
+
+
   message "we are now ready to boot from $target"
   exit 0
 }
