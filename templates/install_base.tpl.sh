@@ -68,7 +68,6 @@ apt install -y \
 	xterm \
 	xfe \
 	pcmanfm \
-	audacious \
 	htop \
 	host \
 	mc \
@@ -87,6 +86,27 @@ apt install -y \
 	gparted \
 	git \
 	/tmp/xdgmenumaker*.deb || error
+
+######
+####
+##
+## customization can be done here
+##  the placeholder within '%%' gets 
+####  filled by makeanything.sh
+######
+
+message "install custom packages from templates/install_base.custompkg.tpl.sh"
+. /tmp/install_base.custompkg.tpl.sh
+
+######
+#### it's a simple sudo 
+## command
+##  / customization End /
+##
+####
+######
+
+
 
 message "install linux-kernel from backports"
 apt install -t bullseye-backports -y linux-image-amd64

@@ -1,0 +1,2 @@
+apt install -y \
+audacious 

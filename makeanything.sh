@@ -87,8 +87,11 @@ sudo debootstrap bullseye build/chroot/ $MIRROR || sudo debootstrap bullseye bui
 message "copy xdgmenumaker deb file into chroot"
 sudo cp deb/xdgmenumaker* build/chroot/tmp || error
 
-message "copy template/install_base.sh to build/chroot/tmp/install_base.sh"
-cp templates/install_base.tpl.sh build/chroot/tmp/install_base.sh || error
+message "generate template/install_base.sh to build/chroot/tmp/install_base.sh"
+sudo cp templates/install_base.tpl.sh build/chroot/tmp/install_base.sh || error
+sudo cp templates/install_base.custompkg.tpl.sh build/chroot/tmp/ || error
+
+
 
 message "run install_base.sh"
 $CHROOTCMD /bin/bash /tmp/install_base.sh || error
