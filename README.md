@@ -22,6 +22,12 @@ Here you go!
 
 ![nanodesk_5](screenshots/nanodesk_5.png)
 
+## Download
+
+Yeah, you can download the .iso file. 
+
+[Download .iso at retro.la10cy.net](http://retro.la10cy.net/nanodesk/)
+
 ## Resources
 
 - Linux Logo Button: https://freesvg.org/linux-key-vector-button
