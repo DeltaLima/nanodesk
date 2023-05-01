@@ -27,7 +27,7 @@ and the installation will start. (change /dev/sdXY to your drive)
 
 ## installing software
 
-There is no GUI tool for installing software. You have to use `apt` frin the
+There is no GUI tool for installing software. You have to use `apt` from the
 terminal.
 
 ## getting root
