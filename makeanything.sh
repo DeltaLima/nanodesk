@@ -144,7 +144,13 @@ apt clean
 ### but fetch packages for grub and kernel, so we do not need to download them
 ### in case nanodesk get installed to diska
 message "apt --download linux-image and grub packages to have them in cache for installation by user"
-apt -d --reinstall install linux-image-amd64 linux-image-5.10.0-22-amd64 grub-pc grub-pc-bin
+apt -d --reinstall install \\
+	linux-image-amd64 \\
+	linux-image-5.10.0-22-amd64 \\
+	grub-pc grub-pc-bin \\
+	grub-common \\
+	grub2-common \\
+	os-prober || error
 EOF
 message "run install_base"
 $CHROOTCMD /bin/bash /tmp/install_base.sh || error

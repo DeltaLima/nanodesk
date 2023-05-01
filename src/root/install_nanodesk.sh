@@ -83,10 +83,18 @@ message "creating /boot directory"
 mkdir -p /mnt/boot/ || error
 
 message "create tmp script for reinstalling grub and kernel"
-echo "DEBIAN_FRONTEND=noninteractive
+cat <<EOF > /mnt/tmp/reinstall_kernel.sh
+DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
-/usr/bin/apt --yes purge 'linux-image-*' 'grub-*'
-#/usr/bin/apt --yes install linux-image-amd64 linux-image-$(uname -r) grub-pc grub-pc-bin" > /mnt/tmp/reinstall_kernel.sh
+#/usr/bin/apt --yes purge 'linux-image-*' 'grub-*'
+/usr/bin/apt --yes --reinstall install \\
+	linux-image-amd64 \\
+        linux-image-5.10.0-22-amd64 \\
+        grub-pc grub-pc-bin \\
+        grub-common \\
+        grub2-common \\
+        os-prober
+EOF
 
 message "install kernel and grub"
 $CHROOTCMD /bin/bash /tmp/reinstall_kernel.sh || error
