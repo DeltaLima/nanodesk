@@ -38,7 +38,8 @@ sudo apt install \
   grub-efi-ia32-bin \
   mtools \
   dosfstools \
-  coreutils
+  coreutils \
+  markdown
 
 ### stuff begins here
 message "Checking build directory"
