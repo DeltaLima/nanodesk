@@ -1,9 +1,15 @@
 # nanodesk
 
-nanodesk is a less resources consuming debian linux distro, which I made for fun and learning.
-It's using jwm as window manager.
+nanodesk is a less resources consuming debian linux "distribution" using the
+jwm window manager, which I made for fun and learning.
 
-My goal is to have a (live) system which is very lightweight and usable too. This is for a VM where you need a basic graphical environment or for an old computer with less resources.
+"distribution" because, it is just a debootstrap with some extra packages and
+custom jwm config, baked together with live-boot and a little installer script
+for installing nanodesk on a harddrive.
+
+My goal is to have a (live) system which is very lightweight and still usable too.
+This is for a VM where you need a basic graphical environment or for an old computer
+with less resources.
 
 ## Screenshots
 
@@ -34,9 +40,9 @@ This script will perform all tasks which are necessary to build nanodesk from sc
 
 The script is tested running with Ubuntu 22.04.
 
-Simply run `./makeeverything.sh` and the show start!
+Simply run `./makeanything.sh` and the show will start!
 
-You can give the script a custom debian-mirror, if your prefer `./makeanything.sh http://ftp.debian.org/debian/`
+You can give the script a custom debian-mirror, if your prefer e.g. `./makeanything.sh http://ftp.debian.org/debian/`
 
 ## customize nanodesk
 
