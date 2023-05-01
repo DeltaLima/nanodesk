@@ -135,6 +135,9 @@ EOF
 message "install kernel and grub"
 $CHROOTCMD /bin/bash /tmp/reinstall_kernel.sh || error
 
+message "modify /etc/default/grub"
+$CHROOTCMD /usr/bin/sed -i 's/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR=\"nanodesk \`cat \/usr\/share\/nanodesk\/version\`\"/g' /etc/default/grub
+
 message "grub-install $target"
 $CHROOTCMD grub-install ${target::-1} || error
 
