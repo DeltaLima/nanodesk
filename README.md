@@ -44,7 +44,7 @@ The script is tested running with Ubuntu 22.04.
 
 Simply run `./makeanything.sh` and the show will start!
 
-Your .iso file will bie in `build/nanodesk-vX.Y.Z`. Git tags are used for versioning.
+Your .iso file will be in `build/nanodesk-vX.Y.Z`. Git tags are used for versioning.
 
 You can give the script a custom debian-mirror, if your prefer e.g. `./makeanything.sh http://ftp.debian.org/debian/`
 
