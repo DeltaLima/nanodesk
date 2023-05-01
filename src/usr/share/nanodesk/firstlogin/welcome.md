@@ -16,6 +16,7 @@ You can install nanodesk to your harddrive. Before doing so,
 you have to get your drive partitioned and formated. 
 
 Partiotioning on an empty drive is simple, you need two partitions
+
 - partition1: ext4 , mainfilesystem. 
 - partition2 (optional, but recommended): swap
 
