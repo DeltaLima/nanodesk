@@ -59,7 +59,7 @@ sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 ### packages
-apt install -y --no-install-recommends \\
+apt install -y 
 	live-boot \\
 	linux-image-amd64 \\
 	grub-pc \\
@@ -85,6 +85,7 @@ apt install -y --no-install-recommends \\
 	wget \\
 	curl \\
 	less \\
+	rsync \\
 	vim \\
 	links2 \\
 	firefox-esr \\
