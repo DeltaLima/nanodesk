@@ -244,5 +244,6 @@
     <Key mask="A" key="Up">udesktop</Key>
     <Key mask="A" key="Down">ddesktop</Key>
     <StartupCommand>$(find ~/.screenlayout/ -type f -executable|head -n 1)</StartupCommand>
+    <StartupCommand>zenity --text-info --html --width=640 --height=480 --filename=/usr/share/nanodesk/firstlogin/welcome.html</StartupCommand>
 
 </JWM>
