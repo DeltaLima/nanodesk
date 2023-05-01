@@ -107,15 +107,22 @@ apt install -y \\
 	arandr \\
 	zenity \\
 	/tmp/xdgmenumaker*.deb || error
+
+message "set hostname in hosts"
+sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
+
 ### set root password
 message "set root password to debian"
 echo -e "debian\ndebian" | (passwd root)
+
 ### add debian user
 message "create user debian"
 useradd -m -U -s /bin/bash debian
+
 ### set password
 message "set password debian for user debian"
 echo -e "debian\ndebian" | (passwd debian)
+
 ### Configure timezone and locale
 #dpkg-reconfigure locales
 #dpkg-reconfigure console-data
@@ -129,9 +136,11 @@ echo "Europe/Berlin" > /etc/timezone && \\
     dpkg-reconfigure --frontend=noninteractive locales && \\
     locale-gen en_US.UTF-8 && \\
     update-locale LANG=en_US.UTF-8
+
 ### clean cache
 message "apt clean"
 apt clean
+
 ### but fetch packages for grub and kernel, so we do not need to download them
 ### in case nanodesk get installed to diska
 message "apt --download linux-image and grub packages to have them in cache for installation by user"
