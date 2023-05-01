@@ -58,6 +58,10 @@ apt install -y --no-install-recommends \\
 	linux-image-amd64 \\
 	grub-pc \\
 	ifupdown \\
+	net-tools \\
+	wireless-tools \\
+	wpagui \\
+	isc-dhcp-client \\
 	man \\
 	console-data \\
 	locales \\
@@ -79,6 +83,7 @@ apt install -y --no-install-recommends \\
 	firefox-esr \\
 	transmission-gtk \\
 	lxterminal \\
+	arandr \\
 	/tmp/xdgmenumaker*.deb
 echo -e "debian\ndebian" | (passwd root)
 useradd -m -s /bin/bash debian
