@@ -53,7 +53,7 @@ finish () {
   $CHROOTCMD /usr/bin/sed -i '/firstlogin\/welcome/d' /etc/jwm/system.jwmrc || error
 
   message "removing installer files from target"
-  $CHROOTCMD /usr/bin/rm -Rf /root/install_nanodesk.sh /root/kernel_deb || error
+  $CHROOTCMD /usr/bin/rm -Rf /root/nanodesk-installer.sh || error
 
   message "removing live-packages from target"
   $CHROOTCMD /usr/bin/apt -y purge 'live-boot*' 'live-tools*'
