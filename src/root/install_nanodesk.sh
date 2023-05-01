@@ -132,8 +132,8 @@ do
 
       message "adding $NEWUSER to sudo group"
       $CHROOTCMD /usr/sbin/usermod -G sudo $NEWUSER || error
-      $CHROOTCMD /usr/bin/ln -s -f /usr/share/X11/xdm/pixmaps/nanodesk-installed.xpm /usr/share/X11/xdm/pixmaps/nanodesk.xpm || error
-      $CHROOTCMD /usr/bin/ln -s -f /usr/share/X11/xdm/pixmaps/nanodesk-bw-installed.xpm /usr/share/X11/xdm/pixmaps/nanodesk-bw.xpm || error
+      $CHROOTCMD /usr/bin/ln -s -f /usr/share/nanodesk/pixmaps/nanodesk-installed.xpm /usr/share/nanodesk/pixmaps/nanodesk.xpm || error
+      $CHROOTCMD /usr/bin/ln -s -f /usr/share/nanodesk/pixmaps/nanodesk-bw-installed.xpm /usr/share/nanodesk/pixmaps/nanodesk-bw.xpm || error
       
       STEPFINISH=1
       
