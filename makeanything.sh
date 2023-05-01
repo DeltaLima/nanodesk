@@ -38,13 +38,10 @@ sudo apt install \
 message "Checking build directory"
 test -f build/chroot || mkdir -p build/chroot
 
-###fakeroot -s build/fakechroot.save fakechroot debootstrap --variant=fakechroot bullseye build/chroot/ http://ftp.de.debian.org/debian
-###fakechroot fakeroot debootstrap bullseye build/chroot/ http://ftp.de.debian.org/debian
-
 ### i have the problem, that fakechroot will not work atm. in ubuntu 22.04 i get libc6 version mismatch errors. so we run it direct as root. not my favorite, but works for now.
-
 message "running debootstrap"
-sudo debootstrap bullseye build/chroot/ http://ftp.de.debian.org/debian || sudo debootstrap bullseye build/chroot/ http://ftp.de.debian.org/debian 
+sudo debootstrap bullseye build/chroot/  http://mirror.ipb.de/debian/ || sudo debootstrap bullseye build/chroot/ http://mirror.ipb.de/debian/
+
 message "copy xdgmenumaker deb file into chroot"
 sudo cp deb/xdgmenumaker* build/chroot/tmp
 message "deploying install_base"
@@ -96,8 +93,7 @@ apt install -y \\
 ### set root password
 echo -e "debian\ndebian" | (passwd root)
 ### add debian user
-#useradd -m -U -s /bin/bash debian
-echo -e "debian\ndebian\n\n\n\n\n\n\n" | (adduser -q debian)
+useradd -m -U -s /bin/bash debian
 ### set password
 echo -e "debian\ndebian" | (passwd debian)
 ### Configure timezone and locale
@@ -120,6 +116,9 @@ apt -d --reinstall install linux-image-amd64 linux-image-5.10.0-22-amd64 grub-pc
 EOF
 message "run install_base"
 $CHROOTCMD /bin/bash /tmp/install_base.sh || error
+
+message "clear /tmp"
+$CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
 
 ### copy nanodesk configs to chroot
 message "copy nanodesk config files into chroot"
