@@ -249,7 +249,7 @@ cp build/chroot/boot/vmlinuz-* build/staging/live/vmlinuz || error
 cp build/chroot/boot/initrd.img-* build/staging/live/initrd || error
 
 message "isolinux.cfg"
-cat <<'EOF' >build/staging/isolinux/isolinux.cfg
+cat <<EOF >build/staging/isolinux/isolinux.cfg
 UI vesamenu.c32
 
 MENU TITLE Boot Menu
@@ -267,19 +267,19 @@ MENU COLOR msg07        37;40   #90ffffff #a0000000 std
 MENU COLOR tabmsg       31;40   #30ffffff #00000000 std
 
 LABEL linux
-  MENU LABEL nanodesk Live [BIOS/ISOLINUX]
+  MENU LABEL nanodesk $VERSION Live [BIOS/ISOLINUX]
   MENU DEFAULT
   KERNEL /live/vmlinuz
   APPEND initrd=/live/initrd boot=live
 
 LABEL linux
-  MENU LABEL nanodesk Live [BIOS/ISOLINUX] (nomodeset)
+  MENU LABEL nanodesk $VERSION Live [BIOS/ISOLINUX] (nomodeset)
   MENU DEFAULT
   KERNEL /live/vmlinuz
   APPEND initrd=/live/initrd boot=live nomodeset
 EOF
 
-cat <<'EOF' > build/staging/boot/grub/grub.cfg
+cat <<EOF > build/staging/boot/grub/grub.cfg
 insmod part_gpt
 insmod part_msdos
 insmod fat
@@ -293,16 +293,16 @@ set timeout=30
 
 # If X has issues finding screens, experiment with/without nomodeset.
 
-menuentry "nanodesk Live [EFI/GRUB]" {
+menuentry "nanodesk $VERSION Live [EFI/GRUB]" {
     search --no-floppy --set=root --label NANODESK
-    linux ($root)/live/vmlinuz boot=live
-    initrd ($root)/live/initrd
+    linux (\$root)/live/vmlinuz boot=live
+    initrd (\$root)/live/initrd
 }
 
-menuentry "nanodesk Live [EFI/GRUB] (nomodeset)" {
+menuentry "nanodesk $VERSION Live [EFI/GRUB] (nomodeset)" {
     search --no-floppy --set=root --label NANODESK
-    linux ($root)/live/vmlinuz boot=live nomodeset
-    initrd ($root)/live/initrd
+    linux (\$root)/live/vmlinuz boot=live nomodeset
+    initrd (\$root)/live/initrd
 }
 EOF
 
