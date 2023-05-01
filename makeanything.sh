@@ -17,25 +17,21 @@ error ()
   exit 1
 }
 
-check_requirements () {
-  echo "we are checking for requirements"
-  # ~fakeroot fakechroot~
-  # debootstrap chroot 
-  ### https://www.willhaley.com/blog/custom-debian-live-environment/
-  sudo apt install \
-    debootstrap \
-    squashfs-tools \
-    xorriso \
-    isolinux \
-    syslinux-efi \
-    grub-pc-bin \
-    grub-efi-amd64-bin \
-    grub-efi-ia32-bin \
-    mtools \
-    dosfstools chroot
-
-
-}
+message "installing requirements"
+# ~fakeroot fakechroot~
+# debootstrap chroot 
+### https://www.willhaley.com/blog/custom-debian-live-environment/
+sudo apt install \
+  debootstrap \
+  squashfs-tools \
+  xorriso \
+  isolinux \
+  syslinux-efi \
+  grub-pc-bin \
+  grub-efi-amd64-bin \
+  grub-efi-ia32-bin \
+  mtools \
+  dosfstools chroot
 
 ### stuff begins here
 message "Checking build directory"
