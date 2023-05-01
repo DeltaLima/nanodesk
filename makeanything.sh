@@ -123,14 +123,13 @@ echo nanodesk > /etc/hostname
 ### noninteractive
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
-sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list
+sed -i 's/main$/main contrib non-free bullseye-backports/g' /etc/apt/sources.list
 apt-update
 ### packages
 message "install nanodesk base packages"
 apt install -y \
 	live-boot \
 	linux-image-amd64 \
-	firmware-linux \
 	grub-pc \
 	ifupdown \
 	net-tools \
