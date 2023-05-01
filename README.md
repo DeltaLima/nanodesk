@@ -44,6 +44,8 @@ The script is tested running with Ubuntu 22.04.
 
 Simply run `./makeanything.sh` and the show will start!
 
+Your .iso file will bie in `build/nanodesk-vX.Y.Z`. Git tags are used for versioning.
+
 You can give the script a custom debian-mirror, if your prefer e.g. `./makeanything.sh http://ftp.debian.org/debian/`
 
 ## customize nanodesk
@@ -64,9 +66,7 @@ pidgin
 
 Now run `makeanything.sh` and you will have both programs on your live-linux.
 
-Just have a look into `makeanything.sh` and add your favorite packages to it.
-
-You can also jump into the chroot with `chroot build/chroot/ /bin/bash` and do customisations by hand. Just run `makeanything.sh` afterwards to recreate the .iso
+You can also jump into the chroot with `chroot build/chroot/ /bin/bash` and do customizations by hand. Just run `makeanything.sh` afterwards to recreate the .iso
 
 Keep in mind that the chroot does not get recreated everytime you run `makeanything.sh`. 
 While experimenting around it could be helpful to delete your complete `build/` directory
