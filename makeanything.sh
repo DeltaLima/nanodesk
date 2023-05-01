@@ -303,7 +303,7 @@ message "generate .iso"
 xorriso \
     -as mkisofs \
     -iso-level 3 \
-    -o "build/nanodesk_$(git rev-parse --short HEAD).iso" \
+    -o "build/nanodesk_$(git rev-parse --short HEAD)_$(git describe --tags).iso" \
     -full-iso9660-filenames \
     -volid "NANODESK" \
     --mbr-force-bootable -partition_offset 16 \
