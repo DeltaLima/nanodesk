@@ -45,6 +45,8 @@ test -f build/chroot || mkdir -p build/chroot
 
 message "running debootstrap"
 sudo debootstrap bullseye build/chroot/ http://ftp.de.debian.org/debian || sudo debootstrap bullseye build/chroot/ http://ftp.de.debian.org/debian 
+message "copy xdgmenumaker deb file into chroot"
+sudo cp deb/xdgmenumaker* build/chroot/tmp
 message "deploying install_base"
 cat <<EOF > build/chroot/tmp/install_base.sh
 #!/bin/bash
@@ -74,6 +76,7 @@ apt install -y --no-install-recommends \\
 	less \\
 	vim \\
 	links2
+	/tmp/xdgmenumaker*.deb
 echo -e "debian\ndebian" | (passwd root)
 useradd -m -s /bin/bash debian
 echo -e "debian\ndebian" | (passwd debian)
