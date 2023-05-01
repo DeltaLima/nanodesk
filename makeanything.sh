@@ -123,14 +123,20 @@ echo nanodesk > /etc/hostname
 ### noninteractive
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
-sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list
-sed 's/bullseye/bullseye-backports/g' /etc/apt/sources.list >> /etc/apt/sources.list.d/bullseye-backports.list
-apt update
+
+message "activate contrib and non-free repositories"
+sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list || error
+
+message "activate backports repository"
+sed 's/bullseye/bullseye-backports/g' /etc/apt/sources.list >> /etc/apt/sources.list.d/bullseye-backports.list || error
+
+message "apt update"
+apt update || error
+
 ### packages
 message "install nanodesk base packages"
 apt install -y \
 	live-boot \
-	linux-image-amd64 \
 	grub-pc \
 	ifupdown \
 	net-tools \
@@ -167,11 +173,14 @@ apt install -y \
 	git \
 	/tmp/xdgmenumaker*.deb || error
 
+message "install linux-kernel from backports"
+apt install -t bullseye-backports -y linux-image-amd64
+
 message "set hostname in hosts"
 sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
 
 ### set root password
-message "set root password to debian"
+message "set root password to 'debian'"
 echo -e "debian\ndebian" | (passwd root)
 
 ### add debian user
@@ -179,7 +188,7 @@ message "create user debian"
 useradd -m -U -s /bin/bash debian
 
 ### set password
-message "set password debian for user debian"
+message "set password for user debian to 'debian'"
 echo -e "debian\ndebian" | (passwd debian)
 
 ### Configure timezone and locale
@@ -187,6 +196,7 @@ echo -e "debian\ndebian" | (passwd debian)
 #dpkg-reconfigure console-data
 #dpkg-reconfigure keyboard-configuration
 ###https://serverfault.com/a/689947
+
 message "set locales and tzdata"
 echo "Europe/Berlin" > /etc/timezone && \
     dpkg-reconfigure -f noninteractive tzdata && \
@@ -200,7 +210,8 @@ echo "Europe/Berlin" > /etc/timezone && \
 message "apt clean"
 apt clean
 
-KERNEL_VER="$(dpkg -l "linux-image-*" | grep "^ii"| awk '{print $2}' | grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9])-amd64$')"
+KERNEL_VER="$(dpkg -l "linux-image-*" | grep "^ii"| awk '{print $2}' | grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9]).*-amd64$')"
+test -n "$KERNEL_VER" || error
 message "KERNEL_VER=$KERNEL_VER"
 
 ### but fetch packages for grub and kernel, so we do not need to download them
@@ -212,6 +223,8 @@ apt -d --reinstall install \
 	grub-pc grub-pc-bin \
 	grub-common \
 	grub2-common \
+	grub-efi-amd64 grub-efi-amd64-bin \
+	grub-efi-ia32 grub-efi-ia32-bin \
 	os-prober || error
 EOF
 message "run install_base"
