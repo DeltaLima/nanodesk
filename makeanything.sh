@@ -75,7 +75,10 @@ apt install -y --no-install-recommends \\
 	curl \\
 	less \\
 	vim \\
-	links2
+	links2 \\
+	firefox-esr \\
+	transmission-gtk \\
+	lxterminal \\
 	/tmp/xdgmenumaker*.deb
 echo -e "debian\ndebian" | (passwd root)
 useradd -m -s /bin/bash debian
