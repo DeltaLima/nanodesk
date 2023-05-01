@@ -53,7 +53,6 @@ cat <<EOF > build/chroot/tmp/install_base.sh
 
 ### hostname setting
 echo nanodesk > /etc/hostname
-sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
 
 ### noninteractive
 DEBIAN_FRONTEND=noninteractive
