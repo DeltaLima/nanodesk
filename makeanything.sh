@@ -96,6 +96,10 @@ EOF
 message "run install_base"
 $CHROOTCMD /bin/bash /tmp/install_base.sh || error
 
+### copy nanodesk configs to chroot
+message "copy nanodesk config files into chroot"
+cp -r src/ build/chroot/
+
 ### liveboot part, https://www.willhaley.com/blog/custom-debian-live-environment/
 message "checking liveboot directories"
 for dir in $(echo build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live},tmp})
