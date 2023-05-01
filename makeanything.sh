@@ -6,8 +6,9 @@
 ### 2023
 
 CHROOTCMD="sudo chroot build/chroot/"
-MIRROR=$1
+VERSION="$(git describe --tags)-$(git rev-parse --short HEAD)"
 
+MIRROR=$1
 if [ -z "$MIRROR" ]
 then
   MIRROR="http://ftp.gwdg.de/debian/"
@@ -167,6 +168,8 @@ for md in $(find src/ -name "*.md")
   do markdown $md > $(echo $md|sed 's/\.md/\.html/')
 done
 
+echo $VERSION > src/usr/share/nanodesk/version
+
 ### copy nanodesk configs to chroot
 message "copy nanodesk config files into chroot"
 sudo cp -r src/* build/chroot/
@@ -304,7 +307,7 @@ message "generate .iso"
 xorriso \
     -as mkisofs \
     -iso-level 3 \
-    -o "build/nanodesk_$(git rev-parse --short HEAD)_$(git describe --tags).iso" \
+    -o "build/nanodesk_$VERSION.iso" \
     -full-iso9660-filenames \
     -volid "NANODESK" \
     --mbr-force-bootable -partition_offset 16 \
