@@ -46,7 +46,7 @@ test -f build/chroot || mkdir -p build/chroot
 
 ### i have the problem, that fakechroot will not work atm. in ubuntu 22.04 i get libc6 version mismatch errors. so we run it direct as root. not my favorite, but works for now.
 message "running debootstrap with mirror $MIRROR"
-sudo debootstrap bullseye build/chroot/ $MIRROR || sudo debootstrap bullseye build/chroot/ $MIRROR
+sudo debootstrap bullseye build/chroot/ $MIRROR || sudo debootstrap bullseye build/chroot/ $MIRROR 
 
 message "copy xdgmenumaker deb file into chroot"
 sudo cp deb/xdgmenumaker* build/chroot/tmp
