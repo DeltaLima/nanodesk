@@ -125,7 +125,7 @@ DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list
 sed 's/bullseye/bullseye-backports/g' /etc/apt/sources.list >> /etc/apt/sources.list.d/bullseye-backports.list
-apt-update
+apt update
 ### packages
 message "install nanodesk base packages"
 apt install -y \
