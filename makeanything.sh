@@ -17,9 +17,10 @@ error ()
 
 check_requirements () {
   echo "we are checking for requirements"
+  # fakeroot fakechroot debootstrap
 }
 
 ### stuff begins here
 test -f build/chroot || mkdir -p build/chroot
 
-debootstrap --variant=fakeroot bullseye build/chroot/ http://ftp.de.debian.org/debian
+fakeroot -s build/fakechroot.save fakechroot debootstrap --variant=fakechroot bullseye build/chroot/ http://ftp.de.debian.org/debian
