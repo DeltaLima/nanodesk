@@ -48,6 +48,16 @@ message "deploying install_base"
 cat <<EOF > build/chroot/tmp/install_base.sh
 #!/bin/bash
 
+message () {
+  echo "== install_base: " $1
+}
+
+error () 
+{
+  message "ERROR!!"
+  exit 1
+}
+
 ### hostname setting
 echo nanodesk > /etc/hostname
 
@@ -55,6 +65,7 @@ echo nanodesk > /etc/hostname
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 ### packages
+message "install nanodesk base packages"
 apt install -y \\
 	live-boot \\
 	linux-image-amd64 \\
@@ -89,18 +100,22 @@ apt install -y \\
 	lxterminal \\
 	arandr \\
 	zenity \\
-	/tmp/xdgmenumaker*.deb
+	/tmp/xdgmenumaker*.deb || error
 ### set root password
+message "set root password to debian"
 echo -e "debian\ndebian" | (passwd root)
 ### add debian user
+message "create user debian"
 useradd -m -U -s /bin/bash debian
 ### set password
+message "set password debian for user debian"
 echo -e "debian\ndebian" | (passwd debian)
 ### Configure timezone and locale
 #dpkg-reconfigure locales
 #dpkg-reconfigure console-data
 #dpkg-reconfigure keyboard-configuration
 ###https://serverfault.com/a/689947
+message "set locales and tzdata"
 echo "Europe/Berlin" > /etc/timezone && \\
     dpkg-reconfigure -f noninteractive tzdata && \\
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \\
@@ -109,9 +124,11 @@ echo "Europe/Berlin" > /etc/timezone && \\
     locale-gen en_US.UTF-8 && \\
     update-locale LANG=en_US.UTF-8
 ### clean cache
+message "apt clean"
 apt clean
 ### but fetch packages for grub and kernel, so we do not need to download them
-### in case nanodesk get installed to disk
+### in case nanodesk get installed to diska
+message "apt --download linux-image and grub packages to have them in cache for installation by user"
 apt -d --reinstall install linux-image-amd64 linux-image-5.10.0-22-amd64 grub-pc grub-pc-bin
 EOF
 message "run install_base"
