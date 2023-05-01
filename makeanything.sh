@@ -72,8 +72,13 @@ message "start building nanodesk ${YELLOW}${VERSION}${ENDCOLOR}"
 read -p "press [enter] to continue"
 
 ### stuff begins here
-message "Checking build directory"
-test -f build/chroot || mkdir -p build/chroot
+
+message "creating build directories"
+for dir in $(echo build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live},tmp,chroot})
+do
+  message "$dir"
+  test -d $dir || mkdir -p $dir
+done
 
 ### i have the problem, that fakechroot will not work atm. in ubuntu 22.04 i get libc6 version mismatch errors. so we run it direct as root. not my favorite, but works for now.
 message "running debootstrap with mirror $MIRROR"
@@ -118,14 +123,6 @@ message "correct file permissions"
 $CHROOTCMD /usr/bin/chmod 440 /etc/sudoers
 
 ### liveboot part, https://www.willhaley.com/blog/custom-debian-live-environment/
-message "checking liveboot directories"
-for dir in $(echo build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live},tmp})
-do
-  message "check $dir"
-  test -d $dir || mkdir -p $dir
-done
-#mkdir -p build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live},tmp}
-
 message "make squashfs"
 test -f build/staging/live/filesystem.squashfs && sudo rm build/staging/live/filesystem.squashfs
 sudo mksquashfs \
