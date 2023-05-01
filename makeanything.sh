@@ -38,6 +38,7 @@ check_requirements () {
 }
 
 ### stuff begins here
+message "Checking build directory"
 test -f build/chroot || mkdir -p build/chroot
 
 ###fakeroot -s build/fakechroot.save fakechroot debootstrap --variant=fakechroot bullseye build/chroot/ http://ftp.de.debian.org/debian
@@ -45,14 +46,17 @@ test -f build/chroot || mkdir -p build/chroot
 
 ### i have the problem, that fakechroot will not work atm. in ubuntu 22.04 i get libc6 version mismatch errors. so we run it direct as root. not my favorite, but works for now.
 
+message "running debootstrap"
 sudo debootstrap bullseye build/chroot/ http://ftp.de.debian.org/debian || sudo debootstrap bullseye build/chroot/ http://ftp.de.debian.org/debian 
+message "deploying install_base"
 cat <<EOF > build/chroot/tmp/install_base.sh
 #!/bin/bash
 echo nanodesk > /etc/hostname
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 apt install -y --no-install-recommends \\
-	linux-image-generic \\
+	live-boot \\
+	linux-image-amd64 \\
 	grub-pc \\
 	ifupdown \\
 	man \\
@@ -89,10 +93,19 @@ echo "Europe/Berlin" > /etc/timezone && \\
     locale-gen en_US.UTF-8 && \\
     update-locale LANG=en_US.UTF-8
 EOF
+message "run install_base"
 $CHROOTCMD /bin/bash /tmp/install_base.sh || error
 
-### prepeare liveboot
-mkdir -p build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live},tmp}
+### liveboot part, https://www.willhaley.com/blog/custom-debian-live-environment/
+message "checking liveboot directories"
+for dir in $(echo build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live},tmp})
+do
+  message "check $dir"
+  test -d $dir || mkdir -p $dir
+done
+#mkdir -p build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live},tmp}
+
+test -f build/staging/live/filesystem.squashfs && sudo rm build/staging/live/filesystem.squashfs
 sudo mksquashfs \
     build/chroot \
     build/staging/live/filesystem.squashfs \
