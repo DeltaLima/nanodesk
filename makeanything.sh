@@ -55,7 +55,7 @@ cat <<EOF > build/chroot/tmp/install_base.sh
 #!/bin/bash
 
 message () {
-  echo "== install_base: " $1
+  echo "== install_base: " "$1"
 }
 
 error () 
