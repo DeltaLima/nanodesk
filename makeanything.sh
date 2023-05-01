@@ -14,10 +14,6 @@ then
   MIRROR="http://ftp.gwdg.de/debian/"
 fi
 
-##message () {
-##  echo "== " $1
-##}
-
 # colors for colored output 8)
 RED="\e[31m"
 GREEN="\e[32m"
@@ -82,16 +78,38 @@ sudo debootstrap bullseye build/chroot/ $MIRROR || sudo debootstrap bullseye bui
 message "copy xdgmenumaker deb file into chroot"
 sudo cp deb/xdgmenumaker* build/chroot/tmp || error
 message "deploying install_base"
-cat <<EOF > build/chroot/tmp/install_base.sh
+cat <<\EOF > build/chroot/tmp/install_base.sh
 #!/bin/bash
 
-message () {
-  echo "== install_base: $@"
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+ENDCOLOR="\e[0m"
+
+function message() {
+     case $1 in
+     error)
+       MESSAGE_TYPE="${RED}ERROR${ENDCOLOR}"
+     ;;
+     info|*)
+       MESSAGE_TYPE="${GREEN}INFO${ENDCOLOR}"
+     ;;
+     esac
+
+     if [ "$1" == "info" ] || [ "$1" == "error" ]
+     then
+       MESSAGE=$2
+     else
+       MESSAGE=$1
+     fi
+
+     echo -e "[${MESSAGE_TYPE}] ${YELLOW}install_base${ENDCOLOR}: $MESSAGE"
 }
+
 
 error () 
 {
-  message "ERROR!!"
+  message error "ERROR!!"
   exit 1
 }
 
@@ -103,43 +121,43 @@ DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 ### packages
 message "install nanodesk base packages"
-apt install -y \\
-	live-boot \\
-	linux-image-amd64 \\
-	grub-pc \\
-	ifupdown \\
-	net-tools \\
-	wireless-tools \\
-	wpagui \\
-	isc-dhcp-client \\
-	man \\
-	console-data \\
-	locales \\
-	sudo \\
-	xserver-xorg \\
-	jwm \\
-	xdm \\
-	xterm \\
-	xfe \\
-	pcmanfm \\
-	audacious \\
-	htop \\
-	host \\
-	mc \\
-	wget \\
-	curl \\
-	less \\
-	rsync \\
-	vim \\
-	links2 \\
-	firefox-esr \\
-	transmission-gtk \\
-	lxterminal \\
-	arandr \\
-	zenity \\
-	ncdu \\
-	gparted \\
-	git \\
+apt install -y \
+	live-boot \
+	linux-image-amd64 \
+	grub-pc \
+	ifupdown \
+	net-tools \
+	wireless-tools \
+	wpagui \
+	isc-dhcp-client \
+	man \
+	console-data \
+	locales \
+	sudo \
+	xserver-xorg \
+	jwm \
+	xdm \
+	xterm \
+	xfe \
+	pcmanfm \
+	audacious \
+	htop \
+	host \
+	mc \
+	wget \
+	curl \
+	less \
+	rsync \
+	vim \
+	links2 \
+	firefox-esr \
+	transmission-gtk \
+	lxterminal \
+	arandr \
+	zenity \
+	ncdu \
+	gparted \
+	git \
 	/tmp/xdgmenumaker*.deb || error
 
 message "set hostname in hosts"
@@ -163,28 +181,30 @@ echo -e "debian\ndebian" | (passwd debian)
 #dpkg-reconfigure keyboard-configuration
 ###https://serverfault.com/a/689947
 message "set locales and tzdata"
-echo "Europe/Berlin" > /etc/timezone && \\
-    dpkg-reconfigure -f noninteractive tzdata && \\
-    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \\
-    echo 'LANG="en_US.UTF-8"'>/etc/default/locale && \\
-    dpkg-reconfigure --frontend=noninteractive locales && \\
-    locale-gen en_US.UTF-8 && \\
+echo "Europe/Berlin" > /etc/timezone && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    echo 'LANG="en_US.UTF-8"'>/etc/default/locale && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    locale-gen en_US.UTF-8 && \
     update-locale LANG=en_US.UTF-8
 
 ### clean cache
 message "apt clean"
 apt clean
 
-KERNEL_VER="$(/usr/bin/dpkg -l "linux-image-*" | grep -E '^ii'| awk '{print $2}' | grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9])-amd64$')"
+KERNEL_VER="$(dpkg -l "linux-image-*" | grep "^ii"| awk '{print $2}' | grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9])-amd64$')"
+message "KERNEL_VER=$KERNEL_VER"
+
 ### but fetch packages for grub and kernel, so we do not need to download them
 ### in case nanodesk get installed to diska
 message "apt --download linux-image and grub packages to have them in cache for installation by user"
-apt -d --reinstall install \\
-	linux-image-amd64 \\
-	$KERNEL_VER \\
-	grub-pc grub-pc-bin \\
-	grub-common \\
-	grub2-common \\
+apt -d --reinstall install \
+	linux-image-amd64 \
+	$(echo $KERNEL_VER) \
+	grub-pc grub-pc-bin \
+	grub-common \
+	grub2-common \
 	os-prober || error
 EOF
 message "run install_base"
