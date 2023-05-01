@@ -160,6 +160,12 @@ $CHROOTCMD /bin/bash /tmp/install_base.sh || error
 message "clear /tmp"
 $CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
 
+### process markdown files in src/ to html
+message "convert .md from src to .html in build/chroot"
+for md in $(find src/ -name "*.md")
+  do markdown $md > $(echo $md|sed 's/\.md/\.html/')
+done
+
 ### copy nanodesk configs to chroot
 message "copy nanodesk config files into chroot"
 sudo cp -r src/* build/chroot/
