@@ -96,7 +96,8 @@ apt install -y --no-install-recommends \\
 ### set root password
 echo -e "debian\ndebian" | (passwd root)
 ### add debian user
-useradd -m -U -s /bin/bash debian
+#useradd -m -U -s /bin/bash debian
+echo -e "debian\ndebian\n\n\n\n\n\n\n" | (adduser -q debian)
 ### set password
 echo -e "debian\ndebian" | (passwd debian)
 ### Configure timezone and locale
