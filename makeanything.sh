@@ -113,7 +113,11 @@ echo "Europe/Berlin" > /etc/timezone && \\
     dpkg-reconfigure --frontend=noninteractive locales && \\
     locale-gen en_US.UTF-8 && \\
     update-locale LANG=en_US.UTF-8
+### clean cache
 apt clean
+### but fetch packages for grub and kernel, so we do not need to download them
+### in case nanodesk get installed to disk
+apt -d --reinstall install linux-image-amd64 linux-image-5.10.0-22-amd64 grub-pc grub-pc-bin
 EOF
 message "run install_base"
 $CHROOTCMD /bin/bash /tmp/install_base.sh || error
