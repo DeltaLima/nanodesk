@@ -98,7 +98,8 @@ KERNEL_VER="$($CHROOTCMD /usr/bin/dpkg -l "linux-image-*" |
             awk '{print $2}' | 
             grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9]).*-amd64$')"
 message "using Kernel $KERNEL_VER"
-sed "s/%KERNEL_VER%/${KERNEL_VER}/g" templates/nanodesk-installer.tpl.sh > build/chroot/root/nanodesk-installer.sh
+sudo sed "s/%KERNEL_VER%/${KERNEL_VER}/g" templates/nanodesk-installer.tpl.sh > build/tmp/nanodesk-installer.sh
+sudo cp build/tmp/nanodesk-installer.sh build/chroot/root/nanodesk-installer.sh
 sudo chmod +x build/chroot/root/nanodesk-installer.sh
 
 message "convert rootdir/usr/share/nanodesk/firstlogin/*.md to .html"
