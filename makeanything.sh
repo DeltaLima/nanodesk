@@ -6,6 +6,12 @@
 ### 2023
 
 CHROOTCMD="sudo chroot build/chroot/"
+MIRROR=$1
+
+if [ -z "$MIRROR" ]
+then
+  MIRROR="http://ftp.gwdg.de/debian/"
+fi
 
 message () {
   echo "== " $1
@@ -40,7 +46,7 @@ test -f build/chroot || mkdir -p build/chroot
 
 ### i have the problem, that fakechroot will not work atm. in ubuntu 22.04 i get libc6 version mismatch errors. so we run it direct as root. not my favorite, but works for now.
 message "running debootstrap"
-sudo debootstrap bullseye build/chroot/  http://mirror.ipb.de/debian/ || sudo debootstrap bullseye build/chroot/ http://mirror.ipb.de/debian/
+sudo debootstrap bullseye build/chroot/ $MIRROR || sudo debootstrap bullseye build/chroot/ $MIRROR
 
 message "copy xdgmenumaker deb file into chroot"
 sudo cp deb/xdgmenumaker* build/chroot/tmp
