@@ -65,6 +65,7 @@ apt install -y --no-install-recommends \\
 	man \\
 	console-data \\
 	locales \\
+	sudo \\
 	xserver-xorg \\
 	jwm \\
 	xdm \\
@@ -88,7 +89,7 @@ apt install -y --no-install-recommends \\
 	/tmp/xdgmenumaker*.deb
 
 echo -e "debian\ndebian" | (passwd root)
-useradd -m -s /bin/bash debian
+useradd -m -U -s /bin/bash debian
 echo -e "debian\ndebian" | (passwd debian)
 ### Configure timezone and locale
 #dpkg-reconfigure locales
@@ -109,6 +110,9 @@ $CHROOTCMD /bin/bash /tmp/install_base.sh || error
 ### copy nanodesk configs to chroot
 message "copy nanodesk config files into chroot"
 sudo cp -r src/* build/chroot/
+
+message "correct file permissions"
+$CHROOTCMD /usr/bin/chmod 440 /etc/sudoers
 
 ### liveboot part, https://www.willhaley.com/blog/custom-debian-live-environment/
 message "checking liveboot directories"
