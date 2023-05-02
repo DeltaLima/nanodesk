@@ -134,8 +134,8 @@ sudo mksquashfs \
     -e boot || error
 
 message "copy kernel and initrd images"
-cp build/chroot/boot/vmlinuz-* build/staging/live/vmlinuz || error
-cp build/chroot/boot/initrd.img-* build/staging/live/initrd || error
+cp build/chroot/boot/vmlinuz-$(echo $KERNEL_VER|sed 's/linux-image-//g') build/staging/live/vmlinuz || error
+cp build/chroot/boot/initrd.img-$(echo $KERNEL_VER|sed 's/linux-image-//g') build/staging/live/initrd || error
 
 message "generate isolinux.cfg"
 sed "s/%VERSION%/${VERSION}/g" templates/isolinux.tpl.cfg > build/staging/isolinux/isolinux.cfg
