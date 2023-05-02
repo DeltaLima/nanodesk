@@ -6,7 +6,7 @@
 ### 2023
 
 CHROOTCMD="sudo chroot build/chroot/"
-VERSION="$(git describe --tags)" #-$(git rev-parse --short HEAD)"
+test -n "$VERSION" || VERSION="$(git describe --tags)" #-$(git rev-parse --short HEAD)"
 
 MIRROR=$1
 if [ -z "$MIRROR" ]
@@ -50,8 +50,6 @@ error ()
 }
 
 message "installing requirements"
-# ~fakeroot fakechroot~
-# debootstrap chroot 
 ### https://www.willhaley.com/blog/custom-debian-live-environment/
 sudo apt install \
   debootstrap \
@@ -131,6 +129,7 @@ test -f build/staging/live/filesystem.squashfs && sudo rm build/staging/live/fil
 sudo mksquashfs \
     build/chroot \
     build/staging/live/filesystem.squashfs \
+    -comp xz \
     -e boot || error
 
 message "copy kernel and initrd images"

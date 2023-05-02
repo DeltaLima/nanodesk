@@ -1,2 +1,3 @@
 apt install -y \
-audacious 
+	transmission \
+	audacious 

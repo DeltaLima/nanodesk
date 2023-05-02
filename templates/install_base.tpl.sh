@@ -50,26 +50,28 @@ apt update || error
 
 ### packages
 message "install nanodesk base packages"
-apt install -y \
+apt install -y  \
 	live-boot \
+	dialog \
+	sudo \
+	console-data \
+	locales \
+	man \
 	grub-pc \
 	ifupdown \
 	net-tools \
+	isc-dhcp-client \
+	host \
 	wireless-tools \
 	wpagui \
-	isc-dhcp-client \
-	man \
-	console-data \
-	locales \
-	sudo \
 	xserver-xorg \
-	jwm \
-	xdm \
+	xscreensaver \
+	xfonts-75dpi \
+	xfonts-100dpi \
 	xterm \
+	xdm \
+	jwm \
 	xfe \
-	pcmanfm \
-	htop \
-	host \
 	mc \
 	wget \
 	curl \
@@ -77,14 +79,15 @@ apt install -y \
 	rsync \
 	vim \
 	links2 \
-	firefox-esr \
-	transmission-gtk \
-	lxterminal \
-	arandr \
-	zenity \
 	ncdu \
-	gparted \
+	htop \
 	git \
+	gxmessage \
+	arandr \
+	lxterminal \
+	gparted \
+	firefox-esr \
+	pcmanfm \
 	/tmp/xdgmenumaker*.deb || error
 
 ######
