@@ -22,7 +22,7 @@
 	   gxmessage "Reboot?" -title "Reboot?" -center -buttons Yes:0,No:1 -default No -font "bold 14"  && systemctl reboot
 	</Program>
 	<Program label="Shutdown" icon="/usr/share/icons/Adwaita/scalable/emblems/emblem-system-symbolic.svg">
-	   gxmessage "Shutdown?" -title "Shutdown?" -center -buttons Yes:0,No:1 -default No -font "bold 14" && systemctl reboot
+	   gxmessage "Shutdown?" -title "Shutdown?" -center -buttons Yes:0,No:1 -default No -font "bold 14" && systemctl poweroff
 	</Program>
 
     </RootMenu>
