@@ -5,6 +5,8 @@
     <RootMenu onroot="12">
 	    <!--        <Include>/etc/jwm/debian-menu</Include> -->
 	<Include>exec: xdgmenumaker -n -i -f jwm</Include>
+	<Separator/>
+	<Program icon="/usr/share/icons/Adwaita/scalable/apps/preferences-system-network-symbolic.svg" label="Network settings">connman-gtk</TrayButton>
 	<Program icon="/usr/share/icons/Adwaita/scalable/devices/video-display-symbolic.svg" label="Display settings">arandr</TrayButton>
         <Separator/>
         <Program icon="lock.png" label="Lock">
@@ -20,7 +22,7 @@
 	   gxmessage "Reboot?" -title "Reboot?" -center -buttons Yes:0,No:1 -default No -font "bold 14"  && systemctl reboot
 	</Program>
 	<Program label="Shutdown" icon="/usr/share/icons/Adwaita/scalable/emblems/emblem-system-symbolic.svg">
-	   gxmessage "Shutdown?"-title "Shutdown?" -center -buttons Yes:0,No:1 -default No -font "bold 14" && systemctl reboot
+	   gxmessage "Shutdown?" -title "Shutdown?" -center -buttons Yes:0,No:1 -default No -font "bold 14" && systemctl reboot
 	</Program>
 
     </RootMenu>
@@ -240,5 +242,6 @@
     <StartupCommand>$(find ~/.screenlayout/ -type f -executable|head -n 1)</StartupCommand>
     <StartupCommand>xscreensaver -no-splash</StartupCommand>
     <StartupCommand>gxmessage -center -file /usr/share/nanodesk/firstlogin/welcome.md -title "Welcome to nanodesk"</StartupCommand>
+    <StartupCommand>connman-ui-gtk</StartupCommand>
 
 </JWM>
