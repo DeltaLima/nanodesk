@@ -159,7 +159,7 @@ message "KERNEL_VER=${YELLOW}${KERNEL_VER}${ENDCOLOR}"
 message "apt --download linux-image and grub packages to have them in cache for installation by user"
 apt -d --reinstall install \
 	linux-image-amd64 \
-	$KERNEL_VER \
+	linux-image-$KERNEL_VER \
 	grub-pc grub-pc-bin \
 	grub-common \
 	grub2-common \
