@@ -91,8 +91,8 @@ fi
 
 message "              ----==== nanodesk Installer ====----"
 message "Make sure you have a linux compatible filesystem at $target"
-message "!! The installer immediately begins to write things to disk !!"
-message "!! The installer only works reliable with legacy BIOS boot  !!"
+message warn "!! The installer immediately begins to write things to disk !!"
+message warn "!! The installer only works reliable with legacy BIOS boot  !!"
 message
 message "I will mount $target to /mnt/. I try to install grub to ${target::-1}"
 message
