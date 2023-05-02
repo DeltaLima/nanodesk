@@ -122,7 +122,7 @@ message "create tmp script for reinstalling grub and kernel"
 cat <<\EOF > /mnt/tmp/reinstall_kernel.sh
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
-KERNEL_VER="$(ls -1 /boot/|grep "vmlinuz-"|sed 's/vmlinuz-//'|sort -g|head -n +1)"
+KERNEL_VER="$(uname -r)"
 #/usr/bin/apt --yes purge 'linux-image-*' 'grub-*'
 /usr/bin/apt --yes --reinstall install \
         linux-image-amd64 \
