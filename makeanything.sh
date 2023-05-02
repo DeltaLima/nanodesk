@@ -108,11 +108,6 @@ sudo sed "s/%KERNEL_VER%/${KERNEL_VER}/g" templates/nanodesk-installer.tpl.sh > 
 sudo cp build/tmp/nanodesk-installer.sh build/chroot/root/nanodesk-installer.sh
 sudo chmod +x build/chroot/root/nanodesk-installer.sh
 
-message "convert rootdir/usr/share/nanodesk/firstlogin/*.md to .html"
-for md in $(find rootdir/ -name "*.md")
-  do markdown $md > $(echo $md|sed 's/\.md/\.html/')
-done
-
 message "write nanodesk version $VERSION into rootdir/usr/share/nanodesk/version"
 echo $VERSION > rootdir/usr/share/nanodesk/version
 
