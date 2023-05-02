@@ -156,7 +156,7 @@ message "KERNEL_VER=${YELLOW}${KERNEL_VER}${ENDCOLOR}"
 
 ### but fetch packages for grub and kernel, so we do not need to download them
 ### in case nanodesk get installed to diska
-message "apt --download linux-image and grub packages to have them in cache for installation by user"
+message "apt --download linux-image and grub packages to have them in cache for nanodesk-installer.sh offline installation"
 apt -d --reinstall install \
 	linux-image-amd64 \
 	linux-image-$KERNEL_VER \
