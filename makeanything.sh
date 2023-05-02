@@ -97,17 +97,6 @@ $CHROOTCMD /bin/bash /tmp/install_base.sh || error
 message "clear /tmp"
 $CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
 
-message "writing nanodesk-installer.sh into /root"
-#first get the installed kernel version
-KERNEL_VER="$($CHROOTCMD /usr/bin/dpkg -l "linux-image-*" | 
-            grep "^ii"| 
-            awk '{print $2}' | 
-            grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9]).*-amd64$')"
-message "using Kernel ${YELLOW}${KERNEL_VER}${ENDCOLOR}"
-sudo sed "s/%KERNEL_VER%/${KERNEL_VER}/g" templates/nanodesk-installer.tpl.sh > build/tmp/nanodesk-installer.sh
-sudo cp build/tmp/nanodesk-installer.sh build/chroot/root/nanodesk-installer.sh
-sudo chmod +x build/chroot/root/nanodesk-installer.sh
-
 message "write nanodesk version $VERSION into rootdir/usr/share/nanodesk/version"
 echo $VERSION > rootdir/usr/share/nanodesk/version
 
@@ -117,6 +106,7 @@ sudo cp -r rootdir/* build/chroot/
 
 message "correct file permissions"
 $CHROOTCMD /usr/bin/chmod 440 /etc/sudoers
+$CHROOTCMD /usr/bin/chmod 755 /root/nanodesk-installer.sh
 
 ### liveboot part, https://www.willhaley.com/blog/custom-debian-live-environment/
 message "make squashfs"
@@ -127,9 +117,10 @@ sudo mksquashfs \
     -comp xz \
     -e boot || error
 
+
 message "copy kernel and initrd images"
-cp build/chroot/boot/vmlinuz-$(echo $KERNEL_VER|sed 's/linux-image-//g') build/staging/live/vmlinuz || error
-cp build/chroot/boot/initrd.img-$(echo $KERNEL_VER|sed 's/linux-image-//g') build/staging/live/initrd || error
+cp build/chroot/boot/vmlinuz-* build/staging/live/vmlinuz || error
+cp build/chroot/boot/initrd.img-* build/staging/live/initrd || error
 
 message "generate isolinux.cfg"
 sed "s/%VERSION%/${VERSION}/g" templates/isolinux.tpl.cfg > build/staging/isolinux/isolinux.cfg
