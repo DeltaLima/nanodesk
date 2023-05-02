@@ -105,8 +105,8 @@ message "copy nanodesk config files into chroot"
 sudo cp -r rootdir/* build/chroot/
 
 message "correct file permissions"
-$CHROOTCMD /usr/bin/chmod 440 /etc/sudoers
-$CHROOTCMD /usr/bin/chmod 755 /root/nanodesk-installer.sh
+$CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error
+$CHROOTCMD /usr/bin/chmod 755 /root/nanodesk-installer.sh || error
 
 ### liveboot part, https://www.willhaley.com/blog/custom-debian-live-environment/
 message "make squashfs"

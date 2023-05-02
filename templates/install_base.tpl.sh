@@ -150,11 +150,7 @@ echo "Europe/Berlin" > /etc/timezone && \
 message "apt clean"
 apt clean
 
-KERNEL_VER="$(dpkg -l "linux-image-*" | 
-            grep "^ii"| 
-            awk '{print $2}' | 
-            grep -E 'linux-image-[0-9]\.([0-9]|[0-9][0-9])\.([0-9]|[0-9][0-9])-([0-9]|[0-9][0-9]).*-amd64$')"
-            
+KERNEL_VER="$(ls -1 /boot/|grep "vmlinuz-"|sed 's/vmlinuz-//'|sort -g|head -n +1)" 
 test -n "$KERNEL_VER" || error
 message "KERNEL_VER=${YELLOW}${KERNEL_VER}${ENDCOLOR}"
 
@@ -163,7 +159,7 @@ message "KERNEL_VER=${YELLOW}${KERNEL_VER}${ENDCOLOR}"
 message "apt --download linux-image and grub packages to have them in cache for installation by user"
 apt -d --reinstall install \
 	linux-image-amd64 \
-	$(echo $KERNEL_VER) \
+	$KERNEL_VER \
 	grub-pc grub-pc-bin \
 	grub-common \
 	grub2-common \
