@@ -13,10 +13,6 @@ My goal is to have a (live) system which is very lightweight and still usable to
 This is for a VM where you need a basic graphical environment or for an old computer
 with less resources.
 
-# Index
-- (Screenshots)[#screenshots]
-- (Build it your own!)[#build-it-your-own]
-- (customize nanodesk)[#customize-nanodesk]
 
 ## Screenshots
 
