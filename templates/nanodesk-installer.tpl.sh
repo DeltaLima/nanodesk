@@ -33,7 +33,7 @@ function message() {
      ;;
      esac
 
-     if [ "$1" == "info" ] || [ "$1" == "error" ]
+     if [ "$1" == "info" ] || [ "$1" == "warn" ] ||  [ "$1" == "error" ]
      then
        MESSAGE=$2
      else
