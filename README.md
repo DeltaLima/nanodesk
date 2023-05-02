@@ -14,9 +14,9 @@ This is for a VM where you need a basic graphical environment or for an old comp
 with less resources.
 
 # Index
-- [#screenshots]
-- [build-it-your-own]
-- [customize-nanodesk]
+- (Screenshots)[#screenshots]
+- (Build it your own!)[#build-it-your-own]
+- (customize nanodesk)[#customize-nanodesk]
 
 ## Screenshots
 
