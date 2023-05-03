@@ -55,6 +55,7 @@ apt update || error
 message "install nanodesk base packages"
 apt install -y  \
 	linux-image-amd64 \
+	firmware-linux \
 	live-boot \
 	dialog \
 	sudo \
