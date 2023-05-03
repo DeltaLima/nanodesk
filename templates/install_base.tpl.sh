@@ -70,6 +70,7 @@ apt install -y  \
 	xscreensaver \
 	xfonts-75dpi \
 	xfonts-100dpi \
+	x11-apps \
 	xterm \
 	xdm \
 	jwm \
@@ -85,6 +86,7 @@ apt install -y  \
 	htop \
 	git \
 	gxmessage \
+	gsimplecal \
 	arandr \
 	lxterminal \
 	gparted \
