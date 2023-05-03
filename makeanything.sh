@@ -87,7 +87,7 @@ DEBOOTSTRAP_SUITE="bookworm"
 DEBOOTSTRAP_OPTS="--extra-suites=${DEBOOTSTRAP_SUITE}-updates --components=main,contrib,non-free,non-free-firmware"
 
 message "running debootstrap $DEBOOTSTRAP_OPTS $DEBOOTSTRAP_SUITE $MIRROR"
-sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR || sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR
+sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR || sudo debootstrap ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR
 
 message "copy xdgmenumaker deb file into chroot"
 sudo cp deb/xdgmenumaker* build/chroot/tmp || error

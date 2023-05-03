@@ -56,7 +56,7 @@
 	<Spacer width="2"/>
 	<TrayButton popup="Firefox" icon="/usr/share/icons/hicolor/32x32/apps/firefox-esr.png">exec:firefox</TrayButton>
 	<Spacer width="2"/>
-	<TrayButton popup="PCManFM" icon="/usr/share/icons/Adwaita/scalable/legacy/system-file-manager-symbolic.png">exec:pcmanfm</TrayButton>
+	<TrayButton popup="PCManFM" icon="/usr/share/icons/Adwaita/scalable/legacy/system-file-manager-symbolic.svg">exec:pcmanfm</TrayButton>
 	<Spacer width="2"/>
 
 
