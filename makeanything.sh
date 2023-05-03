@@ -63,7 +63,7 @@ sudo apt install \
   mtools \
   dosfstools \
   coreutils \
-  markdown || error
+  pandoc || error
 
 message "start building nanodesk ${YELLOW}${VERSION}${ENDCOLOR}"
 
@@ -72,7 +72,7 @@ read -p "press [enter] to continue"
 ### stuff begins here
 
 message "creating build directories"
-for dir in $(echo build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live},tmp,chroot})
+for dir in $(echo build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live}tmp,chroot,nanodesk-files})
 do
   message "$dir"
   test -d $dir || mkdir -p $dir
@@ -97,12 +97,22 @@ $CHROOTCMD /bin/bash /tmp/install_base.sh || error
 message "clear /tmp"
 $CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
 
-message "write nanodesk version $VERSION into rootdir/usr/share/nanodesk/version"
-echo $VERSION > rootdir/usr/share/nanodesk/version
 
-### copy nanodesk configs to chroot
-message "copy nanodesk config files into chroot"
-sudo cp -r rootdir/* build/chroot/
+### copy nanodesk files in nanodesk-files/ to build/nanodesk-files/ so we can make changes there,
+### like generate version file and convert .md to .html in usr/share/docs/nanodesk
+message "copy nanodesk-files/ to build/nanodesk-files/"
+sudo cp -r nanodesk-files/* build/nanodesk-files/
+
+message "write nanodesk version $VERSION into build/nanodesk-files/usr/share/nanodesk/version"
+echo $VERSION > nanodesk-files/usr/share/nanodesk/version
+
+message "convert .md files in build/nanodesk-files/usr/doc/nanodesk/ to .html"
+for md in $(find build/nanodesk-files/usr/share/doc/nanodesk/ -name "*.md")
+  do pandoc --self-contained --css=pandoc/pandoc.css -M pagetitle:$(basename $md|sed 's/\.md//') -s $md -o $(echo $md | sed 's/\.md/\.html/')
+done
+
+message "copy build/nanodesk-files/ to build/chroot/"
+sudo cp -r build/nanodesk-files/* build/chroot/
 
 message "correct file permissions"
 $CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error

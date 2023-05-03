@@ -92,6 +92,7 @@ apt install -y  \
 	arandr \
 	lxterminal \
 	gparted \
+	dillo \
 	firefox-esr \
 	pcmanfm \
 	/tmp/xdgmenumaker*.deb || error

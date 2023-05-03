@@ -50,7 +50,7 @@ error () {
 
 finish () {
   message "removing firststart dialoge from jwm config"
-  $CHROOTCMD /usr/bin/sed -i '/firstlogin\/welcome/d' /etc/jwm/system.jwmrc || error
+  $CHROOTCMD /usr/bin/sed -i '/doc\/nanodesk\/welcome\/welcome\.html/d' /etc/jwm/system.jwmrc || error
 
   message "removing installer files from target"
   $CHROOTCMD /usr/bin/rm -Rf /root/nanodesk-installer.sh || error
