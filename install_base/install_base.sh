@@ -137,16 +137,16 @@ echo "Europe/Berlin" > /etc/timezone && \
 ####
 ##
 ## customization can be done here
-##  the placeholder within '%%' gets 
-####  filled by makeanything.sh
+##  
+####  
 ######
 
 message "run custom steps from /tmp/install_base.customsteps.tpl.sh"
 . /tmp/install_base.customsteps.sh
 
 ######
-#### it's a simple sudo 
-## command
+#### 
+## 
 ##  / customization End /
 ##
 ####
