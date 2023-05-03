@@ -240,5 +240,6 @@
     <StartupCommand>xscreensaver -no-splash</StartupCommand>
     <StartupCommand>gxmessage -center -file /usr/share/nanodesk/firstlogin/welcome.md -title "Welcome to nanodesk"</StartupCommand>
     <StartupCommand>connman-ui-gtk</StartupCommand>
+    <StartupCommand>volumeicon</StartupCommand>
 
 </JWM>

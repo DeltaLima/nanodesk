@@ -87,6 +87,8 @@ apt install -y  \
 	git \
 	gxmessage \
 	gsimplecal \
+	alsa-utils \
+	volumeicon-alsa \
 	arandr \
 	lxterminal \
 	gparted \
