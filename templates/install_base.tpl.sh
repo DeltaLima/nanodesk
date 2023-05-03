@@ -39,11 +39,11 @@ echo nanodesk > /etc/hostname
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 
-message "activate contrib and non-free repositories"
-sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list || error
-
-message "activate backports repository"
-sed 's/bullseye/bullseye-backports/g' /etc/apt/sources.list > /etc/apt/sources.list.d/bullseye-backports.list || error
+##message "activate contrib and non-free repositories"
+##sed -i 's/main$/main contrib non-free/g' /etc/apt/sources.list || error
+##
+##message "activate backports repository"
+##sed 's/bullseye/bullseye-backports/g' /etc/apt/sources.list > /etc/apt/sources.list.d/bullseye-backports.list || error
 
 message "apt update"
 apt update || error
@@ -51,6 +51,7 @@ apt update || error
 ### packages
 message "install nanodesk base packages"
 apt install -y  \
+	linux-image-amd64 \
 	live-boot \
 	dialog \
 	sudo \
@@ -71,6 +72,7 @@ apt install -y  \
 	xfonts-75dpi \
 	xfonts-100dpi \
 	x11-apps \
+	x11-utils \
 	xterm \
 	xdm \
 	jwm \
@@ -116,10 +118,8 @@ message "install custom packages from templates/install_base.custompkg.tpl.sh"
 ####
 ######
 
-
-
-message "install linux-kernel from backports"
-apt install -t bullseye-backports -y linux-image-amd64
+#message "install linux-kernel from backports"
+#apt install -t bullseye-backports -y linux-image-amd64
 
 message "set hostname in hosts"
 sed -i 's/localhost/localhost nanodesk/g' /etc/hosts

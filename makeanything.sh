@@ -65,6 +65,8 @@ sudo apt install \
   coreutils \
   pandoc || error
 
+
+
 message "start building nanodesk ${YELLOW}${VERSION}${ENDCOLOR}"
 
 read -p "press [enter] to continue"
@@ -72,15 +74,20 @@ read -p "press [enter] to continue"
 ### stuff begins here
 
 message "creating build directories"
-for dir in $(echo build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live}tmp,chroot,nanodesk-files})
+for dir in $(echo build/{staging/{EFI/BOOT,boot/grub/x86_64-efi,isolinux,live},tmp,chroot,nanodesk-files})
 do
   message "$dir"
   test -d $dir || mkdir -p $dir
 done
 
 ### i have the problem, that fakechroot will not work atm. in ubuntu 22.04 i get libc6 version mismatch errors. so we run it direct as root. not my favorite, but works for now.
-message "running debootstrap with mirror $MIRROR"
-sudo debootstrap bullseye build/chroot/ $MIRROR || sudo debootstrap bullseye build/chroot/ $MIRROR 
+#DEBOOTSTRAP_SUITE="bullseye"
+#DEBOOTSTRAP_OPTS="--extra-suites=bullseye-backports,bullseye-updates --components=main,contrib,non-free"
+DEBOOTSTRAP_SUITE="bookworm"
+DEBOOTSTRAP_OPTS="--extra-suites=${DEBOOTSTRAP_SUITE}-updates --components=main,contrib,non-free,non-free-firmware"
+
+message "running debootstrap $DEBOOTSTRAP_OPTS $DEBOOTSTRAP_SUITE $MIRROR"
+sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR || sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR
 
 message "copy xdgmenumaker deb file into chroot"
 sudo cp deb/xdgmenumaker* build/chroot/tmp || error
@@ -101,10 +108,10 @@ $CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
 ### copy nanodesk files in nanodesk-files/ to build/nanodesk-files/ so we can make changes there,
 ### like generate version file and convert .md to .html in usr/share/docs/nanodesk
 message "copy nanodesk-files/ to build/nanodesk-files/"
-sudo cp -r nanodesk-files/* build/nanodesk-files/
+cp -r nanodesk-files/* build/nanodesk-files/
 
 message "write nanodesk version $VERSION into build/nanodesk-files/usr/share/nanodesk/version"
-echo $VERSION > nanodesk-files/usr/share/nanodesk/version
+echo $VERSION > build/nanodesk-files/usr/share/nanodesk/version
 
 message "convert .md files in build/nanodesk-files/usr/doc/nanodesk/ to .html"
 for md in $(find build/nanodesk-files/usr/share/doc/nanodesk/ -name "*.md")
