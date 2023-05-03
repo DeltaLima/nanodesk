@@ -115,7 +115,7 @@ message "copy build/nanodesk-files/ to build/chroot/"
 sudo cp -r build/nanodesk-files/* build/chroot/
 
 message "generate icon path list for jwm config"
-find build/chroot/usr/share/icons/ -type d > build/tmp/jwm.iconlist
+find build/chroot/usr/share/icons/ -type d | sed 's/build\/chroot//g' > build/tmp/jwm.iconlist
 sed -i -e 's/^/\ \ \ \ <IconPath>/g' -e 's/$/<\/IconPath>/g' build/tmp/jwm.iconlist
 sudo cp build/tmp/jwm.iconlist build/chroot/tmp/ || error
 
