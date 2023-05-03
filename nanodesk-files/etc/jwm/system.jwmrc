@@ -185,6 +185,9 @@
         /usr/local/share/jwm
     </IconPath>
 
+    <!-- GENERATED ICONLIST -->
+
+
     <!-- Virtual Desktops -->
     <!-- Desktop tags can be contained within Desktops for desktop names. -->
     <Desktops width="4" height="1">

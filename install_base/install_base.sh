@@ -35,6 +35,9 @@ error ()
 ### hostname setting
 echo nanodesk > /etc/hostname
 
+message "set hostname in hosts"
+sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
+
 ### noninteractive
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
@@ -48,7 +51,7 @@ export DEBIAN_FRONTEND
 message "apt update"
 apt update || error
 
-### packages
+### install base packages
 message "install nanodesk base packages"
 apt install -y  \
 	linux-image-amd64 \
@@ -98,30 +101,10 @@ apt install -y  \
 	pcmanfm \
 	/tmp/xdgmenumaker*.deb || error
 
-######
-####
-##
-## customization can be done here
-##  the placeholder within '%%' gets 
-####  filled by makeanything.sh
-######
-
-message "install custom packages from templates/install_base.custompkg.tpl.sh"
-. /tmp/install_base.custompkg.tpl.sh
-
-######
-#### it's a simple sudo 
-## command
-##  / customization End /
-##
-####
-######
 
 #message "install linux-kernel from backports"
 #apt install -t bullseye-backports -y linux-image-amd64
 
-message "set hostname in hosts"
-sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
 
 ### set root password
 message "set root password to 'debian'"
@@ -149,6 +132,32 @@ echo "Europe/Berlin" > /etc/timezone && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     locale-gen en_US.UTF-8 && \
     update-locale LANG=en_US.UTF-8
+
+######
+####
+##
+## customization can be done here
+##  the placeholder within '%%' gets 
+####  filled by makeanything.sh
+######
+
+message "run custom steps from /tmp/install_base.customsteps.tpl.sh"
+. /tmp/install_base.customsteps.sh
+
+######
+#### it's a simple sudo 
+## command
+##  / customization End /
+##
+####
+######
+
+
+message "generate icon path list for jwm config"
+find /usr/share/icons/ -type d > /tmp/jwm.iconlist
+sed -i -e 's/^/<IconPath>/g' -e 's/$/<\/IconPath>/g' /tmp/jwm.iconlist
+#message "putting generated icon path list to /etc/jwm/system.jwmrc"
+#sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.jwmrc
 
 ### clean cache
 message "apt clean"

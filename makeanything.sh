@@ -89,17 +89,14 @@ sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR 
 message "copy xdgmenumaker deb file into chroot"
 sudo cp deb/xdgmenumaker* build/chroot/tmp || error
 
-message "generate template/install_base.sh to build/chroot/tmp/install_base.sh"
-sudo cp templates/install_base.tpl.sh build/chroot/tmp/install_base.sh || error
-sudo cp templates/install_base.custompkg.tpl.sh build/chroot/tmp/ || error
+message "copy install_base scripts to build/chroot/tmp/"
+sudo cp install_base/* build/chroot/tmp/ || error
 
 
+#### install_base
 message "run install_base.sh"
 $CHROOTCMD /bin/bash /tmp/install_base.sh || error
-
-message "clear /tmp"
-$CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
-
+####
 
 ### copy nanodesk files in nanodesk-files/ to build/nanodesk-files/ so we can make changes there,
 ### like generate version file and convert .md to .html in usr/share/docs/nanodesk
@@ -117,9 +114,15 @@ done
 message "copy build/nanodesk-files/ to build/chroot/"
 sudo cp -r build/nanodesk-files/* build/chroot/
 
+message "putting generated icon path list to /etc/jwm/system.jwmrc"
+$CHROOTCMD sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.jwmrc
+
 message "correct file permissions"
 $CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error
 $CHROOTCMD /usr/bin/chmod 755 /root/nanodesk-installer.sh || error
+
+message "clear /tmp"
+$CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
 
 ### liveboot part, https://www.willhaley.com/blog/custom-debian-live-environment/
 message "make squashfs"
