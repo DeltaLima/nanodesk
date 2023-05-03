@@ -33,7 +33,7 @@ function message() {
      ;;
      esac
 
-     if [ "$1" == "info" ] || [ "$1" == "error" ]
+     if [ "$1" == "info" ] || [ "$1" == "warn" ] || [ "$1" == "error" ]
      then
        MESSAGE=$2
      else
@@ -84,10 +84,11 @@ done
 #DEBOOTSTRAP_SUITE="bullseye"
 #DEBOOTSTRAP_OPTS="--extra-suites=bullseye-backports,bullseye-updates --components=main,contrib,non-free"
 DEBOOTSTRAP_SUITE="bookworm"
-DEBOOTSTRAP_OPTS="--extra-suites=${DEBOOTSTRAP_SUITE}-updates --components=main,contrib,non-free,non-free-firmware"
+#DEBOOTSTRAP_OPTS="--extra-suites=${DEBOOTSTRAP_SUITE}-updates --components=main,contrib,non-free,non-free-firmware"
+DEBOOTSTRAP_OPTS="--components=main,contrib,non-free,non-free-firmware"
 
 message "running debootstrap $DEBOOTSTRAP_OPTS $DEBOOTSTRAP_SUITE $MIRROR"
-sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR || sudo debootstrap ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR
+sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR || message warn "debootstrap exited with code $?"
 
 message "copy xdgmenumaker deb file into chroot"
 sudo cp deb/xdgmenumaker* build/chroot/tmp || error

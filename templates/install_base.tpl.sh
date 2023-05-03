@@ -66,7 +66,6 @@ apt install -y  \
 	wireless-tools \
 	wpagui \
 	connman-gtk \
-	connman-ui \
 	xserver-xorg \
 	xscreensaver \
 	xfonts-75dpi \
