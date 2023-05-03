@@ -5,6 +5,9 @@
 ### By: DeltaLima
 ### 2023
 
+### include config
+. conf/makeanything.conf
+
 CHROOTCMD="sudo chroot build/chroot/"
 test -n "$VERSION" || VERSION="$(git describe --tags)" #-$(git rev-parse --short HEAD)"
 
@@ -80,13 +83,6 @@ do
   test -d $dir || mkdir -p $dir
 done
 
-### i have the problem, that fakechroot will not work atm. in ubuntu 22.04 i get libc6 version mismatch errors. so we run it direct as root. not my favorite, but works for now.
-#DEBOOTSTRAP_SUITE="bullseye"
-#DEBOOTSTRAP_OPTS="--extra-suites=bullseye-backports,bullseye-updates --components=main,contrib,non-free"
-DEBOOTSTRAP_SUITE="bookworm"
-#DEBOOTSTRAP_OPTS="--extra-suites=${DEBOOTSTRAP_SUITE}-updates --components=main,contrib,non-free,non-free-firmware"
-DEBOOTSTRAP_OPTS="--components=main,contrib,non-free,non-free-firmware"
-
 message "running debootstrap $DEBOOTSTRAP_OPTS $DEBOOTSTRAP_SUITE $MIRROR"
 sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR || message warn "debootstrap exited with code $?"
 
@@ -96,7 +92,6 @@ sudo cp deb/xdgmenumaker* build/chroot/tmp || error
 message "generate template/install_base.sh to build/chroot/tmp/install_base.sh"
 sudo cp templates/install_base.tpl.sh build/chroot/tmp/install_base.sh || error
 sudo cp templates/install_base.custompkg.tpl.sh build/chroot/tmp/ || error
-
 
 
 message "run install_base.sh"
