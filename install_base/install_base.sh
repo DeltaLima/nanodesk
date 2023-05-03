@@ -152,13 +152,6 @@ message "run custom steps from /tmp/install_base.customsteps.tpl.sh"
 ####
 ######
 
-
-message "generate icon path list for jwm config"
-find /usr/share/icons/ -type d > /tmp/jwm.iconlist
-sed -i -e 's/^/<IconPath>/g' -e 's/$/<\/IconPath>/g' /tmp/jwm.iconlist
-#message "putting generated icon path list to /etc/jwm/system.jwmrc"
-#sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.jwmrc
-
 ### clean cache
 message "apt clean"
 apt clean

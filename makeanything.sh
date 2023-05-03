@@ -6,7 +6,7 @@
 ### 2023
 
 ### include config
-. conf/makeanything.conf
+. makeanything.conf
 
 CHROOTCMD="sudo chroot build/chroot/"
 test -n "$VERSION" || VERSION="$(git describe --tags)" #-$(git rev-parse --short HEAD)"
@@ -114,8 +114,13 @@ done
 message "copy build/nanodesk-files/ to build/chroot/"
 sudo cp -r build/nanodesk-files/* build/chroot/
 
+message "generate icon path list for jwm config"
+find build/chroot/usr/share/icons/ -type d > build/tmp/jwm.iconlist
+sed -i -e 's/^/\ \ \ \ <IconPath>/g' -e 's/$/<\/IconPath>/g' build/tmp/jwm.iconlist
+sudo cp build/tmp/jwm.iconlist build/chroot/tmp/ || error
+
 message "putting generated icon path list to /etc/jwm/system.jwmrc"
-$CHROOTCMD sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.jwmrc
+$CHROOTCMD sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.jwmrc || error
 
 message "correct file permissions"
 $CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error
