@@ -61,7 +61,7 @@ apt install -y  \
 	firmware-realtek firmware-netxen firmware-netronome firmware-myricom \
 	firmware-libertas firmware-iwlwifi firmware-ipw2x00 \
 	firmware-intel-sound firmware-cavium firmware-brcm80211 firmware-bnx2x \
-	firmware-bnx2 firmware-b43-installer firmware-atheros firmware-ath9k-htc \
+	firmware-bnx2 firmware-atheros firmware-ath9k-htc \
 	live-boot \
 	dialog \
 	sudo \
