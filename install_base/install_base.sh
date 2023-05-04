@@ -59,7 +59,7 @@ apt install -y  \
 	firmware-linux-nonfree \
 	firmware-zd1211 firmware-ti-connectivity firmware-realtek-rtl8723cs-bt \
 	firmware-realtek firmware-netxen firmware-netronome firmware-myricom \
-	firmware-libertas firmware-iwlwifi firmware-ipw2x00 \
+	firmware-libertas firmware-iwlwifi \
 	firmware-intel-sound firmware-cavium firmware-brcm80211 firmware-bnx2x \
 	firmware-bnx2 firmware-atheros firmware-ath9k-htc \
 	live-boot \
