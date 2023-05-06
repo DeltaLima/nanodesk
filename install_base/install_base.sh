@@ -71,8 +71,10 @@ apt install -y --no-install-recommends \
 	unzip \
 	zip \
 	bzip2 \
+	unrar \
+	p7zip-full \
+	xz-utils \
 	zstd \
-	grub-pc \
 	wpagui \
 	connman-gtk \
 	xserver-xorg \
@@ -81,10 +83,10 @@ apt install -y --no-install-recommends \
 	xfonts-100dpi \
 	x11-apps \
 	x11-utils \
+	xdg-utils \
 	xterm \
 	xdm \
 	jwm \
-	xfe \
 	mc \
 	wget \
 	curl \
@@ -100,6 +102,8 @@ apt install -y --no-install-recommends \
 	alsa-utils \
 	volumeicon-alsa \
 	arandr \
+	xfe \
+	xarchiver \
 	lxterminal \
 	gparted \
 	dillo \
@@ -108,6 +112,7 @@ apt install -y --no-install-recommends \
 
 message "install nanodesk base packages with recommends"
 apt install -y \
+	grub-pc \
 	ifupdown \
 	net-tools \
 	isc-dhcp-client \
