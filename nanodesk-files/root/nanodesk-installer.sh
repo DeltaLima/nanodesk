@@ -143,7 +143,7 @@ message "grub-install $target"
 $CHROOTCMD grub-install ${target::-1} || error
 
 message "create initramfs"
-$CHROOTCMD /usr/sbin/update-initramfs.orig.initramfs-tools -k all -c || error
+$CHROOTCMD /usr/sbin/update-initramfs -k all -c || error
 
 message "update-grub"
 $CHROOTCMD /usr/sbin/update-grub || error
