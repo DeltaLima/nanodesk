@@ -53,7 +53,7 @@ apt update || error
 
 ### install base packages
 message "install nanodesk base packages"
-apt install -y  \
+apt install -y --no-install-recommends \
 	linux-image-amd64 \
 	firmware-linux \
 	firmware-linux-nonfree \
