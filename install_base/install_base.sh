@@ -68,6 +68,10 @@ apt install -y  \
 	console-data \
 	locales \
 	man \
+	unzip \
+	zip \
+	bzip2 \
+	zstd \
 	grub-pc \
 	ifupdown \
 	net-tools \
