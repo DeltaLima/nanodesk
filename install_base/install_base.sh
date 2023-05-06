@@ -68,6 +68,9 @@ apt install -y --no-install-recommends \
 	console-data \
 	locales \
 	man \
+	unzip \
+	zip \
+	bzip2 \
 	zstd \
 	grub-pc \
 	wpagui \
@@ -111,6 +114,7 @@ apt install -y --no-install-recommends \
 	isc-dhcp-client \
 	host \
 	wireless-tools \
+	gvfs-common \
 	pcmanfm \
 
 
