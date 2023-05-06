@@ -80,7 +80,7 @@
         <Opacity>0.5</Opacity>
         <Active>
             <Foreground>#FFFFFF</Foreground>
-            <Background>#0077CC</Background>
+            <Background>#507098</Background>
             <Outline>#000000</Outline>
             <Opacity>1.0</Opacity>
         </Active>
@@ -110,7 +110,7 @@
         <Background>#333333</Background>
         <Text>#FFFFFF</Text>
         <Active>
-            <Foreground>#0077CC</Foreground>
+            <Foreground>#507098</Foreground>
             <Background>#004488</Background>
         </Active>
     </PagerStyle>
@@ -121,7 +121,7 @@
         <Outline>#000000</Outline>
         <Active>
             <Foreground>#FFFFFF</Foreground>
-            <Background>#0077CC</Background>
+            <Background>#507098</Background>
         </Active>
         <Opacity>0.85</Opacity>
     </MenuStyle>
