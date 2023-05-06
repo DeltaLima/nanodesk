@@ -68,6 +68,7 @@ apt install -y --no-install-recommends \
 	console-data \
 	locales \
 	man \
+	zstd \
 	grub-pc \
 	wpagui \
 	connman-gtk \
