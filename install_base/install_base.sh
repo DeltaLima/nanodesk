@@ -75,7 +75,6 @@ apt install -y --no-install-recommends \
 	grub-pc \
 	wpagui \
 	connman-gtk \
-	task-desktop \
 	xserver-xorg \
 	xscreensaver \
 	xfonts-75dpi \
