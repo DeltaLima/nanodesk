@@ -107,8 +107,8 @@ apt install -y --no-install-recommends \
 	firefox-esr \
 	/tmp/xdgmenumaker*.deb || error
 
-message "install nanodesk base packages recommends"
-apt install -y --no-install-recommends \
+message "install nanodesk base packages with recommends"
+apt install -y \
 	ifupdown \
 	net-tools \
 	isc-dhcp-client \
