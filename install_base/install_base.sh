@@ -51,9 +51,10 @@ export DEBIAN_FRONTEND
 message "apt update"
 apt update || error
 
-### install base packages
-message "install nanodesk base packages"
-apt install -y  \
+### install base packages --no-install-recommends
+message "install nanodesk minimal base packages (apt install --no-install-recommends)"
+#apt install -y \
+apt install -y --no-install-recommends \
 	linux-image-amd64 \
 	firmware-linux \
 	firmware-linux-nonfree \
@@ -78,6 +79,9 @@ apt install -y  \
 	isc-dhcp-client \
 	host \
 	wireless-tools \
+	unrar \
+	p7zip-full \
+	xz-utils \
 	wpagui \
 	connman-gtk \
 	xserver-xorg \
@@ -86,10 +90,10 @@ apt install -y  \
 	xfonts-100dpi \
 	x11-apps \
 	x11-utils \
+	xdg-utils \
 	xterm \
 	xdm \
 	jwm \
-	xfe \
 	mc \
 	wget \
 	curl \
@@ -105,12 +109,24 @@ apt install -y  \
 	alsa-utils \
 	volumeicon-alsa \
 	arandr \
+	xfe \
+	xarchiver \
 	lxterminal \
 	gparted \
 	dillo \
 	firefox-esr \
-	pcmanfm \
 	/tmp/xdgmenumaker*.deb || error
+
+message "install nanodesk base packages with recommends"
+apt install -y \
+	grub-pc \
+	ifupdown \
+	net-tools \
+	isc-dhcp-client \
+	host \
+	wireless-tools \
+	gvfs-common \
+	pcmanfm \
 
 
 #message "install linux-kernel from backports"
