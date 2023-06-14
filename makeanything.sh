@@ -179,7 +179,7 @@ grub-mkstandalone -O x86_64-efi \
 
 (cd build/staging && \
     dd if=/dev/zero of=efiboot.img bs=1M count=20 && \
-    mkfs.vfat efiboot.img && \
+    /usr/sbin/mkfs.vfat efiboot.img && \
     mmd -i efiboot.img ::/EFI ::/EFI/BOOT && \
     mcopy -vi efiboot.img \
         ../../build/staging/EFI/BOOT/BOOTIA32.EFI \
