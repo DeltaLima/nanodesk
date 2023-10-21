@@ -53,7 +53,7 @@
 	<!-- custom TrayButton -->
 	<TrayButton popup="LXTerminal" icon="lxterminal">exec:lxterminal </TrayButton>
 	<Spacer width="2"/>
-	<TrayButton popup="Firefox" icon="firefox-esr">exec:firefox</TrayButton>
+	<TrayButton popup="Falkon Webbrowser" icon="falkon">exec:falkon</TrayButton>
 	<Spacer width="2"/>
 	<TrayButton popup="PCManFM" icon="system-file-manager">exec:pcmanfm</TrayButton>
 	<Spacer width="2"/>

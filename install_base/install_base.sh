@@ -114,7 +114,8 @@ apt install -y --no-install-recommends \
 	lxterminal \
 	gparted \
 	dillo \
-	firefox-esr \
+	falkon \
+  fonts-noto-color-emoji \
 	/tmp/xdgmenumaker*.deb || error
 
 message "install nanodesk base packages with recommends"
