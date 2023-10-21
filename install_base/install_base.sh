@@ -134,18 +134,6 @@ apt install -y \
 #apt install -t bullseye-backports -y linux-image-amd64
 
 
-### set root password
-message "set root password to 'debian'"
-echo -e "debian\ndebian" | (passwd root)
-
-### add debian user
-message "create user debian"
-useradd -m -U -s /bin/bash debian
-
-### set password
-message "set password for user debian to 'debian'"
-echo -e "debian\ndebian" | (passwd debian)
-
 ### Configure timezone and locale
 #dpkg-reconfigure locales
 #dpkg-reconfigure console-data
@@ -169,7 +157,7 @@ echo "Europe/Berlin" > /etc/timezone && \
 ####  
 ######
 
-message "run custom steps from /tmp/install_base.customsteps.tpl.sh"
+message "run custom steps from /tmp/install_base.customsteps.sh"
 . /tmp/install_base.customsteps.sh
 
 ######
