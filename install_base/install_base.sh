@@ -74,16 +74,12 @@ apt install -y --no-install-recommends \
 	bzip2 \
 	zstd \
 	grub-pc \
-	ifupdown \
-	net-tools \
-	isc-dhcp-client \
 	host \
 	wireless-tools \
 	unrar \
 	p7zip-full \
 	xz-utils \
 	wpagui \
-	connman-gtk \
 	xserver-xorg \
 	xscreensaver \
 	xfonts-75dpi \
@@ -98,6 +94,7 @@ apt install -y --no-install-recommends \
 	wget \
 	curl \
 	less \
+  openssh-client \
 	rsync \
 	vim \
 	links2 \
@@ -116,12 +113,17 @@ apt install -y --no-install-recommends \
 	dillo \
 	falkon \
   fonts-noto-color-emoji \
+  gtk2-engines \
+  gnome-themes-extra \
 	/tmp/xdgmenumaker*.deb || error
 
 message "install nanodesk base packages with recommends"
 apt install -y \
 	grub-pc \
-	ifupdown \
+  connman \
+  connman-ui \
+  connman-gtk \
+  connman-vpn \
 	net-tools \
 	isc-dhcp-client \
 	host \
