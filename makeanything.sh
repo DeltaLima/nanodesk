@@ -129,11 +129,11 @@ $CHROOTCMD /usr/bin/chmod 755 /root/nanodesk-installer.sh || error
 
 ### set root password
 message "set root password to 'debian'"
-$CHROOTCMD echo -e "debian\ndebian" | $CHROOTCMD passwd root
+echo -e "debian\ndebian" | $CHROOTCMD passwd root
 
 ### add debian user
 message "create user debian, password 'debian'"
-$CHROOTCMD echo -e "debian\ndebian\nDebian\n\n\n\n\y\n" | $CHROOTCMD adduser debian
+echo -e "debian\ndebian\nDebian\n\n\n\n\y\n" | $CHROOTCMD adduser debian
 
 message "clear /tmp"
 $CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
