@@ -126,14 +126,16 @@ message "correct file permissions"
 $CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error
 $CHROOTCMD /usr/bin/chmod 755 /root/nanodesk-installer.sh || error
 
+message "set x-terminal-emulator to lxterminal"
+$CHROOTCMD /usr/bin/update-alternatives --set x-terminal-emulator /usr/bin/lxterminal
 
 ### set root password
 message "set root password to 'debian'"
-echo -e "debian\ndebian" | $CHROOTCMD passwd root
+echo -e "debian\ndebian" | $CHROOTCMD /usr/bin/passwd root
 
 ### add debian user
 message "create user debian, password 'debian'"
-echo -e "debian\ndebian\nDebian\n\n\n\n\y\n" | $CHROOTCMD adduser debian
+echo -e "debian\ndebian\nDebian\n\n\n\n\y\n" | $CHROOTCMD /usr/sbin/adduser debian
 
 message "clear /tmp"
 $CHROOTCMD /usr/bin/rm -Rf /tmp/* || error

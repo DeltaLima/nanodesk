@@ -67,6 +67,7 @@ apt install -y --no-install-recommends \
 	dialog \
 	sudo \
 	console-data \
+  bash-completion \
 	locales \
 	man \
 	unzip \
