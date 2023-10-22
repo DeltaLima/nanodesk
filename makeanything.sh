@@ -122,6 +122,10 @@ sudo cp build/tmp/jwm.iconlist build/chroot/tmp/ || error
 message "putting generated icon path list to /etc/jwm/system.nanodesk.jwmrc"
 $CHROOTCMD sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.nanodesk.jwmrc || error
 
+message "workaround missing multimedia icon in menu"
+$CHROOTCMD sed -i 's/^Icon=.*$/Icon=\/usr\/share\/icon\/nuoveXT2\/32x32/categories/applications-multimedia.png/g' /usr/share/desktop-directories/xdgmenumaker-multimedia.directory || error
+
+
 message "correct file permissions"
 #$CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error
 $CHROOTCMD /usr/bin/chmod 755 /usr/sbin/nanodesk-installer || error
