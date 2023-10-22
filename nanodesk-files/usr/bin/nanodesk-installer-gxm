@@ -43,14 +43,16 @@ gxm-confirm() {
 }
 
 gxm-cleanup() {
-  echo "!!! An old Errorfile at $ERRORFILE was found !!!
+  echo "!! An old Errorfile
+!! $ERRORFILE
+!! was found 
+
+Last message: $(cat $ERRORFILE)
 
 It is necessary to delete it if you want to continue.
 When deleting it, you will be asked for your password.
 
-Last message was: $(cat $ERRORFILE)
-
-Delete $ERRORFILE ?" | $GXMINFO -buttons "Yes:0,No:1" -default Yes
+Delete $ERRORFILE ?" | $GXMINFO -buttons "Yes:0,No:1" -default Yes -geometry 640x320
   return $?
 }
 
