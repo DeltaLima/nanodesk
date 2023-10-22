@@ -4,8 +4,13 @@ TITLE="nanodesk-installer-gxm"
 VERSION=$(cat /usr/share/nanodesk/version)
 
 GXMCMD="gxmessage -name $TITLE -center -geometry 669x420 -wrap -font mono,10 -file -"
+
+GXMINFO="gxmessage -font mono,16 -name $TITLE -buttons Close -default Close -file -"
+
 DOCROOT="/usr/share/doc/nanodesk-installer"
 DILLOCMD="dillo -f -g 640x480 $DOCROOT"
+
+TARGET=""
 
 # initialize RETURN with a high value
 RETURN=255
@@ -17,13 +22,13 @@ RETURN=255
 #
 #####
 
-abort() {
+gxm-abort() {
 
-	gxmessage -font mono,16 -name $TITLE -buttons "Close" "INSTALLATION ABORTED!!"  
+	echo "Installation aborted!"| $GXMINFO
 	exit 1
 }
 
-welcome() {
+gxm-welcome() {
 	echo "                   ----==== nanodesk-installer-gxm ====----
 
 This is a gxmessage based Installation assistant for nanodesk.
@@ -39,6 +44,12 @@ go ahead with 'Install'." |
 	return $?
 }
 
+gxm-select-target() {
+	echo "Please enter the target and press 'Install'.
+For example: /dev/sda1" |
+	$GXMCMD -entry -buttons "Abort:1,Help:2,Install:0" 
+	return $?
+}
 #####
 #
 # HELP
@@ -50,6 +61,12 @@ help-gparted() {
 	echo "help-gparted" | $GXMCMD 
  }
 
+help-select-target() {
+	
+	echo "help-gparted" | $GXMCMD 
+ }
+
+
 #####
 #
 # EXEC
@@ -60,16 +77,76 @@ exec-gparted() {
 	pkexec /usr/sbin/gparted
 }
 
+exec-nanodesk-installer() {
+	xterm -e /bin/bash -l -c "pkexec /usr/sbin/nanodesk-installer"
+}
+
+
+#####
+#
+# MAIN
+#
+#####
 
 while [ $RETURN -gt 0 ]
 do
-	welcome
+	gxm-welcome
 	RETURN=$?
 	echo CODE $RETURN
 	case $RETURN in
-		1) abort ;;
+		1) gxm-abort ;;
 		2) help-gparted ;;
 		10) exec-gparted ;;
 	esac
 
 done
+
+RETURN=255
+while [ $RETURN -gt 0 ]
+do
+	TARGET=$(gxm-select-target)
+	RETURN=$?
+	echo CODE $RETURN
+	echo TARGET $TARGET
+
+
+	# if RC = 1, then user clicked "abort"
+	case $RETURN in
+		1) gxm-abort ;;
+		2) help-select-target ;;
+		0) echo test if blockdevice
+	   	   if [ ! -b "$TARGET" ]
+	   	   then
+	   	   	RETURN=255
+	   	   	echo no
+			echo -e "Error!\n'${TARGET}' does not exist or is not a blockdevice!" | $GXMINFO
+	   	   fi
+		   ;;
+	esac
+done
+
+# run the installer within xterm
+
+xterm -e /bin/bash -c "pkexec /usr/sbin/nanodesk-installer $TARGET" &
+#xterm -e /bin/bash -c "pkexec mc" &
+#xterm -e /bin/bash -c "pkexec 'false ' ; echo $? ; echo 'Please press enter to continue...' ; read"
+RETURN=$?
+
+#if [ $RETURN != 0 ]
+#then
+#	echo "ERROR!" | $GXMINFO
+#	exit 1
+#else
+#	echo "SUCCESS!" | $GXMINFO
+#	exit 0
+#fi
+echo "                   ----==== nanodesk-installer-gxm ====----
+
+The job of nanodesk-installer-gxm is done.
+
+Please follow the instructions of the 'nanodesk-installer' which is running
+in the other (xterm) window.
+
+You can close this window now if you want. :) " | $GXMCMD -buttons Close -default Close
+
+exit 0
