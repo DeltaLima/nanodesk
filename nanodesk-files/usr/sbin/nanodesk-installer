@@ -62,6 +62,8 @@ finish () {
 
   message "removing installer files from target"
   $CHROOTCMD /usr/bin/rm -Rf /usr/sbin/nanodesk-installer || error 
+  $CHROOTCMD /usr/bin/rm -Rf /usr/bin/nanodesk-installer-gxm || error 
+  $CHROOTCMD /usr/bin/rm -Rf /usr/share/applications/nanodesk-installer-gxm.desktop || error 
 
   message "removing live-packages from target"
   $CHROOTCMD /usr/bin/apt -y purge 'live-boot*' 'live-tools*'
