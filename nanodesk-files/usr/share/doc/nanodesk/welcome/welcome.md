@@ -6,7 +6,7 @@ that comes with the `jwm` window manager.
 This is just a fun project for learning purposes. 
 
 Visit the git repository at 
-(git.la10cy.net/DeltaLima/nanodesk)[https://git.la10cy.net/DeltaLima/nanodesk]
+[git.la10cy.net/DeltaLima/nanodesk](https://git.la10cy.net/DeltaLima/nanodesk)
 
 ## install to disk: nanodesk-installer
 
