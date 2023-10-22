@@ -32,6 +32,8 @@ Here you go!
 
 ![nanodesk_7](screenshots/nanodesk_7.png)
 
+![nanodesk_7](screenshots/nanodesk_8.png)
+
 ## Build it your own!
 
 If you want to build nanodesk by your own, maybe with your own customisations - `makeanything.sh` will cover you.
