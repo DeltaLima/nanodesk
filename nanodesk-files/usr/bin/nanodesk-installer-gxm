@@ -136,8 +136,8 @@ exec-gparted() {
 
 exec-nanodesk-installer() {
 	# run the installer within xterm
-  #xterm -e /bin/bash -c "pkexec /usr/sbin/nanodesk-installer $1 || echo 'pkexec auth failed' >> $ERRORFILE" 
-  xterm -e /bin/bash -c "pkexec mc || echo 'pkexec auth failed' >> $ERRORFILE" 
+  xterm -e /bin/bash -c "pkexec /usr/sbin/nanodesk-installer $1 true || echo 'pkexec auth failed' >> $ERRORFILE" 
+  #xterm -e /bin/bash -c "pkexec mc || echo 'pkexec auth failed' >> $ERRORFILE" 
   #xterm -e /bin/bash -c "pkexec mc || echo 'pkexec auth failed' >> $ERRORFILE" 
   #xterm -e /bin/bash -c "pkexec 'false ' ; echo $? ; echo 'Please press enter to continue...' ; read"
 }

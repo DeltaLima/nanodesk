@@ -7,6 +7,12 @@
 ### this is just a hobby, nothing serious. i know the debian installer and other
 ### exist, but i wanted to try some handcrafted installation.
 
+if [ -n "$2" ] && [ "$2" == true ]
+then
+  GXMINSTALLER=true
+else
+  GXMINSTALLER=false
+fi
 
 CHROOTCMD="chroot /mnt/"
 ERRORFILE="/tmp/nanodesk-installer.error"
@@ -46,8 +52,9 @@ function message() {
 }
 
 error () {
-  message error "ERROR!"
   echo "Error at: $MESSAGE" >> $ERRORFILE
+  message error "ERROR!"
+  test "$GXMINSTALLER" == true && read -p "Press [ENTER] to continue..."
   exit 1
 }
 
