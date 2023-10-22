@@ -125,6 +125,7 @@ $CHROOTCMD sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/s
 message "correct file permissions"
 #$CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error
 $CHROOTCMD /usr/bin/chmod 755 /usr/sbin/nanodesk-installer || error
+$CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk-installer-gxm || error
 $CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk || error
 $CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk-first-start || error
 
