@@ -88,6 +88,7 @@ apt install -y --no-install-recommends \
 	x11-apps \
 	x11-utils \
 	xdg-utils \
+  xdg-user-dirs \
 	xterm \
 	xdm \
 	jwm \
