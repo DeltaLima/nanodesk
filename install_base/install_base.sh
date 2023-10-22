@@ -127,17 +127,17 @@ apt install -y --no-install-recommends \
 
 message "install nanodesk base packages with recommends"
 apt install -y \
-	grub-pc \
+  grub-pc \
   connman \
   connman-ui \
   connman-gtk \
   connman-vpn \
-	net-tools \
-	isc-dhcp-client \
-	host \
-	wireless-tools \
-	gvfs-common \
-	pcmanfm \
+  net-tools \
+  isc-dhcp-client \
+  host \
+  wireless-tools \
+  gvfs-common \
+  pcmanfm \
 
 
 #message "install linux-kernel from backports"
