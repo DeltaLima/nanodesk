@@ -194,6 +194,7 @@
     <Key mask="A" key="Down">ddesktop</Key>
 
     <StartupCommand>$(find ~/.screenlayout/ -type f -executable|head -n 1)</StartupCommand>
+    <StartupCommand>lxpolkit</StartupCommand>
     <StartupCommand>pcmanfm --desktop</StartupCommand>
     <StartupCommand>xscreensaver -no-splash</StartupCommand>
     <StartupCommand>volumeicon</StartupCommand>
