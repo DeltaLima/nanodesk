@@ -5,21 +5,24 @@ that comes with the `jwm` window manager.
 
 This is just a fun project for learning purposes. 
 
-## install to disk
+Visit the git repository at 
+(git.la10cy.net/DeltaLima/nanodesk)[https://git.la10cy.net/DeltaLima/nanodesk]
+
+## install to disk: nanodesk-installer
 
 You can install nanodesk to your harddrive. Before doing so,
 you have to get your drive partitioned and formated. 
 
-Partitioning on an empty drive is simple, you need two partitions
+Under `Menu -> System -> nanodesk-installer` you find the GUI 
+of the nanodesk-installer. It will guide you through the first basic
+partitioning steps and formating your drive with `GParted`.
+The installation process itself is done by the `nanodesk-installer` cli.
 
-- partition1: ext4, main filesystem. 
-- partition2: swap, optional but recommended. About 20%-50% the size of your RAM.
+You can also just run the cli directly running
+`sudo nanodesk-installer [TARGET]`
 
-You can use `Menu -> System -> GParted` or `fdisk` on the shell for this.
-Please read their manuals.
-
-This done, just run `sudo nanodesk-installer /dev/sdXY` from the terminal
-and the installation will start. (change /dev/sdXY to your drive)
+Keep in Mind, that `[TARGET]` needs to be a (ext4) preformated 
+blockdevice and should be a partition.
 
 ## installing software
 

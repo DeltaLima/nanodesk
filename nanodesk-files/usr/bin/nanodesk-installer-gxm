@@ -2,10 +2,13 @@
 
 TITLE="nanodesk-installer-gxm"
 VERSION=$(cat /usr/share/nanodesk/version)
+HEADER="                   ----==== nanodesk-installer-gxm ====----
+nanodesk ${VERSION}
+"
 
 GXMCMD="gxmessage -name $TITLE -center -geometry 669x420 -wrap -font mono,10 -file -"
 
-GXMINFO="gxmessage -name $TITLE -center -buttons Close -default Close -font mono,16 -file -"
+GXMINFO="gxmessage -name $TITLE -center -buttons Close -default Close -font mono,13 -file -"
 
 DOCROOT="/usr/share/doc/nanodesk-installer"
 DILLOCMD="dillo -f -g 640x480 $DOCROOT"
@@ -52,33 +55,35 @@ Delete $ERRORFILE ?" | $GXMINFO -buttons "Yes:0,No:1" -default Yes
 }
 
 gxm-welcome() {
-	echo "                   ----==== nanodesk-installer-gxm ====----
-nanodesk ${VERSION}
-
+	echo "$HEADER
 This is a gxmessage based Installation assistant for nanodesk.
 
 To install nanodesk you need a partitioned and formated drive.
-You can do the partioning and formating with 'GParted'.
+You can do the partioning and formating with 'GParted'. (Close 'GParted'
+when you are done)
 
 If you need help how to do so, click on 'Help'.
 
 When you are done partitioning and your installation target is formated,
 go ahead with 'Install'.
 
-When asked for a password, type in 'debian'" |
+When asked for a password, type in 'debian', which is the nanodesk live
+default." |
 	$GXMCMD -buttons "Abort:1,Help:2,GParted:10,Install:0"
 	return $?
 }
 
 gxm-select-target() {
-	echo "Please enter the target and press 'Install'.
+	echo "$HEADER
+Please enter the target and press 'Install'.
 For example: /dev/sda1" |
 	$GXMCMD -entry -buttons "Abort:1,Help:2,Install:0" 
 	return $?
 }
 
 gmx-start-cli-installer() {
-  echo "The commandline nanodesk-installer will now open in a new xterm
+  echo "$HEADER
+The commandline nanodesk-installer will now open in a new xterm
 window.
 
 Target device: $1
@@ -89,9 +94,7 @@ Please follow the instructions there and see you later again..." |
 }
 
 gxm-success() {
-  echo "                   ----==== nanodesk-installer-gxm ====----
-nanodesk ${VERSION}
-
+  echo "$HEADER
 Installation complete! :)
 
 You can now reboot or continue using nanodesk live." | $GXMCMD -buttons Continue:0,Reboot:2 -default Continue
@@ -99,9 +102,7 @@ You can now reboot or continue using nanodesk live." | $GXMCMD -buttons Continue
 }
 
 gxm-error() {
-  echo "                   ----==== nanodesk-installer-gxm ====----
-nanodesk ${VERSION}
-
+  echo "$HEADER
 Installation FAILED!! :(
 
 Last message was: $(cat $ERRORFILE)" | $GXMCMD -buttons Close -default Close
@@ -117,12 +118,71 @@ Last message was: $(cat $ERRORFILE)" | $GXMCMD -buttons Close -default Close
 
 help-gparted() {
 	
-	echo "help-gparted" | $GXMCMD 
+	cat <<EOF | $GXMCMD 
+$HEADER
+# Partitioning Help
+
+## You have an empty drive
+
+Cool, easiest way! When you have an empty drive, just start GParted
+and select in the right up corner your correct drive you want to install
+nanodesk on.
+
+After that click in the upper Menu the entry 'Drive' and select
+'create partitiontable'.
+
+In the upcoming dialoge select 'ms-dos' abd 'Apply'.
+
+Now right click in the empty bar representing your drive and select 
+'New'. 
+
+First we create your root filesystem. It gets most of the space, just
+let around 4-8GB space left after free for a swap partition we create
+afterwards.
+
+Create as 'Primary' and select 'ext4' as filesystem. Confirm that with
+'OK' and repeat the steps with the leftover diskspace and create a 
+partition with the 'linux-swap' filesystem.
+
+When you done all this we need to activate our changes. Select 'Edit'
+from the upper Menu and choose 'Apply All Operations' and confirm.
+
+When all operations are done successfully, close GParted and click on
+'Install' in the nanodesk-installer.
+EOF
  }
 
 help-select-target() {
 	
-	echo "help-gparted" | $GXMCMD 
+	cat <<EOF | $GXMCMD 
+$HEADER
+
+# target device 
+
+Here you have to enter the path to your drive with the 
+'ext4' filesystem on it. This could be in most cases for example
+
+    /dev/sda1
+    
+Which says it's the first drive in the system (sdA) and the first 
+partition on it (sda1).
+
+If you are not sure, you can abort here and open nanodesk-installer 
+again. Open again GParted to verify that you choose the correct drive.
+
+# commandline nanodesk-installer
+
+In the next step the core of the installer, the commandline tool
+`/usr/sbin/nanodesk-installer` opens up in a new xterm window.
+
+Confirm the start of the installation by typing 'YES' all upper case 
+and confirm it by pressing [ENTER].
+
+When the base system is installed, you can choose if you want to keep 
+the default user 'debian' with its password 'debian' (press [K])
+or you also can remove this default user and create your own new one
+(press [U]).
+EOF
  }
 
 
@@ -139,9 +199,6 @@ exec-gparted() {
 exec-nanodesk-installer() {
 	# run the installer within xterm
   xterm -e /bin/bash -c "pkexec /usr/sbin/nanodesk-installer $1 true || echo 'pkexec auth failed' >> $ERRORFILE" 
-  #xterm -e /bin/bash -c "pkexec mc || echo 'pkexec auth failed' >> $ERRORFILE" 
-  #xterm -e /bin/bash -c "pkexec mc || echo 'pkexec auth failed' >> $ERRORFILE" 
-  #xterm -e /bin/bash -c "pkexec 'false ' ; echo $? ; echo 'Please press enter to continue...' ; read"
 }
 
 
@@ -226,7 +283,7 @@ then
   RETURN=$?
   
   case $RETURN in
-    2) echo reboot ;;
+    2) systemctl reboot ;;
     *) exit 0 ;;
   esac
 elif [ -f "$ERRORFILE" ]
