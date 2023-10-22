@@ -105,7 +105,7 @@ apt install -y --no-install-recommends \
 	htop \
 	git \
   telnet \
-  netcat \
+  netcat-traditional \
 	gxmessage \
 	gsimplecal \
 	alsa-utils \
