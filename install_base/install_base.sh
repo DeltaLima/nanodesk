@@ -116,6 +116,7 @@ apt install -y --no-install-recommends \
   fonts-noto-color-emoji \
   gtk2-engines \
   gnome-themes-extra \
+  squashfs-tools \
 	/tmp/xdgmenumaker*.deb || error
 
 message "install nanodesk base packages with recommends"
