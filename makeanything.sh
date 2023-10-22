@@ -130,12 +130,15 @@ message "set x-terminal-emulator to lxterminal"
 $CHROOTCMD /usr/bin/update-alternatives --set x-terminal-emulator /usr/bin/lxterminal
 
 ### set root password
-message "set root password to 'debian'"
-echo -e "debian\ndebian" | $CHROOTCMD /usr/bin/passwd root
+#message "set root password to 'debian'"
+#echo -e "debian\ndebian" | $CHROOTCMD /usr/bin/passwd root
 
 ### add debian user
 message "create user debian, password 'debian'"
 echo -e "debian\ndebian\nDebian\n\n\n\n\y\n" | $CHROOTCMD /usr/sbin/adduser debian
+
+message "add user debian to group sudo"
+$CHROOTCMD /usr/sbin/usermod -a -G sudo debian
 
 message "clear /tmp"
 $CHROOTCMD /usr/bin/rm -Rf /tmp/* || error

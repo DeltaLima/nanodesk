@@ -180,7 +180,7 @@ do
       $CHROOTCMD /usr/sbin/adduser $NEWUSER || error
 
       message "adding $NEWUSER to sudo group"
-      $CHROOTCMD /usr/sbin/usermod -G sudo $NEWUSER || error
+      $CHROOTCMD /usr/sbin/usermod -a -G sudo $NEWUSER || error
       $CHROOTCMD /usr/bin/ln -s -f /usr/share/nanodesk/pixmaps/nanodesk-installed.xpm /usr/share/nanodesk/pixmaps/nanodesk.xpm || error
       $CHROOTCMD /usr/bin/ln -s -f /usr/share/nanodesk/pixmaps/nanodesk-bw-installed.xpm /usr/share/nanodesk/pixmaps/nanodesk-bw.xpm || error
       
