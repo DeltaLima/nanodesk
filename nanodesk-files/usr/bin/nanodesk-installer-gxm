@@ -1,0 +1,75 @@
+#!/bin/bash
+
+TITLE="nanodesk-installer-gxm"
+VERSION=$(cat /usr/share/nanodesk/version)
+
+GXMCMD="gxmessage -name $TITLE -center -geometry 669x420 -wrap -font mono,10 -file -"
+DOCROOT="/usr/share/doc/nanodesk-installer"
+DILLOCMD="dillo -f -g 640x480 $DOCROOT"
+
+# initialize RETURN with a high value
+RETURN=255
+
+
+#####
+#
+# DIALOGES
+#
+#####
+
+abort() {
+
+	gxmessage -font mono,16 -name $TITLE -buttons "Close" "INSTALLATION ABORTED!!"  
+	exit 1
+}
+
+welcome() {
+	echo "                   ----==== nanodesk-installer-gxm ====----
+
+This is a gxmessage based Installation assistant for nanodesk.
+
+To install nanodesk you need a partitioned and formated drive.
+You can do the partioning and formating with 'GParted'.
+
+If you need help how to do so, click on 'Help'.
+
+When you are done partitioning and your installation target is formated,
+go ahead with 'Install'." |
+	$GXMCMD -buttons "Abort:1,Help:2,GParted:10,Install:0"
+	return $?
+}
+
+#####
+#
+# HELP
+#
+#####
+
+help-gparted() {
+	
+	echo "help-gparted" | $GXMCMD 
+ }
+
+#####
+#
+# EXEC
+#
+#####
+
+exec-gparted() {
+	pkexec /usr/sbin/gparted
+}
+
+
+while [ $RETURN -gt 0 ]
+do
+	welcome
+	RETURN=$?
+	echo CODE $RETURN
+	case $RETURN in
+		1) abort ;;
+		2) help-gparted ;;
+		10) exec-gparted ;;
+	esac
+
+done
