@@ -125,14 +125,15 @@ $CHROOTCMD sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/s
 message "correct file permissions"
 #$CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error
 $CHROOTCMD /usr/bin/chmod 755 /root/nanodesk-installer.sh || error
-$CHROOTCMD /usr/bin/chmod 755 /usr/bin/jwm-nanodesk || error
+$CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk || error
+$CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk-first-start || error
 
 message "set x-terminal-emulator to lxterminal"
 $CHROOTCMD /usr/bin/update-alternatives --set x-terminal-emulator /usr/bin/lxterminal
 
 message "set x-window-manager to jwm-nanodesk"
-$CHROOTCMD /usr/bin/update-alternatives --install /usr/bin/x-window-manager x-window-manager /usr/bin/jwm-nanodesk 25
-$CHROOTCMD /usr/bin/update-alternatives --set x-window-manager /usr/bin/jwm-nanodesk
+$CHROOTCMD /usr/bin/update-alternatives --install /usr/bin/x-window-manager x-window-manager /usr/bin/nanodesk 25
+$CHROOTCMD /usr/bin/update-alternatives --set x-window-manager /usr/bin/nanodesk
 
 ### set root password
 #message "set root password to 'debian'"

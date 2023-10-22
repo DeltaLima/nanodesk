@@ -85,6 +85,7 @@ apt install -y --no-install-recommends \
 	xscreensaver \
 	xfonts-75dpi \
 	xfonts-100dpi \
+  fonts-noto-color-emoji \
 	x11-apps \
 	x11-utils \
 	xdg-utils \
@@ -103,6 +104,8 @@ apt install -y --no-install-recommends \
 	ncdu \
 	htop \
 	git \
+  telnet \
+  netcat \
 	gxmessage \
 	gsimplecal \
 	alsa-utils \
@@ -111,10 +114,10 @@ apt install -y --no-install-recommends \
 	xfe \
 	xarchiver \
 	lxterminal \
+  lxpolkit \
 	gparted \
 	dillo \
 	falkon \
-  fonts-noto-color-emoji \
   gtk2-engines \
   gnome-themes-extra \
   squashfs-tools \

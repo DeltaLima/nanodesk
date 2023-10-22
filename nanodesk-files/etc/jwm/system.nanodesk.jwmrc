@@ -193,12 +193,13 @@
     <Key mask="A" key="Up">udesktop</Key>
     <Key mask="A" key="Down">ddesktop</Key>
 
+    <StartupCommand>nanodesk-first-start</StartupCommand>
     <StartupCommand>$(find ~/.screenlayout/ -type f -executable|head -n 1)</StartupCommand>
     <StartupCommand>lxpolkit</StartupCommand>
     <StartupCommand>pcmanfm --desktop</StartupCommand>
     <StartupCommand>xscreensaver -no-splash</StartupCommand>
     <StartupCommand>volumeicon</StartupCommand>
     <StartupCommand>connman-gtk</StartupCommand>
-    <StartupCommand>dillo -f -g 640x480 /usr/share/doc/nanodesk/welcome/welcome.html</StartupCommand>
+
 
 </JWM>

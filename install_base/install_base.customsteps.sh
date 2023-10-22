@@ -1,3 +1,4 @@
 apt install -y \
 	transmission \
-	audacious 
+	audacious \
+  vlc \
