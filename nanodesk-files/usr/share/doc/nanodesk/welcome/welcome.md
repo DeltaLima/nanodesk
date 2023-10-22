@@ -15,7 +15,7 @@ Partitioning on an empty drive is simple, you need two partitions
 - partition1: ext4 , mainfilesystem. 
 - partition2 (optional, but recommended): swap
 
-You can use `Menu -> System -> Gparted` or `fdisk` on the shell for this.
+You can use `Menu -> System -> GParted` or `fdisk` on the shell for this.
 Please read their manuals.
 
 This done, just run `sudo nanodesk-installer /dev/sdXY` from the terminal
@@ -31,5 +31,5 @@ Alternatively you can use `apt` from the terminal.
 When booting as livesystem, the default user is `debian` and the 
 password is `debian` as well.
 
-Depending on your choice by the installation, you will have to enter a password,
-when you created your own using by the installer.
+In some cases you get asked by the GUI to enter your password. (e.g. GParted)
+On commandline you can enter `sudo su - ` to get root access.
