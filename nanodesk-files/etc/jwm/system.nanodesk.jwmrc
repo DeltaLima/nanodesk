@@ -47,7 +47,7 @@
 
       <TrayButton icon="/usr/share/nanodesk/images/linux_button.svg">root:1</TrayButton>
       <Spacer width="2"/>
-      <TrayButton label="_" popup="Show desktop">showdesktop</TrayButton>
+      <TrayButton icon="desktop" popup="Show desktop">showdesktop</TrayButton>
       <Spacer width="2"/>
       <!-- custom TrayButton -->
       <TrayButton popup="LXTerminal" icon="lxterminal">exec:lxterminal </TrayButton>
