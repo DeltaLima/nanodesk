@@ -2,14 +2,11 @@
 
 Origin: https://git.la10cy.net/DeltaLima/nanodesk
 
-nanodesk is a less resources consuming debian linux "distribution" using the
-jwm window manager, which I made for fun and learning.
+nanodesk is a lightweight debian linux flavor/distribution, using the
+jwm window manager.
 
-"distribution" because, it is just a debootstrap with some extra packages and
-custom jwm config, baked together with live-boot and a little installer script
-for installing nanodesk on a harddrive.
-
-My goal is to have a (live) system which is very lightweight and still usable too.
+This is just a fun and learning project. My goal is to have a (live) system 
+which is very lightweight and still usable too as daily driver.
 This is for a VM where you need a basic graphical environment or for an old computer
 with less resources.
 
@@ -41,20 +38,22 @@ If you want to build nanodesk by your own, maybe with your own customisations - 
 
 This script will perform all tasks which are necessary to build nanodesk from scratch, including installing packages on your host machine where you build nanodesk.
 
-The script is tested running with Ubuntu 22.04.
+The script is tested running with Ubuntu 22.04, Debian 11 and Debian 12.
 
 Simply run `./makeanything.sh` and the show will start!
 
-Your .iso file will be in `build/nanodesk-vX.Y.Z`. Git tags are used for versioning.
+Your .iso file will be generated in `build`, named like `nanodesk-vX.Y.Z.iso`.
+Git tags and commit count are used for versioning.
 
-You can give the script a custom debian-mirror, if your prefer e.g. `./makeanything.sh http://ftp.debian.org/debian/`
+You can give the script a custom debian-mirror, if your prefer e.g. 
+`./makeanything.sh http://ftp.debian.org/debian/`
 
 ## customize nanodesk
 
 Of course you can customize nanodesk to fit your needs! 
 
-The simplest way is to add your favorite packages to the nanodesk live-image. Just add them to
-the file `templates/install_base.custompkg.tpl.sh`
+The simplest way is to add your favorite packages to the nanodesk live-image. 
+Just add them to the file `templates/install_base.custompkg.sh`
 
 For example, let's add Abiword and Pidgin to nanodesk, the file would look like
 
@@ -67,16 +66,21 @@ pidgin
 
 Now run `makeanything.sh` and you will have both programs on your live-linux.
 
-You can also jump into the chroot with `chroot build/chroot/ /bin/bash` and do customizations by hand. Just run `makeanything.sh` afterwards to recreate the .iso
+You can also jump into the chroot with `chroot build/chroot/ /bin/bash` and do
+customizations by hand. Just run `makeanything.sh` afterwards to recreate the
+.iso
 
-Keep in mind that the chroot does not get recreated everytime you run `makeanything.sh`. 
-While experimenting around it could be helpful to delete your complete `build/` directory
+Keep in mind that the chroot does not get recreated everytime you run
+`makeanything.sh`. 
+While experimenting around it could be helpful to delete your complete `build/`
+directory
 
 ```bash
 sudo rm -Rf build
 ```
 
-keeping a fresh copy of `build/chroot/` after the first debootstrap is also a good idea to save bandwidth :)
+keeping a fresh copy of `build/chroot/` after the first debootstrap is also a
+good idea to save bandwidth :)
 
 ```bash
 sudo cp -a build/chroot build/chroot.bak
@@ -84,11 +88,15 @@ sudo cp -a build/chroot build/chroot.bak
 
 ## install nanodesk on harddrive
 
-When you booted nanodesk from the iso, then you can install nanodesk to your harddrive. In the homefolder of `root` ist the installerscript `install_nanodesk.sh`
+When you booted nanodesk from the iso, then you can install nanodesk to your 
+harddrive. The installer is called `nanodesk-installer`.
 
-Before doing so, you have to create, if not already existing, a partition with a formatted linux compatible filesystem (e.g. ext4).
+Before doing so, you have to create, if not already existing, a partition with 
+a formatted linux compatible filesystem (e.g. ext4).
 
-nanodesk comes with fdisk, so you can create it very quick and format the partition afterwards. When you decide to create a swap-partiotion, do not forget to run mkswap.
+nanodesk comes with fdisk, so you can create it very quick and format the 
+partition afterwards. When you decide to create a swap-partiotion, do not 
+forget to run mkswap.
 Then the installer will detect it automatically (I hope so!) and use it.
 
 This is an example, how to do the partitioning and formatting.
