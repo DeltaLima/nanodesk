@@ -107,7 +107,10 @@ message "mounting $target to /mnt/"
 mount $target /mnt || error
 
 message "copy systemfiles"
-rsync -aHx / /mnt/ || error
+# rsync is dumb
+#rsync -aHx / /mnt/ || error
+
+unsquashfs -d /mnt/ /run/live/medium/live/filesystem.squashfs || error
 
 message "bind mount dev proc sys"
 for m in dev proc sys
