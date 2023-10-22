@@ -121,6 +121,11 @@ apt install -y --no-install-recommends \
   falkon \
   gtk2-engines \
   gnome-themes-extra \
+  adwaita-qt \
+  adwaita-icon-theme \
+  gnome-icon-theme \
+  lxde-icon-theme \
+  tango-icon-theme \
   squashfs-tools \
   synaptic \
   /tmp/xdgmenumaker*.deb || error
