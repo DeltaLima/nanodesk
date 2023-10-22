@@ -119,8 +119,8 @@ find build/chroot/usr/share/icons/ -type d | sed 's/build\/chroot//g' > build/tm
 sed -i -e 's/^/\ \ \ \ <IconPath>/g' -e 's/$/<\/IconPath>/g' build/tmp/jwm.iconlist
 sudo cp build/tmp/jwm.iconlist build/chroot/tmp/ || error
 
-message "putting generated icon path list to /etc/jwm/system.jwmrc"
-$CHROOTCMD sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.jwmrc || error
+message "putting generated icon path list to /etc/jwm/system.nanodesk.jwmrc"
+$CHROOTCMD sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.nanodesk.jwmrc || error
 
 message "correct file permissions"
 #$CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error
