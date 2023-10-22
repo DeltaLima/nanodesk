@@ -5,12 +5,15 @@ VERSION=$(cat /usr/share/nanodesk/version)
 
 GXMCMD="gxmessage -name $TITLE -center -geometry 669x420 -wrap -font mono,10 -file -"
 
-GXMINFO="gxmessage -font mono,16 -name $TITLE -buttons Close -default Close -file -"
+GXMINFO="gxmessage -name $TITLE -center -buttons Close -default Close -font mono,16 -file -"
 
 DOCROOT="/usr/share/doc/nanodesk-installer"
 DILLOCMD="dillo -f -g 640x480 $DOCROOT"
 
 TARGET=""
+
+ERRORFILE="/tmp/nanodesk-installer.error"
+SUCCESSFILE="/tmp/nanodesk-installer.success"
 
 # initialize RETURN with a high value
 RETURN=255
@@ -24,12 +27,31 @@ RETURN=255
 
 gxm-abort() {
 
-	echo "Installation aborted!"| $GXMINFO
-	exit 1
+  if gxm-confirm
+  then
+    echo "Installation aborted!"| $GXMINFO
+    exit 1
+  fi
+}
+
+gxm-confirm() {
+  echo "Are you sure you want abort?" | $GXMINFO -buttons "Yes:0,No:1" 
+  return $?
+}
+
+gxm-cleanup() {
+  echo "!!! An old Errorfile at $ERRORFILE was found !!!
+
+It is necessary to delete it if you want to continue.
+When deleting it, you will be asked for your password.
+
+Delete $ERRORFILE ?" | $GXMINFO -buttons "Yes:0,No:1" -default Yes
+  return $?
 }
 
 gxm-welcome() {
 	echo "                   ----==== nanodesk-installer-gxm ====----
+nanodesk ${VERSION}
 
 This is a gxmessage based Installation assistant for nanodesk.
 
@@ -50,6 +72,39 @@ For example: /dev/sda1" |
 	$GXMCMD -entry -buttons "Abort:1,Help:2,Install:0" 
 	return $?
 }
+
+gmx-start-cli-installer() {
+  echo "The commandline nanodesk-installer will now open in a new xterm
+window.
+
+Target device: $1
+
+Please follow the instructions there and see you later again..." |
+  $GXMCMD -buttons "Abort:1,open nanodesk-installer CLI:0" -default "open nanodesk-installer CLI"
+  return $?
+}
+
+gxm-success() {
+  echo "                   ----==== nanodesk-installer-gxm ====----
+nanodesk ${VERSION}
+
+Installation complete!
+
+You can now reboot or continue using nanodesk live." | $GXMCMD -buttons Continue:0,Reboot:2 -default Continue
+  return $?
+}
+
+gxm-error() {
+  echo "                   ----==== nanodesk-installer-gxm ====----
+nanodesk ${VERSION}
+
+Installation FAILED!!
+
+Last message was: $(cat $ERRORFILE)" | $GXMCMD -buttons Close -default Close
+  return $?
+}
+
+
 #####
 #
 # HELP
@@ -78,7 +133,10 @@ exec-gparted() {
 }
 
 exec-nanodesk-installer() {
-	xterm -e /bin/bash -l -c "pkexec /usr/sbin/nanodesk-installer"
+	# run the installer within xterm
+  #xterm -e /bin/bash -c "pkexec /usr/sbin/nanodesk-installer $TARGET" 
+  xterm -e /bin/bash -c "pkexec mc || echo 'pkexec auth failed' >> $ERRORFILE" 
+  #xterm -e /bin/bash -c "pkexec 'false ' ; echo $? ; echo 'Please press enter to continue...' ; read"
 }
 
 
@@ -88,6 +146,26 @@ exec-nanodesk-installer() {
 #
 #####
 
+# cleanup old errorfile
+if [ -f "$ERRORFILE" ]
+then
+  RETURN=255
+  while [ $RETURN -gt 0 ]
+  do  
+    gxm-cleanup
+    RETURN=$?
+    
+    if [ $RETURN -gt 0 ]
+    then
+      gxm-abort
+    else
+      pkexec rm -f $ERRORFILE || RETURN=255
+    fi
+  done
+fi
+
+RETURN=255
+# welcome screen
 while [ $RETURN -gt 0 ]
 do
 	gxm-welcome
@@ -98,9 +176,9 @@ do
 		2) help-gparted ;;
 		10) exec-gparted ;;
 	esac
-
 done
 
+# target select
 RETURN=255
 while [ $RETURN -gt 0 ]
 do
@@ -125,12 +203,33 @@ do
 	esac
 done
 
-# run the installer within xterm
+# start cli nanodesk-installer
+RETURN=255
+while [ $RETURN -gt 0 ]
+do
+	gmx-start-cli-installer $TARGET
+	RETURN=$?
+  test $RETURN -eq 1 && gxm-abort
+	echo CODE $RETURN
+done
 
-xterm -e /bin/bash -c "pkexec /usr/sbin/nanodesk-installer $TARGET" &
-#xterm -e /bin/bash -c "pkexec mc" &
-#xterm -e /bin/bash -c "pkexec 'false ' ; echo $? ; echo 'Please press enter to continue...' ; read"
-RETURN=$?
+exec-nanodesk-installer
+
+if [ -f "$SUCCESSFILE" ]
+then
+  gxm-success
+  RETURN=$?
+  
+  case $RETURN in
+    2) echo reboot ;;
+    *) exit 0 ;;
+  esac
+elif [ -f "$ERRORFILE" ]
+then
+  gxm-error
+  exit 1  
+fi
+
 
 #if [ $RETURN != 0 ]
 #then
@@ -140,13 +239,4 @@ RETURN=$?
 #	echo "SUCCESS!" | $GXMINFO
 #	exit 0
 #fi
-echo "                   ----==== nanodesk-installer-gxm ====----
 
-The job of nanodesk-installer-gxm is done.
-
-Please follow the instructions of the 'nanodesk-installer' which is running
-in the other (xterm) window.
-
-You can close this window now if you want. :) " | $GXMCMD -buttons Close -default Close
-
-exit 0

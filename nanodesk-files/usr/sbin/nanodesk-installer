@@ -9,6 +9,8 @@
 
 
 CHROOTCMD="chroot /mnt/"
+ERRORFILE="/tmp/nanodesk-installer.error"
+SUCCESSFILE="/tmp/nanodesk-installer.success"
 
 ##message () {
 ##  echo "== " $1
@@ -45,13 +47,14 @@ function message() {
 
 error () {
   message error "ERROR!"
+  echo "Error at: $MESSAGE" >> $ERRORFILE
   exit 1
 }
 
 finish () {
 
   message "removing installer files from target"
-  $CHROOTCMD /usr/bin/rm -Rf /usr/sbin/nanodesk-installer || error
+  $CHROOTCMD /usr/bin/rm -Rf /usr/sbin/nanodesk-installer || error 
 
   message "removing live-packages from target"
   $CHROOTCMD /usr/bin/apt -y purge 'live-boot*' 'live-tools*'
@@ -61,6 +64,7 @@ finish () {
 
 
   message "we are now ready to boot from $target"
+  touch $SUCCESSFILE
   exit 0
 }
 
@@ -98,7 +102,7 @@ message "Are you sure to install nanodesk to $target?"
 message "To continue type 'YES' and enter, to cancel type anything else or CTRL+C"
 
 read -p "> " DOINSTALL
-test "$DOINSTALL" == "YES" || error
+test "$DOINSTALL" == "YES" || error 
 
 message "... GOOD LUCK!"
 message "mounting $target to /mnt/"
@@ -108,7 +112,7 @@ message "copy systemfiles"
 # rsync is dumb
 #rsync -aHx / /mnt/ || error
 
-unsquashfs -d /mnt/ /run/live/medium/live/filesystem.squashfs || error
+unsquashfs -d /mnt/ /run/live/medium/live/filesystem.squashfs || error 
 
 message "bind mount dev proc sys"
 for m in dev proc sys
