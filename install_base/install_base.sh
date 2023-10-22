@@ -113,6 +113,7 @@ apt install -y --no-install-recommends \
 	arandr \
 	xfe \
 	xarchiver \
+  qpdfview \
 	lxterminal \
   lxpolkit \
 	gparted \
