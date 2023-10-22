@@ -12,8 +12,8 @@ you have to get your drive partitioned and formated.
 
 Partitioning on an empty drive is simple, you need two partitions
 
-- partition1: ext4 , mainfilesystem. 
-- partition2 (optional, but recommended): swap
+- partition1: ext4, main filesystem. 
+- partition2: swap, optional but recommended. About 20%-50% the size of your RAM.
 
 You can use `Menu -> System -> GParted` or `fdisk` on the shell for this.
 Please read their manuals.
