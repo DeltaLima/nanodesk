@@ -1,4 +1,4 @@
-# nanodesk - leightweight linux (live) desktop
+# nanodesk - lightweight linux (live) desktop
 
 Origin: https://git.la10cy.net/DeltaLima/nanodesk
 

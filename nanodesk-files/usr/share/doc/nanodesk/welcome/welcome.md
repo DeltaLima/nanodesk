@@ -1,6 +1,6 @@
 # Welcome to nanodesk
 
-`nanodesk` is yet another leightweight Debian flavor/distribution, 
+`nanodesk` is yet another lightweight Debian flavor/distribution, 
 that comes with the `jwm` window manager.
 
 This is just a fun project for learning purposes. 
