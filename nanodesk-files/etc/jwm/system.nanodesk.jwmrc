@@ -45,28 +45,26 @@
     <!-- Tray at the bottom. -->
     <Tray x="0" y="0" height="25" autohide="off">
 
-	<TrayButton icon="/usr/share/nanodesk/images/linux_button.svg">root:1</TrayButton>
-        <Spacer width="2"/>
-        <TrayButton label="_" popup="Show desktop">showdesktop</TrayButton>
-        <Spacer width="2"/>
+      <TrayButton icon="/usr/share/nanodesk/images/linux_button.svg">root:1</TrayButton>
+      <Spacer width="2"/>
+      <TrayButton label="_" popup="Show desktop">showdesktop</TrayButton>
+      <Spacer width="2"/>
+      <!-- custom TrayButton -->
+      <TrayButton popup="LXTerminal" icon="lxterminal">exec:lxterminal </TrayButton>
+      <Spacer width="2"/>
+      <TrayButton popup="Falkon Webbrowser" icon="falkon">exec:falkon</TrayButton>
+      <Spacer width="2"/>
+      <TrayButton popup="PCManFM" icon="system-file-manager">exec:pcmanfm</TrayButton>
+      <Spacer width="2"/>
+    
+      <Pager labeled="true"/>
+    
+      <TaskList maxwidth="256"/>
+    
+      <Dock/>
+      <Clock format="%H:%M"><Button mask="123">exec:gsimplecal</Button></Clock>
 
-	<!-- custom TrayButton -->
-	<TrayButton popup="LXTerminal" icon="lxterminal">exec:lxterminal </TrayButton>
-	<Spacer width="2"/>
-	<TrayButton popup="Falkon Webbrowser" icon="falkon">exec:falkon</TrayButton>
-	<Spacer width="2"/>
-	<TrayButton popup="PCManFM" icon="system-file-manager">exec:pcmanfm</TrayButton>
-	<Spacer width="2"/>
-
-
-        <Pager labeled="true"/>
-
-        <TaskList maxwidth="256"/>
-
-        <Dock/>
-        <Clock format="%H:%M"><Button mask="123">exec:gsimplecal</Button></Clock>
-
-    </Tray>
+   </Tray>
 
     <!-- Visual Styles -->
     <WindowStyle>
