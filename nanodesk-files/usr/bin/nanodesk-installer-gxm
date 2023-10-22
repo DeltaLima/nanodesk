@@ -63,7 +63,9 @@ You can do the partioning and formating with 'GParted'.
 If you need help how to do so, click on 'Help'.
 
 When you are done partitioning and your installation target is formated,
-go ahead with 'Install'." |
+go ahead with 'Install'.
+
+When asked for a password, type in 'debian'" |
 	$GXMCMD -buttons "Abort:1,Help:2,GParted:10,Install:0"
 	return $?
 }
