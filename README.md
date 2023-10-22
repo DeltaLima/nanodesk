@@ -13,7 +13,7 @@ with less resources.
 
 ## Screenshots
 
-The most important thing about a completely useless linux distro are the screenshots.
+The most important thing about a linux distro are the screenshots. :p
 
 Here you go!
 
@@ -55,13 +55,14 @@ You can give the script a custom debian-mirror, if your prefer e.g.
 Of course you can customize nanodesk to fit your needs! 
 
 The simplest way is to add your favorite packages to the nanodesk live-image. 
-Just add them to the file `templates/install_base.custompkg.sh`
+Just add them to the file `templates/install_base.customsteps.sh`
 
 For example, let's add Abiword and Pidgin to nanodesk, the file would look like
 
 ```bash
 apt install -y \
 audacious \
+vlc \
 abiword \
 pidgin
 ```
