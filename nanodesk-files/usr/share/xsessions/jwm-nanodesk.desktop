@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Jwm
+Comment=Minimalistic pure X11 window manager with menu/tray support
+Type=Application
+Terminal=False
+Exec=/usr/bin/jwm -f /etc/jwm/system.nanodesk.jwmrc
+TryExec=jwm
+Icon=/usr/share/jwm/jwm-red.svg
+Keywords=X11;floating;windowmanager;
+
+[Window Manager]
+SessionManaged=true
