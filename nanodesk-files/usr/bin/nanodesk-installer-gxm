@@ -182,6 +182,23 @@ When the base system is installed, you can choose if you want to keep
 the default user 'debian' with its password 'debian' (press [K])
 or you also can remove this default user and create your own new one
 (press [U]).
+
+# when something goes wrong
+
+If the installation proccess exits with an error, you can clean up
+everything by hand:
+
+    sudo su -
+    umount /mnt/
+    rm -Rf /tmp/nanodesk-installer.*
+    mkfs.ext4 [TARGET]
+    
+    # you can re-run the GUI again
+    nanodesk-installer-gxm
+    
+    # or the cli nanodesk-installer directly
+    nanodesk-installer [TARGET]
+    
 EOF
  }
 
@@ -277,7 +294,13 @@ done
 
 exec-nanodesk-installer $TARGET
 
-if [ -f "$SUCCESSFILE" ]
+
+if [ -f "$ERRORFILE" ]
+then
+  gxm-error
+  exit 1  
+
+elif [ -f "$SUCCESSFILE" ]
 then
   gxm-success
   RETURN=$?
@@ -286,10 +309,6 @@ then
     2) systemctl reboot ;;
     *) exit 0 ;;
   esac
-elif [ -f "$ERRORFILE" ]
-then
-  gxm-error
-  exit 1  
 else
   echo "Unexpected Error! Exit here." | $GXMINFO -buttons Close -default Close
   exit 1
