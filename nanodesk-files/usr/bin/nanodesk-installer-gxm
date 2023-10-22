@@ -45,6 +45,8 @@ gxm-cleanup() {
 It is necessary to delete it if you want to continue.
 When deleting it, you will be asked for your password.
 
+Last message was: $(cat $ERRORFILE)
+
 Delete $ERRORFILE ?" | $GXMINFO -buttons "Yes:0,No:1" -default Yes
   return $?
 }
@@ -88,7 +90,7 @@ gxm-success() {
   echo "                   ----==== nanodesk-installer-gxm ====----
 nanodesk ${VERSION}
 
-Installation complete!
+Installation complete! :)
 
 You can now reboot or continue using nanodesk live." | $GXMCMD -buttons Continue:0,Reboot:2 -default Continue
   return $?
@@ -98,7 +100,7 @@ gxm-error() {
   echo "                   ----==== nanodesk-installer-gxm ====----
 nanodesk ${VERSION}
 
-Installation FAILED!!
+Installation FAILED!! :(
 
 Last message was: $(cat $ERRORFILE)" | $GXMCMD -buttons Close -default Close
   return $?
@@ -134,8 +136,9 @@ exec-gparted() {
 
 exec-nanodesk-installer() {
 	# run the installer within xterm
-  #xterm -e /bin/bash -c "pkexec /usr/sbin/nanodesk-installer $TARGET" 
+  #xterm -e /bin/bash -c "pkexec /usr/sbin/nanodesk-installer $1 || echo 'pkexec auth failed' >> $ERRORFILE" 
   xterm -e /bin/bash -c "pkexec mc || echo 'pkexec auth failed' >> $ERRORFILE" 
+  #xterm -e /bin/bash -c "pkexec mc || echo 'pkexec auth failed' >> $ERRORFILE" 
   #xterm -e /bin/bash -c "pkexec 'false ' ; echo $? ; echo 'Please press enter to continue...' ; read"
 }
 
@@ -213,7 +216,7 @@ do
 	echo CODE $RETURN
 done
 
-exec-nanodesk-installer
+exec-nanodesk-installer $TARGET
 
 if [ -f "$SUCCESSFILE" ]
 then
@@ -228,6 +231,9 @@ elif [ -f "$ERRORFILE" ]
 then
   gxm-error
   exit 1  
+else
+  echo "Unexpected Error! Exit here." | $GXMINFO -buttons Close -default Close
+  exit 1
 fi
 
 
