@@ -10,6 +10,23 @@ which is very lightweight and still usable too as daily driver.
 This is for a VM where you need a basic graphical environment or for an old computer
 with less resources.
 
+## The Operating System
+
+Actual nanodesk uses **Debian 12 bookworm** as base. It comes with following
+programs preinstalled by default
+
+- JWM Window Manager
+- Falkon Web browser
+- PCManFM Filemanager
+- Connman Network Manager
+- X File Explorer Suite
+- qpdfview PDF and Image Viewer
+- GParted Partition Manager
+- Synaptic Package Manager
+- LXTerminal Terminal Emulator
+
+See [Customize nanodesk](#customize-nanodesk) to learn more about how to add
+your own packages and so on.
 
 ## Screenshots
 
