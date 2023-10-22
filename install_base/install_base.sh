@@ -55,75 +55,75 @@ apt update || error
 message "install nanodesk minimal base packages (apt install --no-install-recommends)"
 #apt install -y \
 apt install -y --no-install-recommends \
-	linux-image-amd64 \
-	firmware-linux \
-	firmware-linux-nonfree \
-	firmware-zd1211 firmware-ti-connectivity firmware-realtek-rtl8723cs-bt \
-	firmware-realtek firmware-netxen firmware-netronome firmware-myricom \
-	firmware-libertas firmware-iwlwifi \
-	firmware-intel-sound firmware-cavium firmware-brcm80211 firmware-bnx2x \
-	firmware-bnx2 firmware-atheros firmware-ath9k-htc \
-	live-boot \
-	dialog \
-	sudo \
-	console-data \
+  linux-image-amd64 \
+  firmware-linux \
+  firmware-linux-nonfree \
+  firmware-zd1211 firmware-ti-connectivity firmware-realtek-rtl8723cs-bt \
+  firmware-realtek firmware-netxen firmware-netronome firmware-myricom \
+  firmware-libertas firmware-iwlwifi \
+  firmware-intel-sound firmware-cavium firmware-brcm80211 firmware-bnx2x \
+  firmware-bnx2 firmware-atheros firmware-ath9k-htc \
+  live-boot \
+  dialog \
+  sudo \
+  console-data \
   bash-completion \
-	locales \
-	man \
-	unzip \
-	zip \
-	bzip2 \
-	zstd \
-	grub-pc \
-	host \
-	wireless-tools \
-	unrar \
-	p7zip-full \
-	xz-utils \
-	wpagui \
-	xserver-xorg \
-	xscreensaver \
-	xfonts-75dpi \
-	xfonts-100dpi \
+  locales \
+  man \
+  unzip \
+  zip \
+  bzip2 \
+  zstd \
+  grub-pc \
+  host \
+  wireless-tools \
+  unrar \
+  p7zip-full \
+  xz-utils \
+  wpagui \
+  xserver-xorg \
+  xscreensaver \
+  xfonts-75dpi \
+  xfonts-100dpi \
   fonts-noto-color-emoji \
-	x11-apps \
-	x11-utils \
-	xdg-utils \
+  x11-apps \
+  x11-utils \
+  xdg-utils \
   xdg-user-dirs \
-	xterm \
-	xdm \
-	jwm \
-	mc \
-	wget \
-	curl \
-	less \
+  xterm \
+  xdm \
+  jwm \
+  mc \
+  wget \
+  curl \
+  less \
   openssh-client \
-	rsync \
-	vim \
-	links2 \
-	ncdu \
-	htop \
-	git \
+  rsync \
+  vim \
+  links2 \
+  ncdu \
+  htop \
+  git \
   telnet \
   netcat-traditional \
-	gxmessage \
-	gsimplecal \
-	alsa-utils \
-	volumeicon-alsa \
-	arandr \
-	xfe \
-	xarchiver \
+  gxmessage \
+  gsimplecal \
+  alsa-utils \
+  volumeicon-alsa \
+  arandr \
+  xfe \
+  xarchiver \
   qpdfview \
-	lxterminal \
+  lxterminal \
   lxpolkit \
-	gparted \
-	dillo \
-	falkon \
+  gparted \
+  dillo \
+  falkon \
   gtk2-engines \
   gnome-themes-extra \
   squashfs-tools \
   synaptic \
-	/tmp/xdgmenumaker*.deb || error
+  /tmp/xdgmenumaker*.deb || error
 
 message "install nanodesk base packages with recommends"
 apt install -y \
