@@ -133,10 +133,8 @@ apt install -y --no-install-recommends \
 message "install nanodesk base packages with recommends"
 apt install -y \
   grub-pc \
-  connman \
-  connman-ui \
-  connman-gtk \
-  connman-vpn \
+  network-manager \
+  network-manager-gnome \
   net-tools \
   isc-dhcp-client \
   host \
