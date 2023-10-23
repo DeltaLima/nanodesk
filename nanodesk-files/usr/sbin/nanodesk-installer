@@ -198,7 +198,8 @@ do
             message warn "Unrecognized answers, please try again..."
             ;;
         esac
-
+      done
+      
       message "deleting user 'debian'"
       $CHROOTCMD /usr/bin/id -u debian && $CHROOTCMD /usr/sbin/userdel -f debian || error
 
