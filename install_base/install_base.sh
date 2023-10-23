@@ -142,9 +142,6 @@ apt install -y \
   gvfs-common \
   pcmanfm \
 
-message "remove package ifupdown because it would conflict with connman"
-apt purge -y ifupdown
-
 #message "install linux-kernel from backports"
 #apt install -t bullseye-backports -y linux-image-amd64
 
