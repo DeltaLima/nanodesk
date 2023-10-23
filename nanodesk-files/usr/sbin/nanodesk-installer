@@ -177,8 +177,27 @@ while [ $STEPFINISH != 1 ]
 do
   case $USERSTEP in
     u|U)
-      message "please change root pw"
-      $CHROOTCMD /usr/bin/passwd root || error
+      
+      CONTINUESTEP=false
+      while [ CONTINUESTEP == false ] 
+      do
+        message "Do you want to set a password for '${RED}root${ENDCOLOR}'?"
+        read -p "[y/n] > " ROOTPASSCHANGE
+        case ${ROOTPASSCHANGE,,} in
+          y|yes) 
+            message "please change root pw"
+            $CHROOTCMD /usr/bin/passwd root || error
+            CONTINUESTEP=true
+            ;;
+
+          n|no()
+            message "leaving root password empty"
+            CONTINUESTEP=true
+            ;;
+          *) 
+            message warn "Unrecognized answers, please try again..."
+            ;;
+        esac
 
       message "deleting user 'debian'"
       $CHROOTCMD /usr/bin/id -u debian && $CHROOTCMD /usr/sbin/userdel -f debian || error
