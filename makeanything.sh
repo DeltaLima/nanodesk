@@ -52,22 +52,12 @@ error ()
   exit 1
 }
 
-message "installing requirements"
-### https://www.willhaley.com/blog/custom-debian-live-environment/
-sudo apt install \
-  debootstrap \
-  squashfs-tools \
-  xorriso \
-  isolinux \
-  syslinux-efi \
-  grub-pc-bin \
-  grub-efi-amd64-bin \
-  grub-efi-ia32-bin \
-  mtools \
-  dosfstools \
+#message "installing requirements"
+#### https://www.willhaley.com/blog/custom-debian-live-environment/
+apt install \
   coreutils \
   pandoc || error
-
+#
 
 
 message "start building nanodesk ${YELLOW}${VERSION}${ENDCOLOR}"
@@ -82,20 +72,20 @@ do
   message "$dir"
   test -d $dir || mkdir -p $dir
 done
-
-message "running debootstrap $DEBOOTSTRAP_OPTS $DEBOOTSTRAP_SUITE $MIRROR"
-sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR || message warn "debootstrap exited with code $?"
+#
+#message "running debootstrap $DEBOOTSTRAP_OPTS $DEBOOTSTRAP_SUITE $MIRROR"
+#sudo debootstrap ${DEBOOTSTRAP_OPTS} ${DEBOOTSTRAP_SUITE} build/chroot/ $MIRROR || message warn "debootstrap exited with code $?"
 
 message "copy xdgmenumaker deb file into chroot"
-sudo cp deb/xdgmenumaker* build/chroot/tmp || error
+cp deb/xdgmenumaker* /tmp || error
 
 message "copy install_base scripts to build/chroot/tmp/"
-sudo cp install_base/* build/chroot/tmp/ || error
+cp install_base/* /tmp/ || error
 
 
 #### install_base
 message "run install_base.sh"
-$CHROOTCMD /bin/bash /tmp/install_base.sh || error
+/bin/bash /tmp/install_base.sh || error
 ####
 
 ### copy nanodesk files in nanodesk-files/ to build/nanodesk-files/ so we can make changes there,
@@ -112,122 +102,124 @@ for md in $(find build/nanodesk-files/usr/share/doc/nanodesk/ -name "*.md")
 done
 
 message "copy build/nanodesk-files/ to build/chroot/"
-sudo cp -r build/nanodesk-files/* build/chroot/
+cp -r build/nanodesk-files/* /
 
 message "generate icon path list for jwm config"
-find build/chroot/usr/share/icons/ -type d | sed 's/build\/chroot//g' > build/tmp/jwm.iconlist
+find /usr/share/icons/ -type d | sed 's/build\/chroot//g' > build/tmp/jwm.iconlist
 sed -i -e 's/^/\ \ \ \ <IconPath>/g' -e 's/$/<\/IconPath>/g' build/tmp/jwm.iconlist
-sudo cp build/tmp/jwm.iconlist build/chroot/tmp/ || error
+cp build/tmp/jwm.iconlist /tmp/ || error
 
 message "putting generated icon path list to /etc/jwm/system.nanodesk.jwmrc"
-$CHROOTCMD sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.nanodesk.jwmrc || error
+sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.nanodesk.jwmrc || error
 
 message "correct file permissions"
 #$CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error
-$CHROOTCMD /usr/bin/chmod 755 /usr/sbin/nanodesk-installer || error
-$CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk-installer-gxm || error
-$CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk || error
-$CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk-first-start || error
+/usr/bin/chmod 755 /usr/sbin/nanodesk-installer || error
+/usr/bin/chmod 755 /usr/bin/nanodesk-installer-gxm || error
+/usr/bin/chmod 755 /usr/bin/nanodesk || error
+/usr/bin/chmod 755 /usr/bin/nanodesk-first-start || error
 
 message "set x-terminal-emulator to lxterminal"
-$CHROOTCMD /usr/bin/update-alternatives --set x-terminal-emulator /usr/bin/lxterminal
+/usr/bin/update-alternatives --set x-terminal-emulator /usr/bin/lxterminal
 
-message "set x-window-manager to jwm-nanodesk"
-$CHROOTCMD /usr/bin/update-alternatives --install /usr/bin/x-window-manager x-window-manager /usr/bin/nanodesk 25
-$CHROOTCMD /usr/bin/update-alternatives --set x-window-manager /usr/bin/nanodesk
+#message "set x-window-manager to jwm-nanodesk"
+#/usr/bin/update-alternatives --install /usr/bin/x-window-manager x-window-manager /usr/bin/nanodesk 25
+#/usr/bin/update-alternatives --set x-window-manager /usr/bin/nanodesk
 
 ### set root password
 #message "set root password to 'debian'"
 #echo -e "debian\ndebian" | $CHROOTCMD /usr/bin/passwd root
 
 ### add debian user
-message "create user debian, password 'debian'"
-echo -e "debian\ndebian\nDebian\n\n\n\n\y\n" | $CHROOTCMD /usr/sbin/adduser debian
+#message "create user debian, password 'debian'"
+#echo -e "debian\ndebian\nDebian\n\n\n\n\y\n" | $CHROOTCMD /usr/sbin/adduser debian
 
-message "add user debian to group sudo"
-$CHROOTCMD /usr/sbin/usermod -a -G sudo debian
+#message "add user debian to group sudo"
+#$CHROOTCMD /usr/sbin/usermod -a -G sudo debian
 
-message "clear /tmp"
-$CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
+#message "clear /tmp"
+#$CHROOTCMD /usr/bin/rm -Rf /tmp/* || error
 
 ### liveboot part, https://www.willhaley.com/blog/custom-debian-live-environment/
-message "make squashfs"
-test -f build/staging/live/filesystem.squashfs && sudo rm build/staging/live/filesystem.squashfs
-sudo mksquashfs \
-    build/chroot \
-    build/staging/live/filesystem.squashfs \
-    -comp xz \
-    -e boot || error
-
-
-message "copy kernel and initrd images"
-cp build/chroot/boot/vmlinuz-* build/staging/live/vmlinuz || error
-cp build/chroot/boot/initrd.img-* build/staging/live/initrd || error
-
-message "generate isolinux.cfg"
-sed "s/%VERSION%/${VERSION}/g" templates/isolinux.tpl.cfg > build/staging/isolinux/isolinux.cfg
-
-message "generate grub.cfg"
-sed "s/%VERSION%/${VERSION}/g" templates/grub.tpl.cfg > build/staging/boot/grub/grub.cfg
-sed "s/%VERSION%/${VERSION}/g" templates/grub.tpl.cfg > build/staging/EFI/BOOT/grub.cfg
-
-message "copy grub-embed.cfg"
-cp templates/grub-embed.tpl.cfg build/tmp/grub-embed.cfg
-
-message "copy isolinux"
-cp /usr/lib/ISOLINUX/isolinux.bin "build/staging/isolinux/" || error
-cp /usr/lib/syslinux/modules/bios/* "build/staging/isolinux/" || error
-
-message "copy grub-efi"
-cp -r /usr/lib/grub/x86_64-efi/* "build/staging/boot/grub/x86_64-efi/" || error
-
-message "make efi images"
-grub-mkstandalone -O i386-efi \
-    --modules="part_gpt part_msdos fat iso9660" \
-    --locales="" \
-    --themes="" \
-    --fonts="" \
-    --output="build/staging/EFI/BOOT/BOOTIA32.EFI" \
-    "boot/grub/grub.cfg=build/tmp/grub-embed.cfg" || error
-
-grub-mkstandalone -O x86_64-efi \
-    --modules="part_gpt part_msdos fat iso9660" \
-    --locales="" \
-    --themes="" \
-    --fonts="" \
-    --output="build/staging/EFI/BOOT/BOOTx64.EFI" \
-    "boot/grub/grub.cfg=build/tmp/grub-embed.cfg" || error
-
-(cd build/staging && \
-    dd if=/dev/zero of=efiboot.img bs=1M count=20 && \
-    /usr/sbin/mkfs.vfat efiboot.img && \
-    mmd -i efiboot.img ::/EFI ::/EFI/BOOT && \
-    mcopy -vi efiboot.img \
-        ../../build/staging/EFI/BOOT/BOOTIA32.EFI \
-        ../../build/staging/EFI/BOOT/BOOTx64.EFI \
-        ../../build/staging/boot/grub/grub.cfg \
-        ::/EFI/BOOT/
-) || error
-
-message "generate .iso"
-xorriso \
-    -as mkisofs \
-    -iso-level 3 \
-    -o "build/nanodesk_$VERSION.iso" \
-    -full-iso9660-filenames \
-    -volid "NANODESK" \
-    --mbr-force-bootable -partition_offset 16 \
-    -joliet -joliet-long -rational-rock \
-    -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin \
-    -eltorito-boot \
-        isolinux/isolinux.bin \
-        -no-emul-boot \
-        -boot-load-size 4 \
-        -boot-info-table \
-        --eltorito-catalog isolinux/isolinux.cat \
-    -eltorito-alt-boot \
-        -e --interval:appended_partition_2:all:: \
-        -no-emul-boot \
-        -isohybrid-gpt-basdat \
-    -append_partition 2 C12A7328-F81F-11D2-BA4B-00A0C93EC93B build/staging/efiboot.img \
-    "build/staging"
+#message "make squashfs"
+#test -f build/staging/live/filesystem.squashfs && sudo rm build/staging/live/filesystem.squashfs
+#sudo mksquashfs \
+#    build/chroot \
+#    build/staging/live/filesystem.squashfs \
+#    -comp xz \
+#    -e boot || error
+#
+#
+#message "copy kernel and initrd images"
+#cp build/chroot/boot/vmlinuz-* build/staging/live/vmlinuz || error
+#cp build/chroot/boot/initrd.img-* build/staging/live/initrd || error
+#
+#message "generate isolinux.cfg"
+#sed "s/%VERSION%/${VERSION}/g" templates/isolinux.tpl.cfg > build/staging/isolinux/isolinux.cfg
+#
+#message "generate grub.cfg"
+#sed "s/%VERSION%/${VERSION}/g" templates/grub.tpl.cfg > build/staging/boot/grub/grub.cfg
+#sed "s/%VERSION%/${VERSION}/g" templates/grub.tpl.cfg > build/staging/EFI/BOOT/grub.cfg
+#
+#message "copy grub-embed.cfg"
+#cp templates/grub-embed.tpl.cfg build/tmp/grub-embed.cfg
+#
+#message "copy isolinux"
+#cp /usr/lib/ISOLINUX/isolinux.bin "build/staging/isolinux/" || error
+#cp /usr/lib/syslinux/modules/bios/* "build/staging/isolinux/" || error
+#
+#message "copy grub-efi"
+#cp -r /usr/lib/grub/x86_64-efi/* "build/staging/boot/grub/x86_64-efi/" || error
+#
+#message "make efi images"
+#grub-mkstandalone -O i386-efi \
+#    --modules="part_gpt part_msdos fat iso9660" \
+#    --locales="" \
+#    --themes="" \
+#    --fonts="" \
+#    --output="build/staging/EFI/BOOT/BOOTIA32.EFI" \
+#    "boot/grub/grub.cfg=build/tmp/grub-embed.cfg" || error
+#
+#grub-mkstandalone -O x86_64-efi \
+#    --modules="part_gpt part_msdos fat iso9660" \
+#    --locales="" \
+#    --themes="" \
+#    --fonts="" \
+#    --output="build/staging/EFI/BOOT/BOOTx64.EFI" \
+#    "boot/grub/grub.cfg=build/tmp/grub-embed.cfg" || error
+#
+#(cd build/staging && \
+#    dd if=/dev/zero of=efiboot.img bs=1M count=20 && \
+#    /usr/sbin/mkfs.vfat efiboot.img && \
+#    mmd -i efiboot.img ::/EFI ::/EFI/BOOT && \
+#    mcopy -vi efiboot.img \
+#        ../../build/staging/EFI/BOOT/BOOTIA32.EFI \
+#        ../../build/staging/EFI/BOOT/BOOTx64.EFI \
+#        ../../build/staging/boot/grub/grub.cfg \
+#        ::/EFI/BOOT/
+#) || error
+#
+#message "generate .iso"
+#xorriso \
+#    -as mkisofs \
+#    -iso-level 3 \
+#    -o "build/nanodesk_$VERSION.iso" \
+#    -full-iso9660-filenames \
+#    -volid "NANODESK" \
+#    --mbr-force-bootable -partition_offset 16 \
+#    -joliet -joliet-long -rational-rock \
+#    -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin \
+#    -eltorito-boot \
+#        isolinux/isolinux.bin \
+#        -no-emul-boot \
+#        -boot-load-size 4 \
+#        -boot-info-table \
+#        --eltorito-catalog isolinux/isolinux.cat \
+#    -eltorito-alt-boot \
+#        -e --interval:appended_partition_2:all:: \
+#        -no-emul-boot \
+#        -isohybrid-gpt-basdat \
+#    -append_partition 2 C12A7328-F81F-11D2-BA4B-00A0C93EC93B build/staging/efiboot.img \
+#    "build/staging"
+#
+message "Your system is now nanodeskized :)"

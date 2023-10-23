@@ -33,10 +33,10 @@ error ()
 }
 
 ### hostname setting
-echo nanodesk > /etc/hostname
+#echo nanodesk > /etc/hostname
 
-message "set hostname in hosts"
-sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
+#message "set hostname in hosts"
+#sed -i 's/localhost/localhost nanodesk/g' /etc/hosts
 
 ### noninteractive
 DEBIAN_FRONTEND=noninteractive
@@ -74,7 +74,6 @@ apt install -y --no-install-recommends \
   zip \
   bzip2 \
   zstd \
-  grub-pc \
   host \
   wireless-tools \
   unrar \
@@ -91,7 +90,6 @@ apt install -y --no-install-recommends \
   xdg-utils \
   xdg-user-dirs \
   xterm \
-  xdm \
   jwm \
   mc \
   wget \
@@ -132,7 +130,6 @@ apt install -y --no-install-recommends \
 
 message "install nanodesk base packages with recommends"
 apt install -y \
-  grub-pc \
   network-manager \
   network-manager-gnome \
   net-tools \
@@ -152,14 +149,14 @@ apt install -y \
 #dpkg-reconfigure keyboard-configuration
 ###https://serverfault.com/a/689947
 
-message "set locales and tzdata"
-echo "Europe/Berlin" > /etc/timezone && \
-    dpkg-reconfigure -f noninteractive tzdata && \
-    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
-    echo 'LANG="en_US.UTF-8"'>/etc/default/locale && \
-    dpkg-reconfigure --frontend=noninteractive locales && \
-    locale-gen en_US.UTF-8 && \
-    update-locale LANG=en_US.UTF-8
+#message "set locales and tzdata"
+#echo "Europe/Berlin" > /etc/timezone && \
+#    dpkg-reconfigure -f noninteractive tzdata && \
+#    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+#    echo 'LANG="en_US.UTF-8"'>/etc/default/locale && \
+#    dpkg-reconfigure --frontend=noninteractive locales && \
+#    locale-gen en_US.UTF-8 && \
+#    update-locale LANG=en_US.UTF-8
 
 ######
 ####
@@ -181,8 +178,8 @@ message "run custom steps from /tmp/install_base.customsteps.sh"
 ######
 
 ### clean cache
-message "apt clean"
-apt clean
+#message "apt clean"
+#apt clean
 
 KERNEL_VER="$(ls -1 /boot/|grep "vmlinuz-"|sed 's/vmlinuz-//'|sort -g|head -n +1)" 
 test -n "$KERNEL_VER" || error
@@ -190,11 +187,11 @@ message "KERNEL_VER=${YELLOW}${KERNEL_VER}${ENDCOLOR}"
 
 ### but fetch packages for grub and kernel, so we do not need to download them
 ### in case nanodesk get installed to diska
-message "apt --download linux-image and grub packages to have them in cache for nanodesk-installer.sh offline installation"
-apt -d --reinstall install \
-	linux-image-amd64 \
-	linux-image-$KERNEL_VER \
-	grub-pc grub-pc-bin \
-	grub-common \
-	grub2-common \
-	os-prober || error
+#message "apt --download linux-image and grub packages to have them in cache for nanodesk-installer.sh offline installation"
+#apt -d --reinstall install \
+#	linux-image-amd64 \
+#	linux-image-$KERNEL_VER \
+#	grub-pc grub-pc-bin \
+#	grub-common \
+#	grub2-common \
+#	os-prober || error
