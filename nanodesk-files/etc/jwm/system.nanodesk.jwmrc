@@ -197,7 +197,7 @@
     <StartupCommand>pcmanfm --desktop -p nanodesk</StartupCommand>
     <StartupCommand>xscreensaver -no-splash</StartupCommand>
     <StartupCommand>volumeicon</StartupCommand>
-    <StartupCommand>connman-gtk</StartupCommand>
+    <StartupCommand>nm-applet</StartupCommand>
 
 
 </JWM>
