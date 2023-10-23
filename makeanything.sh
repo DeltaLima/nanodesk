@@ -114,20 +114,13 @@ done
 message "copy build/nanodesk-files/ to build/chroot/"
 sudo cp -r build/nanodesk-files/* build/chroot/
 
-message "generate icon path list for jwm config"
-find build/chroot/usr/share/icons/ -type d | sed 's/build\/chroot//g' > build/tmp/jwm.iconlist
-sed -i -e 's/^/\ \ \ \ <IconPath>/g' -e 's/$/<\/IconPath>/g' build/tmp/jwm.iconlist
-sudo cp build/tmp/jwm.iconlist build/chroot/tmp/ || error
-
-message "putting generated icon path list to /etc/jwm/system.nanodesk.jwmrc"
-$CHROOTCMD sed -i '/<\!-- GENERATED ICONLIST -->/r /tmp/jwm.iconlist' /etc/jwm/system.nanodesk.jwmrc || error
-
 message "correct file permissions"
 #$CHROOTCMD /usr/bin/chmod 440 /etc/sudoers || error
 $CHROOTCMD /usr/bin/chmod 755 /usr/sbin/nanodesk-installer || error
 $CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk-installer-gxm || error
 $CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk || error
 $CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk-first-start || error
+$CHROOTCMD /usr/bin/chmod 755 /usr/bin/nanodesk-gen-iconlist || error
 
 message "set x-terminal-emulator to lxterminal"
 $CHROOTCMD /usr/bin/update-alternatives --set x-terminal-emulator /usr/bin/lxterminal
