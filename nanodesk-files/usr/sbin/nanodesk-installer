@@ -179,7 +179,7 @@ do
     u|U)
       
       CONTINUESTEP=false
-      while [ CONTINUESTEP == false ] 
+      while [ $CONTINUESTEP != true ] 
       do
         message "Do you want to set a password for '${RED}root${ENDCOLOR}'?"
         read -p "[y/n] > " ROOTPASSCHANGE
@@ -190,7 +190,7 @@ do
             CONTINUESTEP=true
             ;;
 
-          n|no()
+          n|no)
             message "leaving root password empty"
             CONTINUESTEP=true
             ;;
