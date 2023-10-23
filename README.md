@@ -1,3 +1,7 @@
+# !! THIS BRANCH IS JUST EXPERIMENTAL !!
+# !! IT INSTALLS NANODESK TO YOUR ACTUAL MACHINE AS ADDITIONAL DESKTOP SEESION !!
+# !! FILES GET OVERWRITTEN !!
+
 # nanodesk - lightweight linux (live) desktop
 
 Origin: https://git.la10cy.net/DeltaLima/nanodesk
