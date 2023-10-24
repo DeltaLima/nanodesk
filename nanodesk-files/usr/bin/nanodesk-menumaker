@@ -1,0 +1,85 @@
+#!/bin/bash
+
+#
+# nanodesk-menumaker - generate menu from .desktop files for jwm
+#
+declare -A APPS_NAME
+declare -A APPS_ICON
+declare -A APPS_EXEC
+declare -A CATEGORIES_APPS
+
+# excluding 'Audio' and 'Video' because they are kind of redundant with 'AudioVideo'
+FREEDESKTOP_CATEGORIES="AudioVideo Development Education Game Graphics Network Office Science Settings System Utility"
+
+get_desktop_entry() {
+  # only get [Desktop Entry] section
+  # explanation https://stackoverflow.com/a/52957039
+  sed -n '/\[Desktop Entry\]/,/.*:\[.*\]/ {//!p}' 
+}
+
+# Main freedesktop categories we iterate through later
+# https://specifications.freedesktop.org/menu-spec/latest/apa.html
+
+# put filename in front of its content with awk
+# https://www.unix.com/302929136-post4.html?s=5d91d8bbc9c7a884772b0b84b3ca6c3f
+# 
+# dumping all files into a variable is much faster then grepping each file by file
+# sed for remove path from filename: sed 's/^\/.*\/\(.*\.desktop:\)/\1/' 
+# awk remove path from filename: https://stackoverflow.com/a/55149591
+DESKTOPFILES="$(awk '{n=split(FILENAME,array,"/"); split(array[n],arraym,"."); print arraym[1]":" $0 }' /usr/share/applications/*.desktop $HOME/.local/share/applications/*.desktop  | get_desktop_entry |grep -E ':Name=|:Icon=|:Categories=|:NoDisplay=|:Exec=' )"
+
+APPS_NODISPLAY="$(echo "$DESKTOPFILES" | grep "NoDisplay=true" | cut -d : -f1 | xargs | tr ' ' '|')"
+APPS="$(echo "$DESKTOPFILES" | grep -vE "$APPS_NODISPLAY" | cut -d : -f1 | uniq)"
+
+# put the apps into the freedesktop categories
+for category in $FREEDESKTOP_CATEGORIES
+do
+#	echo === CATEGORY $category ===
+	CATEGORIES_APPS[$category]="$(echo "$DESKTOPFILES" | grep -i $category | cut -d : -f1 | uniq | xargs)"
+ #   echo ${CATEGORIES_APPS[$category]}
+
+done
+
+
+for appname in $APPS
+do
+	APPS_NAME[$appname]="$(echo "$DESKTOPFILES" | grep -E "^$appname.*Name=" | cut -d = -f2)"
+	APPS_ICON[$appname]="$(echo "$DESKTOPFILES" | grep -E "^$appname.*Icon=" | cut -d = -f2)"
+	APPS_EXEC[$appname]="$(echo "$DESKTOPFILES" | grep -E "^$appname.*Exec=" | cut -d = -f2)"
+done
+#
+#echo "$APPS"
+#echo ${!APPS_NAME[@]}
+#echo ${APPS_NAME[xfce4-web-browser]}
+#echo ${APPS_ICON[xfce4-web-browser]}
+#echo ${APPS_EXEC[xfce4-web-browser]}
+#echo ${APPS_CAT[xfce4-web-browser]}
+#echo "$DESKTOPFILES"
+
+# jwm config output
+
+cat <<EOF
+<?xml version="1.0"?>
+<JWM>
+EOF
+
+for category in $FREEDESKTOP_CATEGORIES
+do
+#	test  "$category" == "AudioVideo" && category="Multimedia"
+	#echo -e "appname: $appname \nName: ${APPS_NAME[$appname]}\nIcon: ${APPS_ICON[$appname]}\nExec: ${APPS_EXEC[$appname]}\nCategories: ${APPS_CAT[$appname]}\n---"
+	test -n "${CATEGORIES_APPS[$category]}" && cat <<EOF
+<Menu icon="applications-${category,,}" label="${category}">
+EOF
+	
+	for app in ${CATEGORIES_APPS[$category]}
+	do
+	echo "  <Program icon=\""${APPS_ICON[$app]}"\" label=\""${APPS_NAME[$app]}"\">"${APPS_EXEC[$app]}"</Program>"
+	done
+	
+
+	test -n "${CATEGORIES_APPS[$category]}" && echo "</Menu>"
+
+done
+
+echo "</JWM>"
+
