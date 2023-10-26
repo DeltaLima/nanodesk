@@ -3,6 +3,10 @@
 #
 # nanodesk-menumaker - generate menu from .desktop files for jwm
 #
+# WORK IN PROGRESS
+#
+# DOES NOT WORK ATM
+
 declare -A APPS_NAME
 declare -A APPS_ICON
 declare -A APPS_EXEC
