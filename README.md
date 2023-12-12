@@ -51,6 +51,8 @@ Here you go!
 
 ![nanodesk_6](screenshots/nanodesk_6.png)
 
+![nanodesk_7-n-i-gxm](screenshots/nanodesk_7-n-i-gxm.png)
+
 ![nanodesk_7](screenshots/nanodesk_7.png)
 
 ![nanodesk_7](screenshots/nanodesk_8.png)
