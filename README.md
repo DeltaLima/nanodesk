@@ -201,3 +201,4 @@ Download: [http://pub.la10cy.net/nanodesk/](http://pub.la10cy.net/nanodesk/)
 - xdgmenumaker deb package: https://bgstack15.wordpress.com/2020/03/03/package-for-devuan-xdgmenumaker/
 - How To debootstrap a small desktop system: https://git.la10cy.net/DeltaLima/devnull/src/branch/main/debootstrap_minimal_dekstop_from_scratch.md
 - How To create a linux live cd: https://www.willhaley.com/blog/custom-debian-live-environment/
+- Tux: https://archive.org/details/linuxmandrake7.2chipedition
