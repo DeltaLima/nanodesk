@@ -128,6 +128,7 @@ apt install -y --no-install-recommends \
   tango-icon-theme \
   squashfs-tools \
   synaptic \
+  imagemagick \
   /tmp/xdgmenumaker*.deb || error
 
 message "install nanodesk base packages with recommends"
