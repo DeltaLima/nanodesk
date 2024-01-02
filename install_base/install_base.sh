@@ -129,6 +129,7 @@ apt install -y --no-install-recommends \
   squashfs-tools \
   synaptic \
   imagemagick \
+  ifstat \
   /tmp/xdgmenumaker*.deb || error
 
 message "install nanodesk base packages with recommends"
