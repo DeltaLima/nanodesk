@@ -1,0 +1,9 @@
+services:
+  nanodesk:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/nanodesk
+    privileged: true
+

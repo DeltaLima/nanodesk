@@ -54,7 +54,12 @@ error ()
 
 message "installing requirements"
 ### https://www.willhaley.com/blog/custom-debian-live-environment/
-sudo apt install \
+if ! tty > /dev/null
+then
+  APT_OPTS="-y"
+fi
+
+sudo apt-get $APT_OPTS install \
   debootstrap \
   squashfs-tools \
   xorriso \
@@ -72,7 +77,12 @@ sudo apt install \
 
 message "start building nanodesk ${YELLOW}${VERSION}${ENDCOLOR}"
 
-read -p "press [enter] to continue"
+if tty > /dev/null
+then
+  read -p "press [enter] to continue"
+else
+  echo "Non-interactive shell, proceed."
+fi
 
 ### stuff begins here
 
