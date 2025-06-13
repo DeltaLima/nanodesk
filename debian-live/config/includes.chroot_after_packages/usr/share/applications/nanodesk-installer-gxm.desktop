@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=nanodesk-installer
+Comment=installer gxmessage script for nanodesk live
+Exec=/usr/bin/nanodesk-installer-gxm
+Icon=/usr/share/icons/Tango/scalable/apps/system-installer.svg
+Terminal=true
+Type=Application
+Categories=System;

@@ -1,0 +1,36 @@
+#!/bin/sh
+
+echo "Europe/Berlin" > /etc/timezone && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    echo 'LANG="en_US.UTF-8"'>/etc/default/locale && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    locale-gen en_US.UTF-8 && \
+    update-locale LANG=en_US.UTF-8
+
+
+/usr/bin/chmod 755 /usr/sbin/nanodesk-installer || error
+/usr/bin/chmod 755 /usr/bin/nanodesk-installer-gxm || error
+/usr/bin/chmod 755 /usr/bin/nanodesk || error
+/usr/bin/chmod 755 /usr/bin/nanodesk-first-start || error
+/usr/bin/chmod 755 /usr/bin/nanodesk-gen-iconlist || error
+
+/usr/bin/update-alternatives --set x-terminal-emulator /usr/bin/lxterminal
+
+/usr/bin/update-alternatives --install /usr/bin/x-window-manager x-window-manager /usr/bin/nanodesk 25
+/usr/bin/update-alternatives --set x-window-manager /usr/bin/nanodesk
+
+apt clean
+
+KERNEL_VER="$(ls -1 /boot/|grep "vmlinuz-"|sed 's/vmlinuz-//'|sort -g|head -n +1)"
+test -n "$KERNEL_VER" || error
+
+### but fetch packages for grub and kernel, so we do not need to download them
+### in case nanodesk get installed to diska
+apt -d --reinstall install \
+	linux-image-amd64 \
+	linux-image-$KERNEL_VER \
+	grub-pc grub-pc-bin \
+	grub-common \
+	grub2-common \
+	os-prober

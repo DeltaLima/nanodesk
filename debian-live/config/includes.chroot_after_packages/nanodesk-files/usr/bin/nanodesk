@@ -1,0 +1,2 @@
+#!/bin/sh
+jwm -f /etc/jwm/system.nanodesk.jwmrc

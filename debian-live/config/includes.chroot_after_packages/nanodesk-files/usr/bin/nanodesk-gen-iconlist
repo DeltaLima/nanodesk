@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "<JWM>"
+find /usr/share/icons/ -type d  | sed  -e 's/^/\ \ \ \ <IconPath>/g' -e 's/$/<\/IconPath>/g'
+echo "</JWM>"

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=nanodesk
+Comment=nanodesk configuration for jwm - Minimalistic pure X11 window manager with menu/tray support
+Type=Application
+Terminal=False
+Exec=/usr/bin/nanodesk
+TryExec=nanodesk
+Icon=/usr/share/nanodesk/images/linux_button.svg
+Keywords=X11;floating;windowmanager;
+
+[Window Manager]
+SessionManaged=true

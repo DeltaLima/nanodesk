@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ ! -d ${HOME}/.config/nanodesk ]
+then
+  mkdir -p ${HOME}/.config/nanodesk
+  xdg-user-dirs-update
+  dillo -f -g 640x480 /usr/share/doc/nanodesk/welcome/welcome.html &
+fi
