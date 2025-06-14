@@ -3,8 +3,17 @@
 ## Build
 
 ```sh
-# configure
-lb config -d stable --image-name nanodesk-lb --archive-areas "main contrib non-free non-free-firmware"
-# build as root
-sudo lb build
+# install live-build
+sudo apt install live-build
+
+# build nanodesk
+./nanodesk.sh
+
+### As Podman/Docker container ###
+
+# run container as root
+sudo podman-compose up
+
 ```
+
+debian-live docs https://live-team.pages.debian.net/live-manual/
