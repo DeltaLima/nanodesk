@@ -64,6 +64,9 @@ apt install -y --no-install-recommends \
   firmware-intel-sound firmware-cavium firmware-brcm80211 firmware-bnx2x \
   firmware-bnx2 firmware-atheros firmware-ath9k-htc \
   live-boot \
+  live-config \
+  live-config-systemd \
+  systemd-sysv \
   dialog \
   sudo \
   console-data \
