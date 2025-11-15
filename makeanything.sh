@@ -71,6 +71,7 @@ sudo apt-get $APT_OPTS install \
   mtools \
   dosfstools \
   coreutils \
+  git \
   pandoc || error
 
 
