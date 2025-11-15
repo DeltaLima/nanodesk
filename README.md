@@ -12,7 +12,7 @@ with less resources.
 
 ## The Operating System
 
-Actual nanodesk uses **Debian 12 bookworm** as base. It comes with following
+Actual nanodesk uses **Debian 13 trixie** as base. It comes with following
 programs preinstalled by default
 
 - JWM Window Manager

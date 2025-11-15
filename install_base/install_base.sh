@@ -58,7 +58,7 @@ apt install -y --no-install-recommends \
   linux-image-amd64 \
   firmware-linux \
   firmware-linux-nonfree \
-  firmware-zd1211 firmware-ti-connectivity firmware-realtek-rtl8723cs-bt \
+  firmware-zd1211 firmware-ti-connectivity \
   firmware-realtek firmware-netxen firmware-netronome firmware-myricom \
   firmware-libertas firmware-iwlwifi \
   firmware-intel-sound firmware-cavium firmware-brcm80211 firmware-bnx2x \
