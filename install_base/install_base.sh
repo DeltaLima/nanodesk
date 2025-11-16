@@ -64,7 +64,7 @@ apt install -y --no-install-recommends \
   firmware-intel-sound firmware-cavium firmware-brcm80211 firmware-bnx2x \
   firmware-bnx2 firmware-atheros firmware-ath9k-htc \
   firmware-ast firmware-carl9170 firmware-cirrus firmware-intel-graphics firmware-intel-misc \
-  firmware-ipw2x00 firmware-ivtv firmware-mediatek firmware-nvidia-graphics firmware-qcom-media \
+  firmware-mediatek firmware-nvidia-graphics firmware-qcom-media \
   live-boot \
   live-config \
   live-config-systemd \
