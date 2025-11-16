@@ -106,7 +106,6 @@ apt install -y --no-install-recommends \
   volumeicon-alsa \
   arandr \
   qpdfview \
-  lxterminal \
   lxpolkit \
   dillo \
   falkon \

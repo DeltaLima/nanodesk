@@ -28,6 +28,10 @@ programs preinstalled by default
 See [Customize nanodesk](#customize-nanodesk) to learn more about how to add
 your own packages and so on.
 
+## Kiosk branch notes
+
+The last `<StartUpCommand> Entry in `nanodesk-files/etc/jwm/system.nanodesk.jwmrc` is interesting, if you want to run other stuff in this "kiosk mode"
+
 ## Screenshots
 
 The most important thing about a linux distro are the screenshots. :p
