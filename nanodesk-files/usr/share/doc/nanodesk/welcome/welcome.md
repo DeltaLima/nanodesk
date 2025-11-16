@@ -1,7 +1,8 @@
-# Welcome to nanodesk
+# Welcome to nanodesk-kiosk
 
-`nanodesk` is yet another lightweight Debian flavor/distribution, 
-that comes with the `jwm` window manager.
+`nanodesk-kiosk` is a lightweight Debian flavor/distribution, 
+that comes with the `jwm` window manager, stripped down to host just
+a single (bunch) of applications in a kiosk-mode like environment.
 
 This is just a fun project for learning purposes. 
 
