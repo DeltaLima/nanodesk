@@ -19,15 +19,15 @@ Reboot
 
 Set-URL
 -------
-  Set the URL which Firefox starts in Kiosk-Mode
+  Set the URL which Firefox starts in Kiosk-Mode. Run this before installing or starting kiosk mode.
 
 Kiosk Mode
 ----------
-  Turn on Kiosk mode. There is no way back from there, you have to reboot.
+  Turn on Kiosk mode within this live session. There is no way back from there, you have to reboot.
 
 Install
 -------
-  start nanodesk-installer-gxm to install nanodesk-kiosk to your drive" |
+  start nanodesk-installer-gxm to install nanodesk-kiosk to your drive. Installation starts direkt into kiosk-mode. Ensure you ran Set-URL before." |
 	$GXMCMD -buttons "Reboot:2,Set-URL:3,Start Kiosk Mode:4,Install:5"
         return $?
 }
