@@ -92,6 +92,7 @@ apt-get install -y --no-install-recommends \
   x11-utils \
   xdg-utils \
   xdg-user-dirs \
+  xterm \
   lightdm \
   jwm \
   less \
@@ -111,7 +112,6 @@ apt-get install -y --no-install-recommends \
   lxpolkit \
   gparted \
   dillo \
-  falkon \
   firefox-esr \
   gtk2-engines \
   gnome-themes-extra \
@@ -121,7 +121,6 @@ apt-get install -y --no-install-recommends \
   lxde-icon-theme \
   tango-icon-theme \
   squashfs-tools \
-  imagemagick \
   ifstat || error
 
 message "install nanodesk base packages with recommends"

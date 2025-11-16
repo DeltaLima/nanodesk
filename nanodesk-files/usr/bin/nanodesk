@@ -1,2 +1,8 @@
 #!/bin/sh
-jwm -f /etc/jwm/system.nanodesk.jwmrc
+
+if [ -f $HOME/.nanodesk.jwmrc ]
+then
+	jwm -f $HOME/.nanodesk.jwmrc
+else
+	jwm -f /etc/jwm/system.nanodesk.jwmrc
+fi

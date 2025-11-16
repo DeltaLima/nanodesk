@@ -155,7 +155,6 @@
     <!--LIVEONLY--> <StartupCommand>lxpolkit</StartupCommand>
     <!--LIVEONLY--> <StartupCommand>nm-applet</StartupCommand>
     <!--LIVEONLY--> <StartupCommand>dillo -f -g 640x480 /usr/share/doc/nanodesk/welcome/welcome.html</StartupCommand>
-    <StartupCommand>firefox-esr --new-instance "https://git.la10cy.net/DeltaLima/nanodesk/src/branch/kiosk-mode" ; jwm -exit</StartupCommand>
-
+    <!--KIOSKCMD-->
 
 </JWM>

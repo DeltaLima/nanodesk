@@ -1,0 +1,3 @@
+#!/bin/bash
+. /etc/nanodesk/kiosk-urls
+/usr/bin/firefox-esr --new-instance  $KIOSKURLS ; /usr/bin/jwm -exit

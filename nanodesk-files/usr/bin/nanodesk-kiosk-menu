@@ -1,0 +1,66 @@
+#!/bin/bash
+
+TITLE="nanodesk-kiosk-menu"
+VERSION=$(cat /usr/share/nanodesk/version)
+HEADER="                   ----==== nanodesk-kiosk ${VERSION} menu ====----
+"
+GXMCMD="gxmessage -name $TITLE -center -geometry 669x420 -wrap -font mono,10 -file -"
+
+GXMINFO="gxmessage -name $TITLE -center -buttons Close -default Close -font mono,13 -file -"
+
+gxm-welcome() {
+        echo "$HEADER
+Username: debian
+Password: debian
+
+Reboot
+------
+  Reboot the system
+
+Set-URL
+-------
+  Set the URL which Firefox starts in Kiosk-Mode
+
+Kiosk Mode
+----------
+  Turn on Kiosk mode. There is no way back from there, you have to reboot.
+
+Install
+-------
+  start nanodesk-installer-gxm to install nanodesk-kiosk to your drive" |
+	$GXMCMD -buttons "Reboot:2,Set-URL:3,Start Kiosk Mode:4,Install:5"
+        return $?
+}
+
+
+gxm-entry-urls() {
+	echo "$HEADER
+Please enter the URLs you want to open with firefox in kiosk mode, as a whitespace separeted list.
+For example:
+
+  https://git.la10cy.net https://ccc.de http://192.168.4.20
+" | $GXMCMD -entry -buttons "Apply:0"
+}
+
+
+RETURN=255
+
+while [ $RETURN -gt 1 ]
+do
+	gxm-welcome
+	RETURN=$?
+
+	case $RETURN in
+		#reboot
+		2) echo 2 ; gxmessage "Reboot?" -title "Reboot?" -center -buttons Yes:0,No:1 -default No -font "bold 14" && exit ;;
+		#seturl
+		3) echo 3 ; URLS="$(gxm-entry-urls)" ; echo $URLS ; test -z "$URLS" || echo "KIOSKURLS=\"${URLS}\"" | pkexec tee /etc/nanodesk/kiosk-urls && echo "Success" | $GXMINFO ;;
+		#start kiosk
+		4) echo 4 ; pkexec sed -i -e '/<!--LIVEONLY-->/d' -e 's/<!--KIOSKCMD-->/<StartupCommand>nanodesk-kiosk<\/StartupCommand>/' /etc/jwm/system.nanodesk.jwmrc  && echo "Success" | $GXMINFO ; jwm -exit;;
+		#install
+		5) echo 5;;
+	esac
+
+done
+
+/usr/bin/jwm -exit
