@@ -79,7 +79,7 @@ finish () {
   message "disable vtty login"
   echo -e "NAutoVTs=0\nReserveVT=0" >> /mnt/etc/systemd/logind.conf
   $CHROOTCMD mkdir /etc/systemd/system/autovt@.service.d
-  echo -e "[Unit]\nConditionKernelCommandLine=locallogin" > /mnt/systemd/system/autovt@.service.d/disable.conf
+  echo -e "[Unit]\nConditionKernelCommandLine=locallogin" > /mnt/etc/systemd/system/autovt@.service.d/disable.conf
 
   message "autoremove unneeded dependencies"
   $CHROOTCMD /usr/bin/apt-get -y autoremove
