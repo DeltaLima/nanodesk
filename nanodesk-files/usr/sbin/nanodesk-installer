@@ -72,8 +72,15 @@ finish () {
   $CHROOTCMD /usr/bin/apt-get -y purge lxterminal xterm openssh-client rsync ncdu vim nano htop links2 git lxterminal lxpolkit ifstat x11-appps x11-utils xscreensaver 
 
   $CHROOTCMD sed -i -e '/<!--LIVEONLY-->/d' -e 's/<!--KIOSKCMD-->/<StartupCommand>nanodesk-kiosk ; jwm -exit<\/StartupCommand>/' /etc/jwm/system.nanodesk.jwmrc || error
- 
+
+  message "Copy kiosk-urls from live system" 
   cp -f /etc/nanodesk/kiosk-urls /mnt/etc/nanodesk/kiosk-urls
+
+  message "disable vtty login"
+  echo -e "NAutoVTs=0\nReserveVT=0" >> /mnt/etc/systemd/logind.conf
+  $CHROOTCMD mkdir /etc/systemd/system/autovt@.service.d
+  echo -e "[Unit]\nConditionKernelCommandLine=locallogin" > /mnt/systemd/system/autovt@.service.d/disable.conf
+
   message "autoremove unneeded dependencies"
   $CHROOTCMD /usr/bin/apt-get -y autoremove
 
