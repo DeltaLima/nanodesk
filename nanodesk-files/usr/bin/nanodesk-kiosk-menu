@@ -52,7 +52,7 @@ do
 
 	case $RETURN in
 		#reboot
-		2) echo 2 ; gxmessage "Reboot?" -title "Reboot?" -center -buttons Yes:0,No:1 -default No -font "bold 14" && exit ;;
+		2) echo 2 ; gxmessage "Reboot?" -title "Reboot?" -center -buttons Yes:0,No:1 -default No -font "bold 14" && systemctl reboot ;;
 		#seturl
 		3) echo 3 ; URLS="$(gxm-entry-urls)" ; echo $URLS ; test -z "$URLS" || echo "KIOSKURLS=\"${URLS}\"" | pkexec tee /etc/nanodesk/kiosk-urls && echo "Success" | $GXMINFO ;;
 		#start kiosk
