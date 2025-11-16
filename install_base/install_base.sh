@@ -80,9 +80,6 @@ apt install -y --no-install-recommends \
   grub-pc \
   host \
   wireless-tools \
-  unrar \
-  p7zip-full \
-  xz-utils \
   wpagui \
   xserver-xorg \
   xscreensaver \
@@ -93,12 +90,8 @@ apt install -y --no-install-recommends \
   x11-utils \
   xdg-utils \
   xdg-user-dirs \
-  xterm \
-  xdm \
+  lightdm \
   jwm \
-  mc \
-  wget \
-  curl \
   less \
   openssh-client \
   rsync \
@@ -107,21 +100,17 @@ apt install -y --no-install-recommends \
   ncdu \
   htop \
   git \
-  telnet \
-  netcat-traditional \
   gxmessage \
   gsimplecal \
   alsa-utils \
   volumeicon-alsa \
   arandr \
-  xfe \
-  xarchiver \
   qpdfview \
   lxterminal \
   lxpolkit \
-  gparted \
   dillo \
   falkon \
+  firefox-esr \
   gtk2-engines \
   gnome-themes-extra \
   adwaita-qt \
@@ -130,10 +119,8 @@ apt install -y --no-install-recommends \
   lxde-icon-theme \
   tango-icon-theme \
   squashfs-tools \
-  synaptic \
   imagemagick \
-  ifstat \
-  /tmp/xdgmenumaker*.deb || error
+  ifstat || error
 
 message "install nanodesk base packages with recommends"
 apt install -y \
@@ -144,8 +131,6 @@ apt install -y \
   isc-dhcp-client \
   host \
   wireless-tools \
-  gvfs-common \
-  pcmanfm \
 
 #message "install linux-kernel from backports"
 #apt install -t bullseye-backports -y linux-image-amd64
