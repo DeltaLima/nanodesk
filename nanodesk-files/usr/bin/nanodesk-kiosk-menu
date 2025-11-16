@@ -56,7 +56,7 @@ do
 		#seturl
 		3) echo 3 ; URLS="$(gxm-entry-urls)" ; echo $URLS ; test -z "$URLS" || echo "KIOSKURLS=\"${URLS}\"" | pkexec tee /etc/nanodesk/kiosk-urls && echo "Success" | $GXMINFO ;;
 		#start kiosk
-		4) echo 4 ; pkexec sed -i -e '/<!--LIVEONLY-->/d' -e 's/<!--KIOSKCMD-->/<StartupCommand>nanodesk-kiosk<\/StartupCommand>/' /etc/jwm/system.nanodesk.jwmrc  && echo "Success" | $GXMINFO ; jwm -exit;;
+		4) echo 4 ; pkexec sed -i -e '/<!--LIVEONLY-->/d' -e 's/<!--KIOSKCMD-->/<StartupCommand>nanodesk-kiosk ; jwm -exit<\/StartupCommand>/' /etc/jwm/system.nanodesk.jwmrc  && echo "Success" | $GXMINFO ; jwm -exit;;
 		#install
 		5) echo 5;;
 	esac

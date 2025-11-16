@@ -155,7 +155,7 @@
     <!--LIVEONLY--> <StartupCommand>lxpolkit</StartupCommand>
     <!--LIVEONLY--> <StartupCommand>nm-applet</StartupCommand>
     <!--LIVEONLY--> <StartupCommand>dillo -f -g 640x480 /usr/share/doc/nanodesk/welcome/welcome.html</StartupCommand>
-    <!--LIVEONLY--> <StartupCommand>nanodesk-kiosk-menu</StartupCommand>
+    <!--LIVEONLY--> <StartupCommand>nanodesk-kiosk-menu ; jwm -exit</StartupCommand>
     <!--KIOSKCMD-->
 
 </JWM>
