@@ -48,13 +48,13 @@ export DEBIAN_FRONTEND
 ##message "activate backports repository"
 ##sed 's/bullseye/bullseye-backports/g' /etc/apt/sources.list > /etc/apt/sources.list.d/bullseye-backports.list || error
 
-message "apt update"
-apt update || error
+message "apt-get update"
+apt-get update || error
 
 ### install base packages --no-install-recommends
-message "install nanodesk minimal base packages (apt install --no-install-recommends)"
+message "install nanodesk minimal base packages (apt-get install --no-install-recommends)"
 #apt install -y \
-apt install -y --no-install-recommends \
+apt-get install -y --no-install-recommends \
   linux-image-amd64 \
   firmware-linux \
   firmware-linux-nonfree \
@@ -138,7 +138,7 @@ apt install -y --no-install-recommends \
   /tmp/xdgmenumaker*.deb || error
 
 message "install nanodesk base packages with recommends"
-apt install -y \
+apt-get install -y \
   grub-pc \
   network-manager \
   network-manager-gnome \
@@ -188,8 +188,8 @@ message "run custom steps from /tmp/install_base.customsteps.sh"
 ######
 
 ### clean cache
-message "apt clean"
-apt clean
+message "apt-get clean"
+apt-get clean
 
 KERNEL_VER="$(ls -1 /boot/|grep "vmlinuz-"|sed 's/vmlinuz-//'|sort -g|head -n +1)" 
 test -n "$KERNEL_VER" || error
@@ -197,8 +197,8 @@ message "KERNEL_VER=${YELLOW}${KERNEL_VER}${ENDCOLOR}"
 
 ### but fetch packages for grub and kernel, so we do not need to download them
 ### in case nanodesk get installed to diska
-message "apt --download linux-image and grub packages to have them in cache for nanodesk-installer.sh offline installation"
-apt -d --reinstall install \
+message "apt-get --download linux-image and grub packages to have them in cache for nanodesk-installer.sh offline installation"
+apt-get -d --reinstall install \
 	linux-image-amd64 \
 	linux-image-$KERNEL_VER \
 	grub-pc grub-pc-bin \

@@ -66,10 +66,10 @@ finish () {
   $CHROOTCMD /usr/bin/rm -Rf /usr/share/applications/nanodesk-installer-gxm.desktop || error 
 
   message "removing live-packages from target"
-  $CHROOTCMD /usr/bin/apt -y purge 'live-boot*' 'live-tools*'
+  $CHROOTCMD /usr/bin/apt-get -y purge 'live-boot*' 'live-tools*'
 
   message "autoremove unneeded dependencies"
-  $CHROOTCMD /usr/bin/apt -y autoremove
+  $CHROOTCMD /usr/bin/apt-get -y autoremove
 
 
   message "we are now ready to boot from $target"
@@ -137,8 +137,8 @@ cat <<\EOF > /mnt/tmp/reinstall_kernel.sh
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 KERNEL_VER="$(uname -r)"
-#/usr/bin/apt --yes purge 'linux-image-*' 'grub-*'
-/usr/bin/apt --yes --reinstall install \
+#/usr/bin/apt-get --yes purge 'linux-image-*' 'grub-*'
+/usr/bin/apt-get --yes --reinstall install \
         linux-image-amd64 \
 	linux-image-$KERNEL_VER \
         grub-pc grub-pc-bin \
