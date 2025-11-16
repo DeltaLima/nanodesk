@@ -30,7 +30,7 @@ your own packages and so on.
 
 ## Kiosk branch notes
 
-The last `<StartUpCommand> Entry in `nanodesk-files/etc/jwm/system.nanodesk.jwmrc` is interesting, if you want to run other stuff in this "kiosk mode"
+The last `<StartUpCommand>` Entry in `nanodesk-files/etc/jwm/system.nanodesk.jwmrc` is interesting, if you want to run other stuff in this "kiosk mode"
 
 ## Screenshots
 

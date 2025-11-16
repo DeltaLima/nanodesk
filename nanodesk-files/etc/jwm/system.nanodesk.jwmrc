@@ -150,7 +150,7 @@
 
     <StartupCommand>$(find ~/.screenlayout/ -type f -executable|head -n 1)</StartupCommand>
     <StartupCommand>nm-applet</StartupCommand>
-    <StartupCommand>firefox-esr --new-instance "https://git.la10cy.net/DeltaLima/nanodesk" ; jwm -exit</StartupCommand>
+    <StartupCommand>firefox-esr --new-instance "https://git.la10cy.net/DeltaLima/nanodesk/src/branch/kiosk-mode" ; jwm -exit</StartupCommand>
 
 
 </JWM>
