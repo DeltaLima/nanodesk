@@ -222,7 +222,10 @@ do
       message "please enter a name for a new user"
       read -p "> " NEWUSER
       $CHROOTCMD /usr/sbin/adduser $NEWUSER || error
-
+      
+      message "changing autologin to user $NEWUSER"
+      $CHROOTCMD /usr/bin/sed -i "s/autologin-user=.*/autologin-user=${NEWUSER}/g" /etc/lightdm/lightdm.conf || error
+      
       message "adding $NEWUSER to sudo group"
       $CHROOTCMD /usr/sbin/usermod -a -G sudo $NEWUSER || error
       $CHROOTCMD /usr/bin/ln -s -f /usr/share/nanodesk/pixmaps/nanodesk-installed.xpm /usr/share/nanodesk/pixmaps/nanodesk.xpm || error
