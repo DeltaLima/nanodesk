@@ -107,8 +107,9 @@ apt install -y --no-install-recommends \
   alsa-utils \
   volumeicon-alsa \
   arandr \
-  qpdfview \
+  lxterminal \
   lxpolkit \
+  gparted \
   dillo \
   falkon \
   firefox-esr \
