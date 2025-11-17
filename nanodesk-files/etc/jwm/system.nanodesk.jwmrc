@@ -152,6 +152,8 @@
     <Key mask="A" key="Down">ddesktop</Key>
 
     <StartupCommand>$(find ~/.screenlayout/ -type f -executable|head -n 1)</StartupCommand>
+    <StartupCommand>pipewire</StartupCommand>
+    <StartupCommand>wireplumber</StartupCommand>
     <!--LIVEONLY--> <StartupCommand>lxpolkit</StartupCommand>
     <!--LIVEONLY--> <StartupCommand>nm-applet</StartupCommand>
     <!--LIVEONLY--> <StartupCommand>dillo -f -g 640x480 /usr/share/doc/nanodesk/welcome/welcome.html</StartupCommand>

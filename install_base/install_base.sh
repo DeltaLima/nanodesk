@@ -132,6 +132,10 @@ apt-get install -y \
   isc-dhcp-client \
   host \
   wireless-tools \
+  pipewire \
+  wireplumber \
+  qasmixer \
+  qashctl \
 
 #message "install linux-kernel from backports"
 #apt install -t bullseye-backports -y linux-image-amd64
