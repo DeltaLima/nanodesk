@@ -133,6 +133,8 @@ apt-get install -y \
   host \
   wireless-tools \
   pipewire \
+  pipewire-audio \
+  pipewire-pulse \
   wireplumber \
   qasmixer \
   qashctl \
