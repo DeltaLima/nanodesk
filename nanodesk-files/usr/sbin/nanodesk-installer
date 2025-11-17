@@ -70,6 +70,7 @@ finish () {
 
   message "removing kiosk-mode installation packages"
   $CHROOTCMD /usr/bin/apt-get -y purge lxterminal xterm openssh-client rsync ncdu vim nano htop links2 git lxterminal lxpolkit ifstat x11-appps x11-utils xscreensaver 
+  $CHROOTCMD /usr/bin/apt-get -y install openssh-server 
 
   $CHROOTCMD sed -i -e '/<!--LIVEONLY-->/d' -e 's/<!--KIOSKCMD-->/<StartupCommand>nanodesk-kiosk ; jwm -exit<\/StartupCommand>/' /etc/jwm/system.nanodesk.jwmrc || error
 
@@ -157,7 +158,9 @@ KERNEL_VER="$(uname -r)"
         grub-pc grub-pc-bin \
         grub-common \
         grub2-common \
-        os-prober
+        os-prober \
+	openssh-server
+
 EOF
 
 message "install kernel and grub"

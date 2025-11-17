@@ -9,7 +9,7 @@
 . makeanything.conf
 
 CHROOTCMD="sudo chroot build/chroot/"
-test -n "$VERSION" || VERSION="$(git describe --tags)-kiosk" #-$(git rev-parse --short HEAD)"
+test -n "$VERSION" || VERSION="$(git describe --tags)" #-$(git rev-parse --short HEAD)"
 
 MIRROR=$1
 if [ -z "$MIRROR" ]
