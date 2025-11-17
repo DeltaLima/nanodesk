@@ -198,6 +198,8 @@
     <StartupCommand>xscreensaver -no-splash</StartupCommand>
     <StartupCommand>volumeicon</StartupCommand>
     <StartupCommand>nm-applet</StartupCommand>
+    <StartupCommand>pipewire</StartupCommand>
+    <StartupCommand>wireplumber</StartupCommand>
 
 
 </JWM>

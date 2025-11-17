@@ -148,6 +148,10 @@ apt-get install -y \
   wireless-tools \
   gvfs-common \
   pcmanfm \
+  pipewire \
+  wireplumber \
+  qasmixer \
+  qashctl \
 
 #message "install linux-kernel from backports"
 #apt install -t bullseye-backports -y linux-image-amd64
