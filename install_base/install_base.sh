@@ -149,6 +149,8 @@ apt-get install -y \
   gvfs-common \
   pcmanfm \
   pipewire \
+  pipewire-audio \
+  pipewire-pulse \
   wireplumber \
   qasmixer \
   qashctl \
