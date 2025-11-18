@@ -32,21 +32,21 @@
         <Width>4</Width>
         <Height>21</Height>
         <Corner>3</Corner>
-        <Foreground>#FFFFFF</Foreground>
-        <Background>#555555</Background>
+        <Foreground>#666666</Foreground>
+        <Background>#121712</Background>
         <Outline>#000000</Outline>
         <Opacity>0.5</Opacity>
         <Active>
-            <Foreground>#FFFFFF</Foreground>
-            <Background>#507098</Background>
+            <Foreground>#AAAAAA</Foreground>
+            <Background>#2e3a2e</Background>
             <Outline>#000000</Outline>
             <Opacity>1.0</Opacity>
         </Active>
     </WindowStyle>
     <TrayStyle group="true" list="all">
         <Font>Sans-9</Font>
-        <Background>#777888</Background>
-	<Foreground>#000000</Foreground>
+        <Background>#121712</Background>
+	<Foreground>#FFFFFF</Foreground>
 <!--	<Background>#333333</Background>
 <Foreground>#FFFFFF</Foreground> -->
 
@@ -74,12 +74,12 @@
     </PagerStyle>
     <MenuStyle>
         <Font>Sans-9</Font>
-        <Foreground>#111111</Foreground>
-        <Background>#777888</Background>
+        <Foreground>#FFFFFF</Foreground>
+        <Background>#121712</Background>
         <Outline>#000000</Outline>
         <Active>
             <Foreground>#FFFFFF</Foreground>
-            <Background>#507098</Background>
+            <Background>#2e3a2e</Background>
         </Active>
         <Opacity>0.85</Opacity>
     </MenuStyle>
@@ -107,7 +107,8 @@
               contained within a Desktop tag to give a specific background
               for that desktop.
          -->
-        <Background type="solid">#666999</Background>
+	    <!--    <Background type="solid">#666999</Background> -->
+	    <Background type="image">/usr/share/nanodesk/images/background_1080p.png</Background>
     </Desktops>
 
     <!-- Double click speed (in milliseconds) -->
